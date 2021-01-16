@@ -13,7 +13,7 @@
         android:background="@color/accent"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
-        android:text="Se connecter"
+        android:text="S'inscrire"
         android:textColor="#FFFFFF"
         android:textSize="25dp" />
 
@@ -42,27 +42,54 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:text="Nom d'utilisateur ou email :"
+                    android:text="Nom d'utilisateur :"
                     android:textColor="#000000" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Votre nom d'utilisateur ou email ici"
+                    android:hint="Votre nom d'utilisateur ici"
                     android:textSize="15dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="Email :"
+                    android:textColor="#000000" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Votre email ici"
+                    android:textSize="15dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginTop="5dp"
-                    android:text="Votre mot de passe :"
+                    android:text="Mot de passe :"
                     android:textColor="#000000" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Votre mot de passe ici"
+                    android:inputType="textPassword"
+                    android:textSize="15dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="5dp"
+                    android:text="Confirmer le mot de passe :"
+                    android:textColor="#000000" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Confirmation"
                     android:inputType="textPassword"
                     android:textSize="15dp" />
             </LinearLayout>
@@ -74,14 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginVertical="20dp"
-            android:text="Se connecter"
-            android:textColor="#FFFFFF" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Pas de compte ? S'inscrire"
+            android:text="S'inscrire"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 
