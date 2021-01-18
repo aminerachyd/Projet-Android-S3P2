@@ -53,9 +53,9 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
+                    android:layout_marginTop="5dp"
                     android:text="Email :"
                     android:textColor="#000000" />
 
@@ -64,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Votre email ici"
                     android:textSize="15dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,6 +79,7 @@
                     android:hint="Votre mot de passe ici"
                     android:inputType="textPassword"
                     android:textSize="15dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -97,6 +99,7 @@
         </androidx.cardview.widget.CardView>
 
         <Button
+            android:id="@+id/s_inscrire"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
