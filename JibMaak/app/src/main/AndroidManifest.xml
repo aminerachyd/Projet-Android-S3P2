@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JibMaak">
-        <activity android:name=".SearchOfferResultActivity"></activity>
+        <activity android:name=".SelectOfferActivity"></activity>
+        <activity android:name=".SearchOfferResultActivity" />
         <activity android:name=".SearchOfferActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
