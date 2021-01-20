@@ -27,7 +27,7 @@ public class SubmitOfferActivity extends AppCompatActivity {
         retour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                Intent intent = new Intent(getBaseContext(), MenuActivity.class);
 
                 startActivity(intent);
             }
