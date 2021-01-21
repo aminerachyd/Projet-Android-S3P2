@@ -1,5 +1,6 @@
 import express from "express";
-import User from "../models/User";
+import UserModel from "../models/User";
+import { User } from "../types";
 import { hash } from "../utils/helpers";
 
 const router = express.Router();
@@ -17,7 +18,7 @@ router.get("/", (_, res) => {
 router.post("/", async (req, res) => {
   const { email, nom, prenom, telephone, password } = req.body;
 
-  const newUser = new User({
+  const newUser = new UserModel({
     email,
     nom,
     prenom,
@@ -26,7 +27,7 @@ router.post("/", async (req, res) => {
   });
 
   try {
-    const result = await newUser.save();
+    const result: User | any = await newUser.save();
 
     res.send({ message: "Utilisateur ajouté", payload: result._id });
   } catch (error) {
@@ -48,7 +49,7 @@ router.get("/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
-    const result = await User.findById(id);
+    const result: User | any = await UserModel.findById(id);
 
     res.send({
       message: "Utilisateur récupéré",
@@ -80,7 +81,7 @@ router.put("/:id", async (req, res) => {
   };
 
   try {
-    await User.findOneAndUpdate({ _id: id }, update);
+    await UserModel.findOneAndUpdate({ _id: id }, update);
 
     res.send({ message: "Utilisateur mis à jour", payload: id });
   } catch (error) {
@@ -102,7 +103,7 @@ router.delete("/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
-    await User.findOneAndDelete({ _id: id });
+    await UserModel.findOneAndDelete({ _id: id });
 
     res.send({ message: "Utilisateur supprimé", payload: id });
   } catch (error) {
