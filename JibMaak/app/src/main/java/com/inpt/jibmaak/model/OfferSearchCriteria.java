@@ -1,4 +1,4 @@
-package com.inpt.jibmaak.repository;
+package com.inpt.jibmaak.model;
 
 import java.util.Date;
 
@@ -8,7 +8,7 @@ public class OfferSearchCriteria {
     protected Date departAvant,departApres;
     protected Date arriveAvant,arriveApres;
     protected Integer minPrixKg,maxPrixKg;
-    protected Integer minPoidsDisponible,maxPoidsDisponible;
+    protected Integer minPoidsDisponible;
 
     public String getDepart() {
         return depart;
@@ -82,11 +82,4 @@ public class OfferSearchCriteria {
         this.minPoidsDisponible = minPoidsDisponible;
     }
 
-    public Integer getMaxPoidsDisponible() {
-        return maxPoidsDisponible;
-    }
-
-    public void setMaxPoidsDisponible(Integer maxPoidsDisponible) {
-        this.maxPoidsDisponible = maxPoidsDisponible;
-    }
 }

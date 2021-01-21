@@ -1,100 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/primary_light"
-    tools:context=".activities.MenuActivity">
-
-    <FrameLayout
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/roadmap" />
-
-    <TextView
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/accent"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="5dp"
-        android:text="Menu > Chercher une offre"
-        android:textColor="#FFFFFF"
-        android:textSize="17dp" />
+        android:background="@color/primary_light"
+        tools:context=".activities.MenuActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:paddingHorizontal="20dp">
+        <FrameLayout
+            android:id="@+id/frameLayout2"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/roadmap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_prix_max">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="Lieu de départ :"
-            android:textColor="#000000" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Entrez votre lieu de départ"
-            android:textSize="15dp" />
+        </FrameLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/breadcrumb"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="5dp"
-            android:text="Lieu d'arrivée :"
-            android:textColor="#000000" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Entrez votre lieu d'arrivée"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="5dp"
-            android:text="Date de départ :"
-            android:textColor="#000000" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Entrez votre date de départ"
-            android:inputType="date"
-            android:textSize="15dp" />
+            android:background="@color/accent"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="5dp"
+            android:text="@string/breadcrumb_search_offer"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/label_lieu_depart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="5dp"
-            android:text="Prix de livraison :"
-            android:textColor="#000000" />
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/lieu_depart"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/breadcrumb" />
 
         <EditText
+            android:id="@+id/saisie_lieu_depart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
+            android:hint="@string/entrez_lieu_depart"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_lieu_depart" />
+
+        <TextView
+            android:id="@+id/label_lieu_arrive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/lieu_arrive"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/saisie_lieu_depart" />
+
+        <EditText
+            android:id="@+id/saisie_lieu_arrive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Entrez votre prix désiré"
-            android:textSize="15dp" />
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
+            android:hint="@string/entrez_lieu_arrive"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_lieu_arrive" />
+
+        <TextView
+            android:id="@+id/label_date_depart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/date_depart"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/saisie_lieu_arrive" />
+
+
+        <TextView
+            android:id="@+id/label_depart_avant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/avant_le"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_date_depart" />
+
+        <TextView
+            android:id="@+id/label_depart_apres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/apres_le"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_depart_avant" />
+
+        <TextView
+            android:id="@+id/date_depart_avant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="@string/choisir_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_depart_avant"
+            app:layout_constraintTop_toBottomOf="@+id/label_date_depart" />
+
+        <TextView
+            android:id="@+id/date_depart_apres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:hint="@string/choisir_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_depart_apres"
+            app:layout_constraintTop_toBottomOf="@+id/label_depart_avant" />
 
 
         <Button
             android:id="@+id/chercher_offre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginVertical="20dp"
-            android:text="Chercher une offre"
-            android:textColor="#FFFFFF" />
-    </LinearLayout>
+            android:layout_marginTop="30dp"
+            android:text="@string/chercher_offre"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_prix_max" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/date_arrive_apres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:hint="@string/choisir_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_arrive_apres"
+            app:layout_constraintTop_toBottomOf="@+id/label_arrive_avant" />
+
+        <TextView
+            android:id="@+id/date_arrive_avant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="@string/choisir_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_arrive_avant"
+            app:layout_constraintTop_toBottomOf="@+id/label_date_arrive" />
+
+        <TextView
+            android:id="@+id/label_arrive_apres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/apres_le"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_arrive_avant" />
+
+        <TextView
+            android:id="@+id/label_arrive_avant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/avant_le"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_date_arrive" />
+
+        <TextView
+            android:id="@+id/label_date_arrive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/date_depart"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_depart_apres" />
+
+        <TextView
+            android:id="@+id/label_poids"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/poids_disponible"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_arrive_apres" />
+
+        <SeekBar
+            android:id="@+id/slider_poids"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="140dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="35dp"
+            android:max="50"
+            android:progress="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_poids"
+            app:layout_constraintTop_toBottomOf="@+id/label_arrive_apres" />
+
+        <TextView
+            android:id="@+id/label_prix_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/prix_minimum"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_poids" />
+
+        <TextView
+            android:id="@+id/label_prix_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/prix_maximum"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_prix_min" />
+
+        <SeekBar
+            android:id="@+id/slider_prix_min"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="40dp"
+            android:max="50"
+            android:progress="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_prix_min"
+            app:layout_constraintTop_toBottomOf="@+id/label_poids" />
+
+        <SeekBar
+            android:id="@+id/slider_prix_max"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="40dp"
+            android:max="50"
+            android:progress="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_prix_max"
+            app:layout_constraintTop_toBottomOf="@+id/label_prix_min" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

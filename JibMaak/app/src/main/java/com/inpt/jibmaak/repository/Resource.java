@@ -3,7 +3,7 @@ package com.inpt.jibmaak.repository;
 /** Un objet wrapper qui contient une ressource avec un statut */
 public class Resource<T> {
     /** Les différents status possibles des operations */
-    enum Status{
+    public enum Status{
         /** L'operation a rencontrée une erreur inconnue */
         ERROR,
         /** L'operation n'est pas permise */

@@ -12,41 +12,39 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /** Implementation de UserRepository qui utilise un back-end distant comme
  * source de données et Retrofit
  */
-public class RetrofitUserRepository implements UserRepository{
-    public static final String BASE_URL = ""; // TODO: changer url
+public class RetrofitUserRepository implements UserRepository {
+    public static final String BASE_URL = "http://www.test.com"; // TODO: changer url
     protected LiveData<Resource<User>> userData;
     protected RetrofitUserService userService;
 
-    public RetrofitUserRepository(){
+    public RetrofitUserRepository() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         userService = retrofit.create(RetrofitUserService.class);
-        userData = new MutableLiveData<Resource<User>>();
+        userData = new MutableLiveData<>();
     }
 
-    public RetrofitUserRepository(RetrofitUserService userService,LiveData<Resource<User>> userData){
+    public RetrofitUserRepository(RetrofitUserService userService, LiveData<Resource<User>> userData) {
         this.userService = userService;
         this.userData = userData;
     }
 
     // TODO: methodes
     @Override
-    public LiveData<Resource<User>> getUser(int userId) {
-
-        return userData;
+    public void getUser(int userId) {
     }
 
     @Override
-    public LiveData<Resource<User>> updateUser(User userToUpdate) {
-
-        return userData;
+    public void updateUser(User userToUpdate) {
     }
 
+    @Override
     public LiveData<Resource<User>> getUserData() {
         return userData;
     }
 
+    @Override
     public void setUserData(LiveData<Resource<User>> userData) {
         this.userData = userData;
     }

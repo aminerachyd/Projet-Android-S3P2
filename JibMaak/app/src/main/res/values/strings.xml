@@ -3,4 +3,19 @@
     <string name="search">Chercher une offre</string>
     <string name="deliver">Proposer une offre</string>
     <string name="about">A propos</string>
+    <string name="breadcrumb_search_offer"><![CDATA[Menu > Chercher une offre]]></string>
+    <string name="lieu_depart">Lieu de départ :</string>
+    <string name="chercher_offre">Chercher une offre</string>
+    <string name="entrez_lieu_depart">Entrez votre lieu de départ</string>
+    <string name="lieu_arrive">Lieu d\'arrivée :</string>
+    <string name="entrez_lieu_arrive">Entrez votre lieu d\'arrivée</string>
+    <string name="date_depart">Date de départ :</string>
+    <string name="entrez_date_depart">Entrez votre date de départ</string>
+    <string name="prix_livraison">Prix de livraison :</string>
+    <string name="choisir_date">Choisir une date</string>
+    <string name="avant_le">Avant le</string>
+    <string name="apres_le">Apres le</string>
+    <string name="poids_disponible">Poids disponible minimum : %1$d kg</string>
+    <string name="prix_minimum">Prix minimum : %1$d dh/kg</string>
+    <string name="prix_maximum">Prix maximum : %1$d dh/kg</string>
 </resources>

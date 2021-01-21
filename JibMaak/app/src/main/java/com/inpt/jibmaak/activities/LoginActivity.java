@@ -24,8 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Retrofit retrofit = new Retrofit.Builder().build();
-        RetrofitOfferService retro = retrofit.create(RetrofitOfferService.class);
 
         // On map les différents boutons a la vue
         sInscrire = findViewById(R.id.s_inscrire);
