@@ -1,4 +1,4 @@
-package com.inpt.jibmaak;
+package com.inpt.jibmaak.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.inpt.jibmaak.R;
 
 public class SelectOfferActivity extends AppCompatActivity {
 

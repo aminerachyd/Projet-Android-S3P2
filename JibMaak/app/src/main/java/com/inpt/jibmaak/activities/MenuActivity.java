@@ -1,4 +1,4 @@
-package com.inpt.jibmaak;
+package com.inpt.jibmaak.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import com.inpt.jibmaak.R;
 
 public class MenuActivity extends AppCompatActivity {
 

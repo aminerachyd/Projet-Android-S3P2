@@ -9,19 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JibMaak">
-        <activity android:name=".SubmitOfferActivity"></activity>
-        <activity android:name=".SelectOfferActivity" />
-        <activity android:name=".SearchOfferResultActivity" />
-        <activity android:name=".SearchOfferActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activities.SubmitOfferActivity"></activity>
+        <activity android:name=".activities.SelectOfferActivity" />
+        <activity android:name=".activities.SearchOfferResultActivity" />
+        <activity android:name=".activities.SearchOfferActivity" />
+        <activity android:name=".activities.RegisterActivity" />
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity"/>
+        <activity android:name=".activities.MenuActivity"/>
     </application>
 
 </manifest>
