@@ -4,6 +4,7 @@ import connectDB from "./config/db";
 
 // Routes de l'application
 import userRoute from "./routes/user";
+import usersRoute from "./routes/users";
 
 const app = express();
 
@@ -11,6 +12,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/user", userRoute);
+app.use("/users", usersRoute);
 
 const PORT = process.env.PORT || 5000;
 

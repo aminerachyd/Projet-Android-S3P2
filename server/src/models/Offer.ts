@@ -30,7 +30,7 @@ const OfferSchema = new Schema({
     type: Number,
     required: true,
   },
-});
+} as const);
 
 const Offer = mongoose.model("offer", OfferSchema);
 export default Offer;
