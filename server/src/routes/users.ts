@@ -22,7 +22,7 @@ router.get("/", async (_, res) => {
     }));
 
     res.send({
-      message: "Liste d'ttilisateurs récupérée",
+      message: "Liste d'utilisateurs récupérée",
       payload: modifiedResult,
     });
   } catch (error) {

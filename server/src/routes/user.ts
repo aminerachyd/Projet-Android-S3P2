@@ -5,16 +5,14 @@ import { hash } from "../utils/helpers";
 
 const router = express.Router();
 
-router.get("/", (_, res) => {
-  res.send("Route user");
-});
-
 /**
  * Route pour enregistrer un nouvel utilisateur
  * ROUTE: /user
  * METHOD: POST
  * RETURN: ID de l'utilisateur enregistré
  */
+
+router.post("/");
 router.post("/", async (req, res) => {
   const { email, nom, prenom, telephone, password } = req.body;
 
@@ -88,7 +86,7 @@ router.put("/:id", async (req, res) => {
     console.log(error);
 
     res.status(500).send({
-      error: "erreur du serveur",
+      error: "Erreur du serveur",
     });
   }
 });
@@ -110,7 +108,7 @@ router.delete("/:id", async (req, res) => {
     console.log(error);
 
     res.status(500).send({
-      error: "erreur du serveur",
+      error: "Erreur du serveur",
     });
   }
 });

@@ -6,3 +6,9 @@ export type User = {
   telephone: string;
   password: string;
 };
+
+export type DecodedJWT = {
+  user: object;
+  iat: number;
+  exp: number;
+};
