@@ -1,6 +1,7 @@
 import crypto from "crypto";
 const HASH_SECRET = process.env.HASH_SECRET;
 
+// Fonction pour hasher un mot de passe
 export const hash = (str: string): string | false => {
   if (str.length > 0) {
     let hash = crypto
@@ -12,4 +13,10 @@ export const hash = (str: string): string | false => {
   } else {
     return false;
   }
+};
+
+// Fonction pour récupérer les infos de l'utilisateur sans mot de passe
+export const userInfos = (user: any) => {
+  const { id, email, nom, prenom, telephone, ...rest } = user;
+  return { id, email, nom, prenom, telephone };
 };

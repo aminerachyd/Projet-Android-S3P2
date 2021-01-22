@@ -1,9 +1,16 @@
 import express from "express";
 import UserModel from "../models/User";
 import { User } from "../types";
-import { hash } from "../utils/helpers";
+import { hash, userInfos } from "../utils/helpers";
 
 const router = express.Router();
+
+interface IUser {
+  email: string;
+  nom: string;
+  prenom: string;
+  telephone: string;
+}
 
 /**
  * Route pour enregistrer un nouvel utilisateur
@@ -11,8 +18,6 @@ const router = express.Router();
  * METHOD: POST
  * RETURN: ID de l'utilisateur enregistré
  */
-
-router.post("/");
 router.post("/", async (req, res) => {
   const { email, nom, prenom, telephone, password } = req.body;
 
@@ -51,7 +56,7 @@ router.get("/:id", async (req, res) => {
 
     res.send({
       message: "Utilisateur récupéré",
-      payload: result,
+      payload: userInfos(result),
     });
   } catch (error) {
     console.log(error);

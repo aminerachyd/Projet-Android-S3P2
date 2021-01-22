@@ -48,30 +48,24 @@ router.post("/", async (req, res) => {
       const payload = {
         user: {
           id: user?._id,
+          jwtVersion: process.env.JWT_VERSION,
         },
       };
 
-      jwt.sign(
-        payload,
-        process.env.JWT_SECRET!,
-        {
-          expiresIn: 3600,
-        },
-        (err, token) => {
-          // Une erreur existe
-          if (err) {
-            console.log(err);
-            res.status(500).send({
-              error: "Erreur du serveur",
-            });
-          } else {
-            res.send({
-              message: "utilisateur authentifié",
-              payload: token,
-            });
-          }
+      jwt.sign(payload, process.env.JWT_SECRET!, (err, token) => {
+        // Une erreur existe
+        if (err) {
+          console.log(err);
+          res.status(500).send({
+            error: "Erreur du serveur",
+          });
+        } else {
+          res.send({
+            message: "utilisateur authentifié",
+            payload: token,
+          });
         }
-      );
+      });
     }
   }
 });

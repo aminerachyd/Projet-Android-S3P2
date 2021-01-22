@@ -19,14 +19,26 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
   } else {
     // On décode le JWT pour retrouver l'utilisateur
 
-    const decoded: DecodedJWT = <DecodedJWT>(
-      jwt.verify(token, process.env.JWT_SECRET!)
-    );
-    if (!decoded) {
-    } else {
+    try {
+      const decoded: DecodedJWT = <DecodedJWT>(
+        jwt.verify(token, process.env.JWT_SECRET!)
+      );
+
       req.user = decoded.user;
 
-      return next();
+      if (decoded.user.jwtVersion === process.env.JWT_VERSION) {
+        return next();
+      } else {
+        res.status(400).send({
+          error: "Token invalide, veuillez vous reconnecter",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+
+      res.status(500).send({
+        error: "Erreur du serveur",
+      });
     }
   }
 };

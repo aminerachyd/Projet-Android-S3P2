@@ -1,4 +1,6 @@
-export type User = {
+import { Document } from "mongoose";
+
+export type User = (Document<any> | null) & {
   id: string | "_id";
   nom: string;
   email: string;
@@ -8,7 +10,10 @@ export type User = {
 };
 
 export type DecodedJWT = {
-  user: object;
+  user: {
+    id: string;
+    jwtVersion: string;
+  };
   iat: number;
   exp: number;
 };

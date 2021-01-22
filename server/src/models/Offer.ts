@@ -6,27 +6,27 @@ const OfferSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "users",
   },
-  lieudepart: {
+  lieuDepart: {
     type: String,
     required: true,
   },
-  lieuarrivee: {
+  lieuArrivee: {
     type: String,
     required: true,
   },
-  datedepart: {
+  dateDepart: {
     type: Date,
     required: true,
   },
-  datearrivee: {
+  dateArrivee: {
     type: Date,
     required: true,
   },
-  prixkg: {
+  prixKg: {
     type: Number,
     required: true,
   },
-  poidsdispo: {
+  poidsDispo: {
     type: Number,
     required: true,
   },
