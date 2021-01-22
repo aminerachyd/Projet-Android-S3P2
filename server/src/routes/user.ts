@@ -30,6 +30,7 @@ router.post("/", async (req, res) => {
   });
 
   try {
+    // XXX Fix types
     const result: User | any = await newUser.save();
 
     res.send({ message: "Utilisateur ajouté", payload: result._id });
@@ -52,6 +53,7 @@ router.get("/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
+    // XXX Fix types
     const result: User | any = await UserModel.findById(id);
 
     res.send({
@@ -100,7 +102,7 @@ router.put("/:id", async (req, res) => {
  * Route pour supprimer un utilisateur
  * ROUTE: /user/id
  * METHOD: DELETE
- * RETURN: ID de l'utilisateur modifié
+ * RETURN: ID de l'utilisateur supprimée
  */
 router.delete("/:id", async (req, res) => {
   const id = req.params.id;

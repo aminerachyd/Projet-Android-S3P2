@@ -70,22 +70,25 @@ router.get("/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
+    // XXX Fix types
     const result: any = await OfferModel.findById(id);
     const user = await UserModel.findById(result.user);
 
-    let {
-      lieuDepart,
-      lieuArrivee,
-      dateDepart,
-      dateArrivee,
-      prixKg,
-      poidsDispo,
-    } = result;
-
-    if (!user) {
-      // TODO l'utilisateur n'existe pas
-      console.log("no user");
+    if (!user || !result) {
+      // L'utilisateur n'existe pas
+      res.status(400).send({
+        error: "Utilisateur ou offre non disponible",
+      });
     } else {
+      let {
+        lieuDepart,
+        lieuArrivee,
+        dateDepart,
+        dateArrivee,
+        prixKg,
+        poidsDispo,
+      } = result;
+
       let payload = {
         id,
         user: userInfos(user),
@@ -97,7 +100,7 @@ router.get("/:id", async (req, res) => {
         poidsDispo,
       };
       res.send({
-        message: "Utilisateur récupéré",
+        message: "Offre récupérée",
         payload,
       });
     }
@@ -110,55 +113,99 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+/**
+ * Route pour modifier une offre
+ * ROUTE: /offer/id
+ * METHOD: PUT
+ * RETURN: ID de l'offre modifiée
+ */
+router.put("/:id", auth, async (req, res) => {
+  const id = req.params.id;
+
+  const {
+    lieuDepart,
+    lieuArrivee,
+    dateDepart,
+    dateArrivee,
+    prixKg,
+    poidsDispo,
+  } = req.body;
+
+  const update = {
+    lieuDepart,
+    lieuArrivee,
+    dateDepart,
+    dateArrivee,
+    prixKg,
+    poidsDispo,
+  };
+
+  try {
+    // XXX Fix types
+    let offer: any = await OfferModel.findById(id);
+
+    if (!offer) {
+      // Offre non trouvée
+      res.status(400).send({
+        error: "Utilisateur ou offre non disponible",
+      });
+    } else {
+      if (offer.user.id !== req?.user?.id) {
+        // L'utilisateur actuel ne correspond pas à l'utilisateur propriétaire de l'offre
+        res.status(401).send({
+          error: "Non autorisé",
+        });
+      } else {
+        offer?.update(update);
+
+        res.send({ message: "Offre mise à jour", payload: id });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).send({
+      error: "Erreur du serveur",
+    });
+  }
+});
+
 // /**
-//  * Route pour modifier un utilisateur
-//  * ROUTE: /user/id
-//  * METHOD: PUT
-//  * RETURN: ID de l'utilisateur modifié
-//  */
-// router.put("/:id", async (req, res) => {
-//   const id = req.params.id;
-//   const update = {
-//     email: req.body.email,
-//     nom: req.body.nom,
-//     prenom: req.body.prenom,
-//     telepone: req.body.telephone,
-//     password: hash(req.body.password),
-//   };
-
-//   try {
-//     await UserModel.findOneAndUpdate({ _id: id }, update);
-
-//     res.send({ message: "Utilisateur mis à jour", payload: id });
-//   } catch (error) {
-//     console.log(error);
-
-//     res.status(500).send({
-//       error: "Erreur du serveur",
-//     });
-//   }
-// });
-
-// /**
-//  * Route pour supprimer un utilisateur
-//  * ROUTE: /user/id
+//  * Route pour supprimer une offre
+//  * ROUTE: /offer/id
 //  * METHOD: DELETE
-//  * RETURN: ID de l'utilisateur modifié
+//  * RETURN: ID de l'offre supprimée
 //  */
-// router.delete("/:id", async (req, res) => {
-//   const id = req.params.id;
+router.delete("/:id", auth, async (req, res) => {
+  const id = req.params.id;
 
-//   try {
-//     await UserModel.findOneAndDelete({ _id: id });
+  try {
+    // XXX Fix types
+    let offer: any = await OfferModel.findById(id);
+    if (!offer) {
+      // Offre non trouvée
+      res.status(400).send({
+        error: "Offre non disponible",
+      });
+    } else {
+      if (offer.user.id !== req?.user?.id) {
+        // L'utilisateur actuel ne correspond pas à l'utilisateur propriétaire de l'offre
+        res.status(401).send({
+          error: "Non autorisé",
+        });
+      } else {
+        offer?.delete();
 
-//     res.send({ message: "Utilisateur supprimé", payload: id });
-//   } catch (error) {
-//     console.log(error);
+        res.send({ message: "Offre supprimée", payload: id });
+      }
+    }
+  } catch (error) {
+    console.log(error);
 
-//     res.status(500).send({
-//       error: "Erreur du serveur",
-//     });
-//   }
-// });
+    res.status(500).send({
+      error: "Erreur du serveur",
+    });
+  }
+});
 
 export default router;
