@@ -6,6 +6,7 @@ import connectDB from "./config/db";
 import userRoute from "./routes/user";
 import usersRoute from "./routes/users";
 import authRoute from "./routes/auth";
+import offerRoute from "./routes/offer";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/user", userRoute);
 app.use("/users", usersRoute);
 app.use("/auth", authRoute);
+app.use("/offer", offerRoute);
 
 const PORT = process.env.PORT || 5000;
 
