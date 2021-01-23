@@ -8,9 +8,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.inpt.jibmaak.R;
-import com.inpt.jibmaak.repository.RetrofitOfferService;
-
-import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,23 +26,17 @@ public class LoginActivity extends AppCompatActivity {
         sInscrire = findViewById(R.id.s_inscrire);
         seConnecter = findViewById(R.id.se_connecter);
 
-        sInscrire.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), RegisterActivity.class);
+        sInscrire.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), RegisterActivity.class);
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
-        seConnecter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Un système d'authentification
-                Intent intent = new Intent(getBaseContext(), MenuActivity.class);
+        seConnecter.setOnClickListener(v -> {
+            // TODO Un système d'authentification
+            Intent intent = new Intent(getBaseContext(), MenuActivity.class);
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
     }
 }

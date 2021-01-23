@@ -2,22 +2,17 @@ package com.inpt.jibmaak.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.inpt.jibmaak.R;
-import com.inpt.jibmaak.model.Offer;
 import com.inpt.jibmaak.model.OfferSearchCriteria;
 import com.inpt.jibmaak.repository.Resource;
 import com.inpt.jibmaak.viewmodels.SearchOfferViewModel;
@@ -26,9 +21,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Observable;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class SearchOfferActivity extends AppCompatActivity {
 
     // Activité de recherche d'offre
@@ -106,25 +102,23 @@ public class SearchOfferActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_search_offer);
         // On recupere le view model et les données qu'il contient
         viewModel = new ViewModelProvider(this)
                 .get(SearchOfferViewModel.class);
         criteria = viewModel.getCriteria();
 
-        viewModel.getSearchOffersData().observe(this, new Observer<Resource<List<Offer>>>() {
-            @Override
-            public void onChanged(Resource<List<Offer>> listResource) {
-                Resource.Status status = listResource.getStatus();
-                // TODO : que faire résultat recherche ?
-                switch (status){
-                    case ERROR:
-                        break;
-                    case UNAUTHORIZED:
-                        break;
-                    case OK:
-                        break;
-                }
+        viewModel.getSearchOffersData().observe(this, listResource -> {
+            Resource.Status status = listResource.getStatus();
+            // TODO : que faire résultat recherche ?
+            switch (status){
+                case ERROR:
+                    break;
+                case UNAUTHORIZED:
+                    break;
+                case OK:
+                    break;
             }
         });
         
@@ -304,12 +298,7 @@ public class SearchOfferActivity extends AppCompatActivity {
             }
         });
 
-        bouton_recherche.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lancerRecherche();
-            }
-        });
+        bouton_recherche.setOnClickListener(v -> lancerRecherche());
         
     }
 

@@ -1,10 +1,12 @@
 package com.inpt.jibmaak.model;
 
+import java.util.Objects;
+
 public class User {
 
     protected int id;
     protected String email;
-    protected  String nom;
+    protected String nom;
     protected String prenom;
     protected String telephone;
 
@@ -58,5 +60,22 @@ public class User {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                email.equals(user.email) &&
+                nom.equals(user.nom) &&
+                prenom.equals(user.prenom) &&
+                telephone.equals(user.telephone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, nom, prenom, telephone);
     }
 }

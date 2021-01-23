@@ -1,7 +1,7 @@
 package com.inpt.jibmaak.repository;
 
-import androidx.lifecycle.LiveData;
 
+import androidx.lifecycle.MutableLiveData;
 
 import com.inpt.jibmaak.model.Offer;
 import com.inpt.jibmaak.model.OfferSearchCriteria;
@@ -40,12 +40,12 @@ public interface OfferRepository {
      */
     void createOffer(Offer offerToCreate);
 
-    LiveData<Resource<List<Offer>>> getSearchData();
+    MutableLiveData<Resource<List<Offer>>> getSearchData();
 
-    void setSearchData(LiveData<Resource<List<Offer>>> searchData);
+    void setSearchData(MutableLiveData<Resource<List<Offer>>> searchData);
 
-    LiveData<Resource<Offer>> getOfferData();
+    MutableLiveData<Resource<Offer>> getOfferData();
 
-    void setOfferData(LiveData<Resource<Offer>> offerData);
+    void setOfferData(MutableLiveData<Resource<Offer>> offerData);
 
 }

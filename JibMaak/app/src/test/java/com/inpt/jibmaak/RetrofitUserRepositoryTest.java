@@ -6,12 +6,12 @@ import androidx.test.filters.SmallTest;
 import com.inpt.jibmaak.model.User;
 import com.inpt.jibmaak.repository.Resource;
 import com.inpt.jibmaak.repository.RetrofitUserRepository;
-import com.inpt.jibmaak.repository.RetrofitUserService;
+import com.inpt.jibmaak.services.RetrofitUserService;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 @SmallTest

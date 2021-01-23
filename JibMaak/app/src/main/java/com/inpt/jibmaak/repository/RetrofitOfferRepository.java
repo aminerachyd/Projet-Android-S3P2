@@ -1,14 +1,14 @@
 package com.inpt.jibmaak.repository;
 
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.inpt.jibmaak.model.Offer;
 import com.inpt.jibmaak.model.OfferSearchCriteria;
+import com.inpt.jibmaak.services.RetrofitOfferService;
 
 import java.util.List;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import javax.inject.Inject;
 
 /** Implementation de OfferRepository qui utilise un back-end distant comme
  * source de données et Retrofit
@@ -16,16 +16,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitOfferRepository implements OfferRepository{
     public final static String BASE_URL = "http://www.test.com"; //TODO: Change url
     protected RetrofitOfferService offerService;
-    protected LiveData<Resource<List<Offer>>> searchData;
-    protected LiveData<Resource<Offer>> offerData;
+    protected MutableLiveData<Resource<List<Offer>>> searchData;
+    protected MutableLiveData<Resource<Offer>> offerData;
 
-    public RetrofitOfferRepository(){
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        offerService = retrofit.create(RetrofitOfferService.class);
-    }
-
+    @Inject
     public RetrofitOfferRepository(RetrofitOfferService offerService){
         this.offerService = offerService;
     }
@@ -65,22 +59,22 @@ public class RetrofitOfferRepository implements OfferRepository{
     }
 
     @Override
-    public LiveData<Resource<List<Offer>>> getSearchData() {
+    public MutableLiveData<Resource<List<Offer>>> getSearchData() {
         return searchData;
     }
 
     @Override
-    public void setSearchData(LiveData<Resource<List<Offer>>> searchData) {
+    public void setSearchData(MutableLiveData<Resource<List<Offer>>> searchData) {
         this.searchData = searchData;
     }
 
     @Override
-    public LiveData<Resource<Offer>> getOfferData() {
+    public MutableLiveData<Resource<Offer>> getOfferData() {
         return offerData;
     }
 
     @Override
-    public void setOfferData(LiveData<Resource<Offer>> offerData) {
+    public void setOfferData(MutableLiveData<Resource<Offer>> offerData) {
         this.offerData = offerData;
     }
 }

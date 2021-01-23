@@ -27,15 +27,12 @@ public class RegisterActivity extends AppCompatActivity {
         // On map les différents boutons a la vue
         sInscrire = findViewById(R.id.s_inscrire);
 
-        sInscrire.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+        sInscrire.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
 
-                Toast.makeText(getBaseContext(), "Votre compte a été créé", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "Votre compte a été créé", Toast.LENGTH_LONG).show();
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
     }
 }
