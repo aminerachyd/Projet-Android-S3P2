@@ -20,8 +20,6 @@ public class LoginActivity extends BaseActivity {
     // Activité de login
     // L'utilisateur doit se connecter avec son mail ou son username
     // Si l'utilisateur n'a pas de compte il doit s'inscrire
-    @Inject
-    protected AuthManager authManager;
     protected EditText mail;
     protected EditText mdp;
 
@@ -95,10 +93,5 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onUnauthorized() {
         // Rien à faire ici
-    }
-
-    @Override
-    public AuthManager getAuthManager() {
-        return authManager;
     }
 }

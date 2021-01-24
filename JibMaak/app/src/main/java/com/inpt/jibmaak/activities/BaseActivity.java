@@ -13,18 +13,24 @@ import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.model.User;
 import com.inpt.jibmaak.repository.AuthManager;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
 /** Superclasse des activités qui définit une interface pour la gestion de la connexion et des
  * différents evenements
  */
+@AndroidEntryPoint
 public abstract class BaseActivity extends AppCompatActivity {
     protected User user;
     protected boolean hasWaitingScreen;
     protected boolean hasConnection;
     protected ConnectivityManager.NetworkCallback networkCallback;
+    @Inject
+    protected AuthManager authManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AuthManager authManager = getAuthManager();
         // Un observateur qui surveille les actions de connexion
         // (connexion, deconnexion, etc)
         authManager.getAuthActionData().observe(this, authAction -> {
@@ -113,10 +119,4 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      */
     public abstract void onUnauthorized();
-
-    /**
-     * Methode qui fournit le authManager de l'activité
-     * @return L'attribut authManager du viewmodel ou autre
-     */
-    public abstract AuthManager getAuthManager();
 }

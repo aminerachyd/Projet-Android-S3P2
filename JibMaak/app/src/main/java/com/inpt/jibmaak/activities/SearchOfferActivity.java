@@ -23,6 +23,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.inject.Inject;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -316,11 +318,6 @@ public class SearchOfferActivity extends BaseActivity {
     @Override
     public void onUnauthorized() {
         // Normalement pas possible ici
-    }
-
-    @Override
-    public AuthManager getAuthManager() {
-        return viewModel.getAuthManager();
     }
 
     @Override

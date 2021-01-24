@@ -21,7 +21,7 @@
     <string name="email_incorrect">Erreur : mail incorrect</string>
     <string name="mdp_vide">Erreur : pas de mot de passe saisi</string>
     <string name="error_credentials">Erreur : email ou mot de passe incorrect</string>
-    <string name="error">Erreur : veuillez reesayer</string>
+    <string name="error">Erreur : veuillez reessayer</string>
     <string name="no_connection">Pas de connexion</string>
     <string name="se_connecter">Se connecter</string>
     <string name="email">Email :</string>
