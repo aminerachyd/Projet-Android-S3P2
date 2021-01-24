@@ -3,22 +3,67 @@ import OfferModel from "../models/Offer";
 import UserModel from "../models/User";
 import { userInfos } from "../utils/helpers";
 
+// Limite par défaut d'offres à récupérer par requete
+const MAX_LIMIT = 15;
+
 const router = express.Router();
 
-// TODO Have to implement pagination and offset
+// TODO Have to implement pagination, limit and offset
 /**
  * Route pour récupérer toutes les offres
  * ROUTE: /offers
  * METHOD: GET
- * RETURN: Tableau d'offres
+ * RETURN: Tableau d'offres, un boolean hasMore qui indique si il y'a plus de données à récupérer, la page et la limite
  */
-router.get("/", async (_, res) => {
+router.get("/", async (req, res) => {
+  // On récupère la page et le limit depuis la requete
+  const { page, limit } = req.query;
+
+  /**
+   * On évalue la limite et la page
+   * La limite ne doit pas dépasser la limite par défaut
+   * La page est calculée en fonction de la limite évaluée
+   */
+  let limitNumber = parseInt(<string>limit)
+    ? Math.min(parseInt(<string>limit), MAX_LIMIT)
+    : MAX_LIMIT;
+
+  let realPageNumber = page ? parseInt(<string>page) : 1;
+
+  let pageNumber =
+    parseInt(<string>page) > 1
+      ? limitNumber * parseInt(<string>page) - limitNumber
+      : 0;
+
+  // Critères de recherche
+  const {
+    depart,
+    destination,
+    departAvant,
+    departApres,
+    arriveAvant,
+    arriveApres,
+    minPrixKg,
+    maxPrixKg,
+    minPoidsDisponible,
+    maxPoidsDisponible,
+  } = req.body;
+
   try {
-    const result = await OfferModel.find();
+    const result = await OfferModel.find()
+      .limit(limitNumber + 1)
+      .skip(pageNumber);
 
-    let payload: any = [];
+    let offers: any = [];
 
-    for (const offer of result) {
+    let hasMore = result.length === limitNumber + 1;
+
+    for (let i = 0; i < limitNumber; i++) {
+      let offer = result[i];
+      if (!offer) {
+        break;
+      }
+
       let {
         id,
         user,
@@ -32,7 +77,7 @@ router.get("/", async (_, res) => {
 
       let userData = await UserModel.findById(user._id);
 
-      payload.push({
+      offers.push({
         id,
         user: userInfos(userData),
         lieuDepart,
@@ -46,7 +91,7 @@ router.get("/", async (_, res) => {
 
     res.send({
       message: "Offres récupérées",
-      payload,
+      payload: { hasMore, offers, page: realPageNumber, limit: limitNumber },
     });
   } catch (error) {
     console.log(error);
