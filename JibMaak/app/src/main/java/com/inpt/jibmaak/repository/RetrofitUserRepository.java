@@ -12,7 +12,6 @@ import javax.inject.Inject;
  * source de données et Retrofit
  */
 public class RetrofitUserRepository implements UserRepository {
-    public static final String BASE_URL = "http://www.test.com"; // TODO: changer url
     protected MutableLiveData<Resource<User>> userData;
     protected RetrofitUserService userService;
 

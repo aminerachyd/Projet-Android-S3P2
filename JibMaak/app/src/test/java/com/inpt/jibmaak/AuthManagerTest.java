@@ -7,6 +7,7 @@ import androidx.test.filters.SmallTest;
 
 import com.google.gson.Gson;
 import com.inpt.jibmaak.model.User;
+import com.inpt.jibmaak.repository.AuthAction;
 import com.inpt.jibmaak.repository.AuthManager;
 import com.inpt.jibmaak.services.AuthResponse;
 import com.inpt.jibmaak.services.RetrofitAuthService;
@@ -117,7 +118,7 @@ public class AuthManagerTest {
         Thread.sleep(300);
 
         assertEquals(1,server.getRequestCount());
-        assertEquals(AuthManager.AuthAction.LOGIN_INCORRECT,authManager.getAuthAction().getValue());
+        assertEquals(AuthAction.Action.LOGIN_INCORRECT,authManager.getAuthActionData().getValue().getAction());
         assertNull(authManager.getUser());
     }
 }

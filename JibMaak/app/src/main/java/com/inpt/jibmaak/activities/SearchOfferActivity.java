@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.model.OfferSearchCriteria;
+import com.inpt.jibmaak.repository.AuthManager;
 import com.inpt.jibmaak.repository.Resource;
 import com.inpt.jibmaak.viewmodels.SearchOfferViewModel;
 
@@ -25,7 +26,7 @@ import java.util.Date;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class SearchOfferActivity extends AppCompatActivity {
+public class SearchOfferActivity extends BaseActivity {
 
     // Activité de recherche d'offre
     // L'utilisateur saisi les infos pour trouver l'offre qui le convient
@@ -300,6 +301,26 @@ public class SearchOfferActivity extends AppCompatActivity {
 
         bouton_recherche.setOnClickListener(v -> lancerRecherche());
         
+    }
+
+    @Override
+    public void onLogin() {
+        // Rien à faire
+    }
+
+    @Override
+    public void onLogout(boolean isUnexpected) {
+        // Rien à faire
+    }
+
+    @Override
+    public void onUnauthorized() {
+        // Normalement pas possible ici
+    }
+
+    @Override
+    public AuthManager getAuthManager() {
+        return viewModel.getAuthManager();
     }
 
     @Override

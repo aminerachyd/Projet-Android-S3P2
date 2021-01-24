@@ -3,7 +3,6 @@ package com.inpt.jibmaak;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.inpt.jibmaak.repository.AuthManager;
 import com.inpt.jibmaak.repository.OfferRepository;
 import com.inpt.jibmaak.repository.RetrofitOfferRepository;
 import com.inpt.jibmaak.repository.RetrofitUserRepository;
@@ -23,10 +22,13 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/** Module qui définit comment fournir les dependences */
+/** Module qui définit comment fournir les dependances pour l'injection */
 @Module
 @InstallIn(ActivityRetainedComponent.class)
 public abstract class RepositoryModule {
+    public static final String BASE_URL = "http://10.0.2.2:55300"; // TODO : changer url
+    // 10.0.2.2 pour une application dans l'émulateur permet d'acceder au localhost de
+    // la machine
 
     @Provides
     public static SharedPreferences getSharedPreferences(@ApplicationContext Context context){
@@ -39,7 +41,7 @@ public abstract class RepositoryModule {
                 .newBuilder()
                 .addInterceptor(interceptor)
                 .build();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(AuthManager.BASE_URL)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -52,7 +54,7 @@ public abstract class RepositoryModule {
                 .newBuilder()
                 .addInterceptor(interceptor)
                 .build();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(RetrofitOfferRepository.BASE_URL)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -65,7 +67,7 @@ public abstract class RepositoryModule {
                 .newBuilder()
                 .addInterceptor(interceptor)
                 .build();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(RetrofitUserRepository.BASE_URL)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

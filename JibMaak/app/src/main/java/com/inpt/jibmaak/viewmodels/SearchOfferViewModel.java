@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.inpt.jibmaak.model.Offer;
 import com.inpt.jibmaak.model.OfferSearchCriteria;
+import com.inpt.jibmaak.repository.AuthManager;
 import com.inpt.jibmaak.repository.OfferRepository;
 import com.inpt.jibmaak.repository.Resource;
 import com.inpt.jibmaak.repository.RetrofitOfferRepository;
@@ -20,16 +21,18 @@ public class SearchOfferViewModel extends ViewModel {
     protected OfferSearchCriteria criteria = new OfferSearchCriteria();
     protected MutableLiveData<Resource<List<Offer>>> searchOffersData;
     protected MutableLiveData<Resource<Offer>> offerData;
+    protected AuthManager authManager;
     protected OfferRepository offerRepo;
 
     @ViewModelInject
     public SearchOfferViewModel(@Assisted SavedStateHandle savedState,
-                                RetrofitOfferRepository offerRepo){
+                                RetrofitOfferRepository offerRepo, AuthManager authManager){
         searchOffersData = new MutableLiveData<>();
         offerData = new MutableLiveData<>();
         this.offerRepo = offerRepo;
         this.offerRepo.setSearchData(searchOffersData);
         this.offerRepo.setOfferData(offerData);
+        this.authManager = authManager;
     }
 
     public void chercherOffres(OfferSearchCriteria rechercheCriteria) {
@@ -58,5 +61,13 @@ public class SearchOfferViewModel extends ViewModel {
 
     public LiveData<Resource<Offer>> getOfferData() {
         return offerData;
+    }
+
+    public AuthManager getAuthManager() {
+        return authManager;
+    }
+
+    public void setAuthManager(AuthManager authManager) {
+        this.authManager = authManager;
     }
 }

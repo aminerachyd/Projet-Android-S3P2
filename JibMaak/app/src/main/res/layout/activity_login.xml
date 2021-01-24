@@ -13,13 +13,13 @@
         android:background="@color/accent"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
-        android:text="Se connecter"
+        android:text="@string/se_connecter"
         android:textColor="#FFFFFF"
-        android:textSize="17dp" />
+        android:textSize="14sp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="344dp"
+        android:layout_height="432dp"
         android:layout_centerInParent="true"
         android:layout_marginHorizontal="30dp"
         android:orientation="vertical">
@@ -42,49 +42,63 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:text="Nom d'utilisateur ou email :"
+                    android:text="@string/email"
                     android:textColor="#000000" />
 
                 <EditText
+                    android:id="@+id/zone_mail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Votre nom d'utilisateur ou email ici"
-                    android:textSize="15dp" />
+                    android:hint="@string/email_ici"
+                    android:inputType="textEmailAddress"
+                    android:textSize="14sp"
+                    android:autofillHints="emailAddress" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginTop="5dp"
-                    android:text="Votre mot de passe :"
+                    android:text="@string/mot_de_passe"
                     android:textColor="#000000" />
 
                 <EditText
+                    android:id="@+id/zone_mdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Votre mot de passe ici"
+                    android:hint="@string/mot_de_passe_ici"
                     android:inputType="textPassword"
-                    android:textSize="15dp" />
+                    android:textSize="14sp"
+                    android:autofillHints="password" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/se_connecter"
+            android:id="@+id/bouton_connecter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginVertical="20dp"
-            android:text="Se connecter"
+            android:text="@string/se_connecter"
             android:textColor="#FFFFFF" />
 
         <Button
-            android:id="@+id/s_inscrire"
+            android:id="@+id/bouton_inscrire"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Pas de compte ? S'inscrire"
+            android:text="@string/s_inscrire"
             android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/bouton_continuer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/sans_connecter"
+            android:textColor="#FFFFFF" />
+
     </LinearLayout>
 
 </RelativeLayout>

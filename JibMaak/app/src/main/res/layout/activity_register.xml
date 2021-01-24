@@ -99,7 +99,7 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/s_inscrire"
+            android:id="@+id/bouton_inscrire"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

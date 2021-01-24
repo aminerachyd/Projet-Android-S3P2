@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -25,7 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         // On map les différents boutons a la vue
-        sInscrire = findViewById(R.id.s_inscrire);
+        sInscrire = findViewById(R.id.bouton_inscrire);
 
         sInscrire.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), LoginActivity.class);

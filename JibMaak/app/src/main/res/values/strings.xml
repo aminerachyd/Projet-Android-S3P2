@@ -18,4 +18,18 @@
     <string name="poids_disponible">Poids disponible minimum : %1$d kg</string>
     <string name="prix_minimum">Prix minimum : %1$d dh/kg</string>
     <string name="prix_maximum">Prix maximum : %1$d dh/kg</string>
+    <string name="email_incorrect">Erreur : mail incorrect</string>
+    <string name="mdp_vide">Erreur : pas de mot de passe saisi</string>
+    <string name="error_credentials">Erreur : email ou mot de passe incorrect</string>
+    <string name="error">Erreur : veuillez reesayer</string>
+    <string name="no_connection">Pas de connexion</string>
+    <string name="se_connecter">Se connecter</string>
+    <string name="email">Email :</string>
+    <string name="email_ici">Email ici</string>
+    <string name="mot_de_passe">Votre mot de passe :</string>
+    <string name="mot_de_passe_ici">Votre mot de passe ici</string>
+    <string name="s_inscrire">Pas de compte ? S\'inscrire</string>
+    <string name="sans_connecter">Continuer sans se connecter</string>
+    <string name="salutations">"Bonjour %1$s ! "</string>
+    <string name="deconnexion_surprise">Erreur : vous êtes deconnecté</string>
 </resources>

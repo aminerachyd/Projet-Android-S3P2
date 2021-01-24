@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.inpt.jibmaak.model.User;
+import com.inpt.jibmaak.repository.AuthAction.Action;
 import com.inpt.jibmaak.services.AuthResponse;
 import com.inpt.jibmaak.services.RetrofitAuthService;
 
@@ -20,21 +21,11 @@ import retrofit2.Response;
 
 /** Classe chargée de l'authentification de l'utilisateur */
 public class AuthManager {
-    public enum AuthAction{
-        LOGOUT,
-        LOGIN,
-        LOGOUT_ERROR,
-        LOGIN_ERROR,
-        UNEXPECTED_LOGOUT,
-        UNAUTHORIZED,
-        LOGIN_INCORRECT
-    }
 
     protected SharedPreferences sharedPreferences;
     protected RetrofitAuthService authService;
     protected User user;
-    protected MutableLiveData<AuthAction> authAction;
-    public static final String BASE_URL = "https://www.text.com";
+    protected MutableLiveData<AuthAction> authActionData;
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String USER = "user";
 
@@ -42,8 +33,18 @@ public class AuthManager {
     public AuthManager(RetrofitAuthService authService,SharedPreferences sharedPreferences){
         this.authService = authService;
         this.sharedPreferences = sharedPreferences;
-        this.authAction = new MutableLiveData<>();
+        this.authActionData = new MutableLiveData<>();
+        init();
     }
+
+    public void init(){
+        user = getUserLogged();
+        if (user != null){
+            AuthAction authAction = new AuthAction(Action.LOGIN,user);
+            authActionData.setValue(authAction);
+        }
+    }
+
     public void saveTokens(HashMap<String,String> tokens){
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putString(ACCESS_TOKEN,tokens.get(ACCESS_TOKEN));
@@ -81,11 +82,10 @@ public class AuthManager {
         edit.remove(USER);
         edit.apply();
         user = null;
-        authAction.setValue(isUnexpected ? AuthAction.UNEXPECTED_LOGOUT : AuthAction.LOGOUT);
-    }
-
-    public void refreshAccessToken(){
-        //TODO: token rafraichi/ tokens invalides
+        AuthAction authAction = new AuthAction();
+        authAction.setAction(isUnexpected ? Action.UNEXPECTED_LOGOUT : Action.LOGOUT);
+        authAction.setUser(null);
+        authActionData.setValue(authAction);
     }
 
     public void login(String username,String password){
@@ -93,8 +93,11 @@ public class AuthManager {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 if (!response.isSuccessful()){
-                    authAction.setValue(response.code() == 400 ? AuthAction.LOGIN_INCORRECT
-                            : AuthAction.LOGIN_ERROR);
+                    AuthAction authAction = new AuthAction();
+                    authAction.setUser(null);
+                    authAction.setAction(response.code() == 400 ? Action.LOGIN_INCORRECT
+                            : Action.LOGIN_ERROR);
+                    authActionData.setValue(authAction);
                 }
                 else{
                     // On recupere le token
@@ -102,57 +105,56 @@ public class AuthManager {
                     HashMap<String,String> tokens = new HashMap<>();
                     tokens.put(ACCESS_TOKEN,authResponse.getPayload());
                     saveTokens(tokens);
-                    user = new User();
                     // On demande les infos
                     getUserInfo();
                 }
             }
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-                authAction.setValue(AuthAction.LOGIN_ERROR);
+                authActionData.setValue(new AuthAction(Action.LOGIN_ERROR,null));
             }
         });
     }
 
     public void getUserInfo(){
         // On recupere les informations sur l'utilisateur connecté
-        if (sharedPreferences.contains(ACCESS_TOKEN)){
-            authService.checkLogin().enqueue(new Callback<AuthResponse>() {
-                @Override
-                public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-                    if (!response.isSuccessful()){
-                        if (response.code() == 401 || response.code() == 400){
-                            // Pas authentifié : on recommence l'authentification
-                            SharedPreferences.Editor edit = sharedPreferences.edit();
-                            edit.remove(ACCESS_TOKEN);
-                            edit.apply();
-                        }
-                        // Pour les autres erreurs on ne supprime pas le token
-                        authAction.setValue(AuthAction.LOGIN_ERROR);
-                    }
-                    else{
-                        // On recupere l'utilisateur
-                        Gson gson = new Gson();
-                        AuthResponse authResponse = response.body();
-                        user = gson.fromJson(authResponse.getPayload(),User.class);
-                        saveUserLogged();
-                        authAction.setValue(AuthAction.LOGIN); // Authentification reussie
-                    }
+        authService.checkLogin().enqueue(new Callback<AuthResponse>() {
+            @Override
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                if (!response.isSuccessful()){
+                    // Pas authentifié : on recommence l'authentification
+                    SharedPreferences.Editor edit = sharedPreferences.edit();
+                    edit.remove(ACCESS_TOKEN);
+                    edit.apply();
+                    authActionData.setValue(new AuthAction(Action.LOGIN_ERROR,null));
                 }
+                else{
+                    // On recupere l'utilisateur
+                    Gson gson = new Gson();
+                    AuthResponse authResponse = response.body();
+                    User userFromJson = gson.fromJson(authResponse.getPayload(),User.class);
+                    if (userFromJson == null){
+                        authActionData.setValue(new AuthAction(Action.LOGIN_ERROR,null));
+                        return;
+                    }
+                    user = userFromJson;
+                    saveUserLogged();
+                    authActionData.setValue(new AuthAction(Action.LOGIN,userFromJson)); // Authentification reussie
+                }
+            }
 
-                @Override
-                public void onFailure(Call<AuthResponse> call, Throwable t) {
-                    authAction.setValue(AuthAction.LOGIN_ERROR);
-                }
-            });
-        }
-        else{
-            authAction.setValue(AuthAction.LOGIN_ERROR);
-        }
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+                SharedPreferences.Editor edit = sharedPreferences.edit();
+                edit.remove(ACCESS_TOKEN);
+                edit.apply();
+                authActionData.setValue(new AuthAction(Action.LOGIN_ERROR,null));
+            }
+        });
     }
 
     public void unauthorizedAction(){
-        authAction.setValue(AuthAction.UNAUTHORIZED);
+        authActionData.setValue(new AuthAction(Action.UNAUTHORIZED,null));
     }
 
     public SharedPreferences getSharedPreferences() {
@@ -175,11 +177,7 @@ public class AuthManager {
         return user;
     }
 
-    public void setUser(User user){
-        this.user = user;
-    }
-
-    public LiveData<AuthAction> getAuthAction() {
-        return authAction;
+    public LiveData<AuthAction> getAuthActionData() {
+        return authActionData;
     }
 }

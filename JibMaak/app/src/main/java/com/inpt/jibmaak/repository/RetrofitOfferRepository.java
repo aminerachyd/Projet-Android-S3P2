@@ -14,7 +14,6 @@ import javax.inject.Inject;
  * source de données et Retrofit
  */
 public class RetrofitOfferRepository implements OfferRepository{
-    public final static String BASE_URL = "http://www.test.com"; //TODO: Change url
     protected RetrofitOfferService offerService;
     protected MutableLiveData<Resource<List<Offer>>> searchData;
     protected MutableLiveData<Resource<Offer>> offerData;

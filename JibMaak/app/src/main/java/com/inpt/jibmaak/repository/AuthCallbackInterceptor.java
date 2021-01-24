@@ -21,15 +21,16 @@ public abstract class AuthCallbackInterceptor<T> implements Callback<T> {
             else if (response.code() == 400){
                 try {
                     String error = response.errorBody().string();
+                    // Token invalide : on est deconnectés
                     if (error.contains("Token invalide, veuillez vous reconnecter"))
                         authManager.logout(true);
                 } catch (IOException e) {
-                    // On laisse le repository gerer cette erreur
+                    // On laisse passer
                     onGetResponse(call,response);
                 }
             }
             else if (response.code() == 500){
-                // Erreur serveur
+                // Erreur serveur : on laisse passer
                 onGetResponse(call,response);
             }
         }
@@ -38,6 +39,6 @@ public abstract class AuthCallbackInterceptor<T> implements Callback<T> {
             onGetResponse(call,response);
         }
     }
-
+    /** Definit l'action à faire avec la réponse */
     public abstract void onGetResponse(Call<T> call, Response<T> response);
 }
