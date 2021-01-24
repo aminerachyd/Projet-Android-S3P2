@@ -1,6 +1,6 @@
 package com.inpt.jibmaak.repository;
 
-/** Un objet wrapper qui contient une ressource avec un statut */
+/** Classe enveloppe qui contient une ressource (User,Offer) avec un statut */
 public class Resource<T> {
     /** Les différents status possibles des operations */
     public enum Status{
@@ -11,8 +11,8 @@ public class Resource<T> {
         /** L'operation a été correctement effectuée */
         OK
     }
-    private T resource;
-    private Status status;
+    protected T resource;
+    protected Status status;
 
     public T getResource() {
         return resource;

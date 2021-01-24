@@ -26,22 +26,16 @@ public class SubmitOfferActivity extends AppCompatActivity {
         proposerOffre = findViewById(R.id.proposer_offre);
         retour = findViewById(R.id.retour);
 
-        retour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MenuActivity.class);
+        retour.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), MenuActivity.class);
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
-        proposerOffre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Doit ajouter l'offre à une base de données
+        proposerOffre.setOnClickListener(v -> {
+            // TODO Doit ajouter l'offre à une base de données
 
-                Toast.makeText(getBaseContext(),"Votre offre a été ajoutée",Toast.LENGTH_LONG).show();
-            }
+            Toast.makeText(getBaseContext(),"Votre offre a été ajoutée",Toast.LENGTH_LONG).show();
         });
     }
 }

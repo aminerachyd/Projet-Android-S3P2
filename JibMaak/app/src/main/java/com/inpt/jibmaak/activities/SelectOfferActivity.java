@@ -26,21 +26,15 @@ public class SelectOfferActivity extends AppCompatActivity {
         selectionnerOffre = findViewById(R.id.selectionner_offre);
         retourListe = findViewById(R.id.retour_liste);
 
-        retourListe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), SearchOfferResultActivity.class);
+        retourListe.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), SearchOfferResultActivity.class);
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
-        selectionnerOffre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Une activité pour confirmer la selection ?
-                Toast.makeText(getBaseContext(), "Vous avez selectionné cette offre", Toast.LENGTH_LONG).show();
-            }
+        selectionnerOffre.setOnClickListener(v -> {
+            // TODO Une activité pour confirmer la selection ?
+            Toast.makeText(getBaseContext(), "Vous avez selectionné cette offre", Toast.LENGTH_LONG).show();
         });
 
     }

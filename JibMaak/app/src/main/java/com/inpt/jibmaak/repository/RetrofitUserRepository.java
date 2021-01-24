@@ -1,33 +1,23 @@
 package com.inpt.jibmaak.repository;
 
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.inpt.jibmaak.model.User;
+import com.inpt.jibmaak.services.RetrofitUserService;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import javax.inject.Inject;
 
 /** Implementation de UserRepository qui utilise un back-end distant comme
  * source de données et Retrofit
  */
 public class RetrofitUserRepository implements UserRepository {
-    public static final String BASE_URL = "http://www.test.com"; // TODO: changer url
-    protected LiveData<Resource<User>> userData;
+    protected MutableLiveData<Resource<User>> userData;
     protected RetrofitUserService userService;
 
-    public RetrofitUserRepository() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        userService = retrofit.create(RetrofitUserService.class);
-        userData = new MutableLiveData<>();
-    }
-
-    public RetrofitUserRepository(RetrofitUserService userService, LiveData<Resource<User>> userData) {
+    @Inject
+    public RetrofitUserRepository(RetrofitUserService userService) {
         this.userService = userService;
-        this.userData = userData;
     }
 
     // TODO: methodes
@@ -40,12 +30,12 @@ public class RetrofitUserRepository implements UserRepository {
     }
 
     @Override
-    public LiveData<Resource<User>> getUserData() {
+    public MutableLiveData<Resource<User>> getUserData() {
         return userData;
     }
 
     @Override
-    public void setUserData(LiveData<Resource<User>> userData) {
+    public void setUserData(MutableLiveData<Resource<User>> userData) {
         this.userData = userData;
     }
 

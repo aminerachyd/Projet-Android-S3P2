@@ -30,25 +30,19 @@ public class SearchOfferResultActivity extends AppCompatActivity {
         retour = findViewById(R.id.retour);
 
 
-        retour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), SearchOfferActivity.class
-                );
+        retour.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), SearchOfferActivity.class
+            );
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
-        offre1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Doit passer les informations de l'offre
-                Intent intent = new Intent(getBaseContext(), SelectOfferActivity.class
-                );
+        offre1.setOnClickListener(v -> {
+            // TODO Doit passer les informations de l'offre
+            Intent intent = new Intent(getBaseContext(), SelectOfferActivity.class
+            );
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
     }
 }

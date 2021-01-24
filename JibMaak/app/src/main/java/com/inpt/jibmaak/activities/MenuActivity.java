@@ -28,35 +28,26 @@ public class MenuActivity extends AppCompatActivity {
         proposerOffre = findViewById(R.id.proposer_offre);
 
         // Passage à l'activité de recherche d'offre
-        chercherOffre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), SearchOfferActivity.class
-                );
+        chercherOffre.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), SearchOfferActivity.class
+            );
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
         // Passage à l'activité de proposition d'offre
-        proposerOffre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), SubmitOfferActivity.class
-                );
+        proposerOffre.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), SubmitOfferActivity.class
+            );
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
         // Passage à l'activité A propos
-        aPropos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Doit créer une activité a propos
+        aPropos.setOnClickListener(v -> {
+            // TODO Doit créer une activité a propos
 
-                Toast.makeText(getBaseContext(), "A propos pas disponbile pour l'instant", Toast.LENGTH_LONG).show();
-            }
+            Toast.makeText(getBaseContext(), "A propos pas disponbile pour l'instant", Toast.LENGTH_LONG).show();
         });
     }
 }

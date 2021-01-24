@@ -1,6 +1,6 @@
 package com.inpt.jibmaak.repository;
 
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.inpt.jibmaak.model.User;
 
@@ -21,7 +21,7 @@ public interface UserRepository {
      */
     void updateUser(User userToUpdate);
 
-    void setUserData(LiveData<Resource<User>> userData);
+    void setUserData(MutableLiveData<Resource<User>> userData);
 
-    LiveData<Resource<User>> getUserData();
+    MutableLiveData<Resource<User>> getUserData();
 }
