@@ -26,23 +26,12 @@ router.post("/", auth, async (req, res) => {
     poidsDispo,
   } = req.body;
 
-  // FIXME
-  /**
-   * Utiliser un format pour les dates
-   * Recevoir la date du client
-   * Créer la date avec :
-   * let date = new Date('yyyy-mm-ddThh:mm:ss')
-   * Ou
-   * let date = new Date(yyyy,mm,dd,hh,mm,ss)
-   */
-  let date = new Date();
-
   const newOffer = new OfferModel({
     user: user!.id,
     lieuDepart,
     lieuArrivee,
-    dateDepart: date,
-    dateArrivee: date,
+    dateDepart: new Date(dateDepart),
+    dateArrivee: new Date(dateArrivee),
     prixKg,
     poidsDispo,
   });
@@ -70,9 +59,8 @@ router.get("/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
-    // XXX Fix types
-    const result: any = await OfferModel.findById(id);
-    const user = await UserModel.findById(result.user);
+    const result = await OfferModel.findById(id);
+    const user = await UserModel.findById(result?.user);
 
     if (!user || !result) {
       // L'utilisateur n'existe pas
@@ -134,15 +122,14 @@ router.put("/:id", auth, async (req, res) => {
   const update = {
     lieuDepart,
     lieuArrivee,
-    dateDepart,
-    dateArrivee,
+    dateDepart: new Date(dateDepart),
+    dateArrivee: new Date(dateArrivee),
     prixKg,
     poidsDispo,
   };
 
   try {
-    // XXX Fix types
-    let offer: any = await OfferModel.findById(id);
+    let offer = await OfferModel.findById(id);
 
     if (!offer) {
       // Offre non trouvée
@@ -180,7 +167,6 @@ router.delete("/:id", auth, async (req, res) => {
   const id = req.params.id;
 
   try {
-    // XXX Fix types
     let offer: any = await OfferModel.findById(id);
     if (!offer) {
       // Offre non trouvée

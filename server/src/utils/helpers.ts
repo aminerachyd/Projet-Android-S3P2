@@ -17,6 +17,6 @@ export const hash = (str: string): string | false => {
 
 // Fonction pour récupérer les infos de l'utilisateur sans mot de passe
 export const userInfos = (user: any) => {
-  const { id, email, nom, prenom, telephone, ...rest } = user;
+  const { id, email, nom, prenom, telephone } = user;
   return { id, email, nom, prenom, telephone };
 };

@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { hash } from "../utils/helpers";
+import { hash, userInfos } from "../utils/helpers";
 import UserModel from "../models/User";
 import auth from "../middleware/auth";
 
@@ -14,7 +14,7 @@ const router = express.Router();
  */
 router.get("/", auth, async (req, res) => {
   res.send({
-    message: "utilisateur authentifié",
+    message: "Utilisateur authentifié",
     payload: req.user,
   });
 });
@@ -47,7 +47,7 @@ router.post("/", async (req, res) => {
       // On met l'ID de l'utilisateur dans le JWT
       const payload = {
         user: {
-          id: user?._id,
+          id: user._id,
           jwtVersion: process.env.JWT_VERSION,
         },
       };
@@ -61,8 +61,8 @@ router.post("/", async (req, res) => {
           });
         } else {
           res.send({
-            message: "utilisateur authentifié",
-            payload: token,
+            message: "Utilisateur authentifié",
+            payload: { token, ...userInfos(user) },
           });
         }
       });

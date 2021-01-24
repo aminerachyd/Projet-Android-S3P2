@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { OfferType } from "../types";
 const Schema = mongoose.Schema;
 
 const OfferSchema = new Schema({
@@ -32,5 +33,5 @@ const OfferSchema = new Schema({
   },
 } as const);
 
-const Offer = mongoose.model("offer", OfferSchema);
+const Offer = mongoose.model<OfferType>("offer", OfferSchema);
 export default Offer;

@@ -1,5 +1,4 @@
 import express from "express";
-import { User } from "../types";
 import UserModel from "../models/User";
 
 const router = express.Router();
@@ -13,7 +12,7 @@ const router = express.Router();
 router.get("/", async (_, res) => {
   try {
     const result = await UserModel.find();
-    const modifiedResult = result.map((user: User | any) => ({
+    const modifiedResult = result.map((user) => ({
       id: user._id,
       email: user.email,
       nom: user.nom,

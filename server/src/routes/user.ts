@@ -1,16 +1,8 @@
 import express from "express";
 import UserModel from "../models/User";
-import { User } from "../types";
 import { hash, userInfos } from "../utils/helpers";
 
 const router = express.Router();
-
-interface IUser {
-  email: string;
-  nom: string;
-  prenom: string;
-  telephone: string;
-}
 
 /**
  * Route pour enregistrer un nouvel utilisateur
@@ -30,8 +22,7 @@ router.post("/", async (req, res) => {
   });
 
   try {
-    // XXX Fix types
-    const result: User | any = await newUser.save();
+    const result = await newUser.save();
 
     res.send({ message: "Utilisateur ajouté", payload: result._id });
   } catch (error) {
@@ -53,8 +44,7 @@ router.get("/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
-    // XXX Fix types
-    const result: User | any = await UserModel.findById(id);
+    const result = await UserModel.findById(id);
 
     res.send({
       message: "Utilisateur récupéré",
@@ -77,12 +67,14 @@ router.get("/:id", async (req, res) => {
  */
 router.put("/:id", async (req, res) => {
   const id = req.params.id;
+
+  // TODO Check if the fields are not null
   const update = {
     email: req.body.email,
     nom: req.body.nom,
     prenom: req.body.prenom,
-    telepone: req.body.telephone,
-    password: hash(req.body.password),
+    telephone: req.body.telephone,
+    password: <string>hash(req.body.password),
   };
 
   try {
