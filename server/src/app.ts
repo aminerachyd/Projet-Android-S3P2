@@ -1,22 +1,23 @@
 import "dotenv/config";
 import express from "express";
 import connectDB from "./config/db";
-
-// Routes de l'application
 import userRoute from "./routes/user";
 import usersRoute from "./routes/users";
 import authRoute from "./routes/auth";
 import offerRoute from "./routes/offer";
+import offersRoute from "./routes/offers";
 
 const app = express();
 
 // Middlewares
 app.use(express.json());
 
+// Routes de l'application
 app.use("/user", userRoute);
 app.use("/users", usersRoute);
 app.use("/auth", authRoute);
 app.use("/offer", offerRoute);
+app.use("/offers", offersRoute);
 
 const PORT = process.env.PORT || 5000;
 
