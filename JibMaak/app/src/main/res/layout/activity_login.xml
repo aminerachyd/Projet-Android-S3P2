@@ -88,15 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/s_inscrire"
-            android:textColor="#FFFFFF" />
-
-        <Button
-            android:id="@+id/bouton_continuer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/sans_connecter"
+            android:text="@string/pas_compte_inscrire"
             android:textColor="#FFFFFF" />
 
     </LinearLayout>

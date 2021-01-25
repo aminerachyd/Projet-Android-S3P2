@@ -6,10 +6,11 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.test.filters.SmallTest;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.inpt.jibmaak.model.User;
 import com.inpt.jibmaak.repository.AuthAction;
 import com.inpt.jibmaak.repository.AuthManager;
-import com.inpt.jibmaak.services.AuthResponse;
+import com.inpt.jibmaak.services.ServerResponse;
 import com.inpt.jibmaak.services.RetrofitAuthService;
 
 import org.junit.Before;
@@ -20,12 +21,14 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -48,13 +51,12 @@ public class AuthManagerTest {
     public void setup(){
         fakeUser = new User();
         fakeUser.setEmail("test@hotmail.com");
-        fakeUser.setId(7);
+        fakeUser.setId("erzer7");
         fakeUser.setNom("TestNom");
         fakeUser.setPrenom("TestPrenom");
         fakeUser.setNom("TestNom");
         fakeUser.setTelephone("048452367");
 
-        when(sharedPreferences.contains(AuthManager.ACCESS_TOKEN)).thenReturn(true);
         when(sharedPreferences.getString(AuthManager.ACCESS_TOKEN,null))
                 .thenReturn("fakeToken");
         when(sharedPreferences.edit()).thenReturn(mock(SharedPreferences.Editor.class));
@@ -68,12 +70,11 @@ public class AuthManagerTest {
         Gson gson = new Gson();
 
         // On crée une reponse (correcte) pour le login
-        AuthResponse authResponse = new AuthResponse();
+        ServerResponse<JsonObject> authResponse = new ServerResponse<>();
         authResponse.setMessage("utilisateur authentifié");
-        authResponse.setPayload("fakeToken");
-        server.enqueue(new MockResponse().setBody(gson.toJson(authResponse)).setResponseCode(200));
-
-        authResponse.setPayload(gson.toJson(fakeUser));
+        JsonObject payload = gson.toJsonTree(fakeUser).getAsJsonObject();
+        payload.addProperty("token","fakeToken");
+        authResponse.setPayload(payload);
         server.enqueue(new MockResponse().setBody(gson.toJson(authResponse)).setResponseCode(200));
 
         // On lance le serveur
@@ -81,10 +82,7 @@ public class AuthManagerTest {
         HttpUrl baseUrl = server.url("/");
 
         // On cree l'objet
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        RetrofitAuthService authService = retrofit.create(RetrofitAuthService.class);
+        RetrofitAuthService authService = setupRetrofit(baseUrl).create(RetrofitAuthService.class);
         AuthManager authManager = new AuthManager(authService,sharedPreferences);
 
         // On lance le test
@@ -101,16 +99,13 @@ public class AuthManagerTest {
         // On teste le cas où les identifiants sont incorrects
         MockWebServer server = new MockWebServer();
         Gson gson = new Gson();
-        AuthResponse authResponse = new AuthResponse();
+        ServerResponse<JsonObject> authResponse = new ServerResponse<>();
         authResponse.setError("Email ou mot de passe incorrect");
         server.enqueue(new MockResponse().setBody(gson.toJson(authResponse)).setResponseCode(400));
 
         server.start();
         HttpUrl baseUrl = server.url("/");
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        RetrofitAuthService authService = retrofit.create(RetrofitAuthService.class);
+        RetrofitAuthService authService = setupRetrofit(baseUrl).create(RetrofitAuthService.class);
         AuthManager authManager = new AuthManager(authService,sharedPreferences);
 
         authManager.login("test@hotmail.com","Test");
@@ -120,5 +115,63 @@ public class AuthManagerTest {
         assertEquals(1,server.getRequestCount());
         assertEquals(AuthAction.Action.LOGIN_INCORRECT,authManager.getAuthActionData().getValue().getAction());
         assertNull(authManager.getUser());
+    }
+
+    @Test
+    public void testCorrectRegister() throws IOException, InterruptedException {
+        // On vérifie la réponse à un enregistrement correct
+        MockWebServer server = new MockWebServer();
+        Gson gson = new Gson();
+        ServerResponse<String> registerResponse = new ServerResponse<>();
+        registerResponse.setMessage("Utilisateur ajouté");
+        registerResponse.setPayload("fakeId");
+        server.enqueue(new MockResponse().setBody(gson.toJson(registerResponse)).setResponseCode(200));
+
+        server.start();
+        HttpUrl baseUrl = server.url("/");
+        RetrofitAuthService authService = setupRetrofit(baseUrl).create(RetrofitAuthService.class);
+        AuthManager authManager = new AuthManager(authService,sharedPreferences);
+
+        // Pas besoin de faire une vraie requete : le serveur ne verra pas le contenu
+        HashMap<String,String> userToRegister = new HashMap<>();
+        userToRegister.put("nom","Bonjour");
+        authManager.register(userToRegister);
+
+        Thread.sleep(300);
+
+        assertEquals(1,server.getRequestCount());
+        assertEquals(AuthAction.Action.REGISTER,authManager.getAuthActionData().getValue().getAction());
+    }
+
+    @Test
+    public void testIncorrectRegister() throws IOException, InterruptedException {
+        // On vérifie la réponse à un enregistrement incorrect
+        MockWebServer server = new MockWebServer();
+        Gson gson = new Gson();
+        ServerResponse<String> registerResponse = new ServerResponse<>();
+        registerResponse.setError("Erreur");
+        server.enqueue(new MockResponse().setBody(gson.toJson(registerResponse)).setResponseCode(500));
+
+        server.start();
+        HttpUrl baseUrl = server.url("/");
+        RetrofitAuthService authService = setupRetrofit(baseUrl).create(RetrofitAuthService.class);
+        AuthManager authManager = new AuthManager(authService,sharedPreferences);
+
+        // Pas besoin de faire une vraie requete : le serveur ne verra pas le contenu
+        HashMap<String,String> userToRegister = new HashMap<>();
+        userToRegister.put("nom","Bonjour");
+        authManager.register(userToRegister);
+
+        Thread.sleep(300);
+
+        assertEquals(1,server.getRequestCount());
+        assertEquals(AuthAction.Action.REGISTER_ERROR,authManager.getAuthActionData().getValue().getAction());
+    }
+
+    public static Retrofit setupRetrofit(HttpUrl url){
+        return new Retrofit.Builder().baseUrl(url)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
     }
 }

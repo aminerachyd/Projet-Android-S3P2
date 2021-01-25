@@ -1,9 +1,5 @@
 package com.inpt.jibmaak.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -12,9 +8,11 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.model.OfferSearchCriteria;
-import com.inpt.jibmaak.repository.AuthManager;
 import com.inpt.jibmaak.repository.Resource;
 import com.inpt.jibmaak.viewmodels.SearchOfferViewModel;
 
@@ -22,8 +20,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 

@@ -8,7 +8,7 @@ import androidx.test.filters.SmallTest;
 import com.inpt.jibmaak.repository.AuthCallbackInterceptor;
 import com.inpt.jibmaak.repository.AuthManager;
 import com.inpt.jibmaak.services.AuthInterceptor;
-import com.inpt.jibmaak.services.AuthResponse;
+import com.inpt.jibmaak.services.ServerResponse;
 import com.inpt.jibmaak.services.RetrofitAuthService;
 
 import org.junit.Rule;
@@ -30,6 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -66,16 +67,19 @@ public class AuthInterceptorTest {
                 .build();
         Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
                 .client(okHttpClient)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAuthService authService = retrofit.create(RetrofitAuthService.class);
 
         // On lance le test
-        authService.checkLogin().enqueue(new Callback<AuthResponse>() {
+        authService.checkLogin().enqueue(new Callback<ServerResponse<String>>() {
             @Override
-            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) { }
+            public void onResponse(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response) {
+            }
             @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) { }
+            public void onFailure(Call<ServerResponse<String>> call, Throwable t) {
+            }
         });
         RecordedRequest request = server.takeRequest(1, TimeUnit.SECONDS);
 
@@ -93,22 +97,21 @@ public class AuthInterceptorTest {
         server.start();
         HttpUrl baseUrl = server.url("/");
 
-
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        RetrofitAuthService authService = retrofit.create(RetrofitAuthService.class);
+        RetrofitAuthService authService = setupRetrofit(baseUrl).create(RetrofitAuthService.class);
 
         AuthManager authManager = mock(AuthManager.class);
-        AuthCallbackInterceptor<AuthResponse> interceptor = new AuthCallbackInterceptor<AuthResponse>(authManager) {
+        AuthCallbackInterceptor<ServerResponse<String>> interceptor = new AuthCallbackInterceptor<ServerResponse<String>>(authManager) {
             @Override
-            public void onGetResponse(Call<AuthResponse> call, Response<AuthResponse> response) { }
+            public void onFailure(Call<ServerResponse<String>> call, Throwable t) {
+            }
+
             @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) { }
+            public void onGetResponse(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response) {
+            }
         };
         // On lance le test
-        Call<AuthResponse> call = authService.checkLogin();
-        Response<AuthResponse> response = call.execute();
+        Call<ServerResponse<String>> call = authService.checkLogin();
+        Response<ServerResponse<String>> response = call.execute();
         interceptor.onResponse(call,response);
         verify(authManager,times(1)).unauthorizedAction();
 
@@ -116,5 +119,12 @@ public class AuthInterceptorTest {
         response = call.execute();
         interceptor.onResponse(call,response);
         verify(authManager,times(1)).logout(true);
+    }
+
+    public static Retrofit setupRetrofit(HttpUrl url){
+        return new Retrofit.Builder().baseUrl(url)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
     }
 }

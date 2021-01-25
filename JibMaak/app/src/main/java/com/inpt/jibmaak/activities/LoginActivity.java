@@ -8,9 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.inpt.jibmaak.R;
-import com.inpt.jibmaak.repository.AuthManager;
-
-import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -18,8 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class LoginActivity extends BaseActivity {
 
     // Activité de login
-    // L'utilisateur doit se connecter avec son mail ou son username
-    // Si l'utilisateur n'a pas de compte il doit s'inscrire
+    // L'utilisateur doit se connecter avec son mail et son mot de passe
+    // Si l'utilisateur n'a pas de compte il peut s'inscrire
     protected EditText mail;
     protected EditText mdp;
 
@@ -31,7 +28,6 @@ public class LoginActivity extends BaseActivity {
         // On recupere les vues
         Button inscrire = findViewById(R.id.bouton_inscrire);
         Button connexion = findViewById(R.id.bouton_connecter);
-        Button continuer = findViewById(R.id.bouton_continuer);
         mail = findViewById(R.id.zone_mail);
         mdp = findViewById(R.id.zone_mdp);
 
@@ -59,19 +55,13 @@ public class LoginActivity extends BaseActivity {
                 authManager.login(saisie_mail,saisie_mdp);
             }
         });
-
-        continuer.setOnClickListener(v -> {
-            Intent intent = new Intent(getBaseContext(), MenuActivity.class);
-            startActivity(intent);
-            finish();
-        });
         authManager.getAuthActionData().observe(this, authAction -> {
             switch (authAction.getAction()){
                 case LOGIN_INCORRECT:
-                    Toast.makeText(LoginActivity.this,R.string.error_credentials,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,R.string.error_credentials,Toast.LENGTH_SHORT).show();
                     break;
                 case LOGIN_ERROR:
-                    Toast.makeText(LoginActivity.this,R.string.error,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,R.string.error,Toast.LENGTH_SHORT).show();
                     break;
             }
         });
@@ -79,9 +69,8 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void onLogin() {
-        Toast.makeText(LoginActivity.this,getString(R.string.salutations,user.getPrenom()),Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(getBaseContext(), MenuActivity.class);
-        startActivity(intent);
+        Toast.makeText(this,getString(R.string.salutations,user.getPrenom()),Toast.LENGTH_SHORT).show();
+        setResult(AuthenticateActivity.RESULT_LOGIN);
         finish();
     }
 

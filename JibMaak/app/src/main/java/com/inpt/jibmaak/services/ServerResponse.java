@@ -1,9 +1,11 @@
 package com.inpt.jibmaak.services;
 
-/** Une classe qui correspond à la réponse JSON du serveur durant l'authentification */
-public class AuthResponse {
+/** Une classe qui correspond à une réponse du serveur
+ * Le type T est le type du payload associé à la réponse
+ * */
+public class ServerResponse<T> {
     protected String message;
-    protected String payload; // Le payload (varie en fonction de la requete)
+    protected T payload; // Le payload (varie en fonction de la requete)
     protected String error; // Une erreur eventuelle
 
     public String getMessage() {
@@ -14,11 +16,11 @@ public class AuthResponse {
         this.message = message;
     }
 
-    public String getPayload() {
+    public T getPayload() {
         return payload;
     }
 
-    public void setPayload(String payload) {
+    public void setPayload(T payload) {
         this.payload = payload;
     }
 

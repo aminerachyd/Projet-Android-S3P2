@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class User {
 
-    protected int id;
+    protected String id;
     protected String email;
     protected String nom;
     protected String prenom;
@@ -14,7 +14,7 @@ public class User {
 
     }
 
-    public User(int id, String email, String nom, String prenom, String telephone) {
+    public User(String id, String email, String nom, String prenom, String telephone) {
         this.id = id;
         this.email = email;
         this.nom = nom;
@@ -22,11 +22,11 @@ public class User {
         this.telephone = telephone;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -67,7 +67,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id &&
+        return id.equals(user.id) &&
                 email.equals(user.email) &&
                 nom.equals(user.nom) &&
                 prenom.equals(user.prenom) &&

@@ -18,7 +18,8 @@
         <activity android:name=".activities.SearchOfferResultActivity" />
         <activity android:name=".activities.SearchOfferActivity" />
         <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.LoginActivity">
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.FirstActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

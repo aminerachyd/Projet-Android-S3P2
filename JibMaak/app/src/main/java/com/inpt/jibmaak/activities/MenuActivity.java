@@ -1,16 +1,14 @@
 package com.inpt.jibmaak.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
+
+import androidx.cardview.widget.CardView;
 
 import com.inpt.jibmaak.R;
 
-public class MenuActivity extends AppCompatActivity {
+public class MenuActivity extends AuthenticateActivity {
 
     // Le menu principal
     // Devra être disponible après le login
@@ -49,5 +47,41 @@ public class MenuActivity extends AppCompatActivity {
 
             Toast.makeText(getBaseContext(), "A propos pas disponbile pour l'instant", Toast.LENGTH_LONG).show();
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Si l'utilisateur n'est pas connecté on affiche la premiere activité
+        if (user == null){
+            Intent intent = new Intent(this,FirstActivity.class);
+            startActivity(intent);
+        }
+        // On termine l'activité
+        finish();
+    }
+
+    @Override
+    public void onLogin() {
+
+    }
+
+    @Override
+    public void onLogout(boolean isUnexpected) {
+
+    }
+
+    @Override
+    public void onUnauthorized() {
+
+    }
+
+    @Override
+    public void onAskLoginSuccess() {
+
+    }
+
+    @Override
+    public void onAskLoginFailed() {
+
     }
 }

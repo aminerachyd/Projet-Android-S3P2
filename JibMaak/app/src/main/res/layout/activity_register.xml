@@ -13,13 +13,13 @@
         android:background="@color/accent"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
-        android:text="S'inscrire"
+        android:text="@string/s_inscrire"
         android:textColor="#FFFFFF"
-        android:textSize="17dp" />
+        android:textSize="14sp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="354dp"
+        android:layout_height="552dp"
         android:layout_centerInParent="true"
         android:layout_marginHorizontal="30dp"
         android:orientation="vertical">
@@ -31,9 +31,9 @@
             app:cardCornerRadius="12dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
+                android:layout_width="317dp"
+                android:layout_height="419dp"
+                android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="20dp">
@@ -42,58 +42,102 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:text="Nom d'utilisateur :"
+                    android:text="@string/nom"
                     android:textColor="#000000" />
 
                 <EditText
+                    android:id="@+id/zone_nom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Votre nom d'utilisateur ici"
-                    android:textSize="15dp" />
+                    android:autofillHints="personFamilyName"
+                    android:hint="@string/nom_ici"
+                    android:inputType="textPersonName"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prenom"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/zone_prenom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="personGivenName"
+                    android:ems="10"
+                    android:hint="@string/prenom_ici"
+                    android:inputType="textPersonName"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/telephone"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/zone_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="phoneNational"
+                    android:ems="10"
+                    android:hint="@string/telephone_ici"
+                    android:inputType="phone"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginTop="5dp"
-                    android:text="Email :"
+                    android:text="@string/email"
                     android:textColor="#000000" />
 
                 <EditText
+                    android:id="@+id/zone_mail_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Votre email ici"
-                    android:textSize="15dp" />
+                    android:autofillHints="emailAddress"
+                    android:hint="@string/email_ici"
+                    android:inputType="textEmailAddress"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginTop="5dp"
-                    android:text="Mot de passe :"
+                    android:text="@string/mot_de_passe"
                     android:textColor="#000000" />
 
                 <EditText
+                    android:id="@+id/zone_mdp_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Votre mot de passe ici"
+                    android:autofillHints="newPassword"
+                    android:hint="@string/mot_de_passe_ici"
                     android:inputType="textPassword"
-                    android:textSize="15dp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginTop="5dp"
-                    android:text="Confirmer le mot de passe :"
+                    android:text="@string/confirmer_mot_de_passe"
                     android:textColor="#000000" />
 
                 <EditText
+                    android:id="@+id/zone_mdp_conf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Confirmation"
+                    android:autofillHints="newPasswordConfirm"
+                    android:hint="@string/confirmer_mot_de_passe_ici"
                     android:inputType="textPassword"
-                    android:textSize="15dp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -104,7 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginVertical="20dp"
-            android:text="S'inscrire"
+            android:text="@string/s_inscrire"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 

@@ -14,7 +14,9 @@ public class AuthAction {
         LOGOUT,
         LOGOUT_ERROR,
         UNAUTHORIZED,
-        UNEXPECTED_LOGOUT
+        UNEXPECTED_LOGOUT,
+        REGISTER,
+        REGISTER_ERROR
     }
 
     protected Action action;

@@ -6,9 +6,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.inpt.jibmaak.model.User;
 import com.inpt.jibmaak.repository.AuthAction.Action;
-import com.inpt.jibmaak.services.AuthResponse;
+import com.inpt.jibmaak.services.ServerResponse;
 import com.inpt.jibmaak.services.RetrofitAuthService;
 
 import java.util.HashMap;
@@ -67,7 +68,7 @@ public class AuthManager {
         edit.apply();
     }
 
-    protected User getUserLogged(){
+    public User getUserLogged(){
         Gson gson = new Gson();
         String json_user = sharedPreferences.getString(USER,null);
         if (json_user == null)
@@ -89,9 +90,12 @@ public class AuthManager {
     }
 
     public void login(String username,String password){
-        authService.login(username,password).enqueue(new Callback<AuthResponse>() {
+        HashMap<String,String> credentials = new HashMap<>();
+        credentials.put("email",username);
+        credentials.put("password",password);
+        authService.login(credentials).enqueue(new Callback<ServerResponse<JsonObject>>() {
             @Override
-            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+            public void onResponse(Call<ServerResponse<JsonObject>> call, Response<ServerResponse<JsonObject>> response) {
                 if (!response.isSuccessful()){
                     AuthAction authAction = new AuthAction();
                     authAction.setUser(null);
@@ -100,55 +104,39 @@ public class AuthManager {
                     authActionData.setValue(authAction);
                 }
                 else{
+                    JsonObject body = response.body().getPayload();
+                    Gson gson = new Gson();
                     // On recupere le token
-                    AuthResponse authResponse = response.body();
+                    String token = body.get("token").getAsString();
                     HashMap<String,String> tokens = new HashMap<>();
-                    tokens.put(ACCESS_TOKEN,authResponse.getPayload());
+                    tokens.put(ACCESS_TOKEN,token);
                     saveTokens(tokens);
-                    // On demande les infos
-                    getUserInfo();
+                    // On recupere l'utilisateur
+                    user = gson.fromJson(body,User.class);
+                    saveUserLogged();
+                    authActionData.setValue(new AuthAction(Action.LOGIN,user)); // Authentification reussie
                 }
             }
             @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) {
+            public void onFailure(Call<ServerResponse<JsonObject>> call, Throwable t) {
                 authActionData.setValue(new AuthAction(Action.LOGIN_ERROR,null));
             }
         });
     }
 
-    public void getUserInfo(){
-        // On recupere les informations sur l'utilisateur connecté
-        authService.checkLogin().enqueue(new Callback<AuthResponse>() {
+    public void register(HashMap<String, String> body) {
+        authService.register(body).enqueue(new Callback<ServerResponse<String>>() {
             @Override
-            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-                if (!response.isSuccessful()){
-                    // Pas authentifié : on recommence l'authentification
-                    SharedPreferences.Editor edit = sharedPreferences.edit();
-                    edit.remove(ACCESS_TOKEN);
-                    edit.apply();
-                    authActionData.setValue(new AuthAction(Action.LOGIN_ERROR,null));
-                }
-                else{
-                    // On recupere l'utilisateur
-                    Gson gson = new Gson();
-                    AuthResponse authResponse = response.body();
-                    User userFromJson = gson.fromJson(authResponse.getPayload(),User.class);
-                    if (userFromJson == null){
-                        authActionData.setValue(new AuthAction(Action.LOGIN_ERROR,null));
-                        return;
-                    }
-                    user = userFromJson;
-                    saveUserLogged();
-                    authActionData.setValue(new AuthAction(Action.LOGIN,userFromJson)); // Authentification reussie
-                }
+            public void onResponse(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response) {
+                AuthAction authAction = new AuthAction();
+                authAction.setUser(null);
+                authAction.setAction(response.isSuccessful() ? Action.REGISTER : Action.REGISTER_ERROR);
+                authActionData.setValue(authAction);
             }
 
             @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) {
-                SharedPreferences.Editor edit = sharedPreferences.edit();
-                edit.remove(ACCESS_TOKEN);
-                edit.apply();
-                authActionData.setValue(new AuthAction(Action.LOGIN_ERROR,null));
+            public void onFailure(Call<ServerResponse<String>> call, Throwable t) {
+                authActionData.setValue(new AuthAction(Action.REGISTER_ERROR,null));
             }
         });
     }
@@ -180,4 +168,6 @@ public class AuthManager {
     public LiveData<AuthAction> getAuthActionData() {
         return authActionData;
     }
+
+
 }
