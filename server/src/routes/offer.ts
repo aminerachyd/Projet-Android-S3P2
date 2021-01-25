@@ -2,11 +2,10 @@ import express from "express";
 import auth from "../middleware/auth";
 import OfferModel from "../models/Offer";
 import UserModel from "../models/User";
-import { userInfos } from "../utils/helpers";
+import { userInfos, validerDates } from "../utils/helpers";
 
 const router = express.Router();
 
-// TODO vérifier validité des dates, dateArrivée>dateDepart>date actuelle
 /**
  * Route pour enregistrer une nouvelle offre
  * ROUTE: /user
@@ -27,31 +26,37 @@ router.post("/", auth, async (req, res) => {
     poidsDispo,
   } = req.body;
 
-  const newOffer = new OfferModel({
-    user: user!.id,
-    lieuDepart,
-    lieuArrivee,
-    dateDepart: new Date(dateDepart),
-    dateArrivee: new Date(dateArrivee),
-    prixKg,
-    poidsDispo,
-  });
+  if (!validerDates(dateDepart, dateArrivee)) {
+    res.status(400).send({
+      error: "Dates invalides",
+    });
+  } else {
+    const newOffer = new OfferModel({
+      user: user!.id,
+      lieuDepart,
+      lieuArrivee,
+      dateDepart: new Date(dateDepart),
+      dateArrivee: new Date(dateArrivee),
+      prixKg,
+      poidsDispo,
+    });
 
-  try {
-    const result = await newOffer.save();
-    res.send({ message: "Nouvelle offre ajoutée", payload: result._id });
-  } catch (error) {
-    // Si un champ est manquant, on renvoit une erreur
-    if ((<string>error._message).includes("offer validation failed")) {
-      res.status(400).send({
-        error: "Un ou plusieurs champs sont manquants",
-      });
-    } else {
-      console.log(error._message);
+    try {
+      const result = await newOffer.save();
+      res.send({ message: "Nouvelle offre ajoutée", payload: result._id });
+    } catch (error) {
+      // Si un champ est manquant, on renvoit une erreur
+      if ((<string>error._message).includes("offer validation failed")) {
+        res.status(400).send({
+          error: "Un ou plusieurs champs sont manquants",
+        });
+      } else {
+        console.log(error._message);
 
-      res.status(500).send({
-        error: "Erreur du serveur",
-      });
+        res.status(500).send({
+          error: "Erreur du serveur",
+        });
+      }
     }
   }
 });
@@ -108,7 +113,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// TODO vérifier validité des dates, dateArrivée>dateDepart>date actuelle
 /**
  * Route pour modifier une offre
  * ROUTE: /offer/id
@@ -142,19 +146,33 @@ router.put("/:id", auth, async (req, res) => {
           error: "Non autorisé",
         });
       } else {
-        // La mise à jour, on évalue les champs nuls
-        const update = {
-          lieuDepart: lieuDepart ?? offer.lieuDepart,
-          lieuArrivee: lieuArrivee ?? offer.lieuArrivee,
-          dateDepart: dateDepart ? new Date(dateDepart) : offer.dateDepart,
-          dateArrivee: dateArrivee ? new Date(dateArrivee) : offer.dateArrivee,
-          prixKg: prixKg ?? offer.prixKg,
-          poidsDispo: poidsDispo ?? offer.poidsDispo,
-        };
+        if (
+          !validerDates(
+            dateDepart ? new Date(dateDepart) : offer.dateDepart,
+            dateArrivee ? new Date(dateArrivee) : offer.dateArrivee
+          )
+        ) {
+          // Les dates sont invalides
+          res.status(400).send({
+            error: "Dates invalides",
+          });
+        } else {
+          // La mise à jour, on évalue les champs nuls
+          const update = {
+            lieuDepart: lieuDepart ?? offer.lieuDepart,
+            lieuArrivee: lieuArrivee ?? offer.lieuArrivee,
+            dateDepart: dateDepart ? new Date(dateDepart) : offer.dateDepart,
+            dateArrivee: dateArrivee
+              ? new Date(dateArrivee)
+              : offer.dateArrivee,
+            prixKg: prixKg ?? offer.prixKg,
+            poidsDispo: poidsDispo ?? offer.poidsDispo,
+          };
 
-        await offer.updateOne(update);
+          await offer.updateOne(update);
 
-        res.send({ message: "Offre mise à jour", payload: id });
+          res.send({ message: "Offre mise à jour", payload: id });
+        }
       }
     }
   } catch (error) {

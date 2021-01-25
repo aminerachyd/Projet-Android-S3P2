@@ -2,7 +2,6 @@ import express from "express";
 import UserModel from "../models/User";
 import OfferModel from "../models/Offer";
 import { userInfos, filterOffers } from "../utils/helpers";
-import { OfferType } from "../types";
 
 // Limite par défaut d'offres à récupérer par requete
 const MAX_LIMIT = 15;
@@ -41,7 +40,8 @@ router.get("/", async (req, res) => {
      */
     const result = await OfferModel.find()
       .limit(limitNumber + 1)
-      .skip(pageNumber);
+      .skip(pageNumber)
+      .sort({ updatedAt: "desc" });
 
     let offers: any = [];
 

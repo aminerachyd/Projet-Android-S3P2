@@ -61,3 +61,20 @@ export const filterOffers = async (
 
   return result;
 };
+
+/**
+ * Fonction pour valider les dates
+ */
+export const validerDates = (dateDepart: Date, dateArrivee: Date) => {
+  let dateNow = new Date();
+  let dateD = new Date(dateDepart);
+  let dateA = new Date(dateArrivee);
+
+  return !(
+    !dateArrivee ||
+    !dateDepart ||
+    dateA < dateD ||
+    dateA < dateNow ||
+    dateD < dateNow
+  );
+};
