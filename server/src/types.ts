@@ -7,6 +7,8 @@ export type UserType = Document<any> & {
   prenom: string;
   telephone: string;
   password?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type OfferType = Document<any> & {
@@ -18,6 +20,8 @@ export type OfferType = Document<any> & {
   dateArrivee: Date;
   prixKg: number;
   poidsDispo: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type DecodedJWT = {
@@ -27,4 +31,17 @@ export type DecodedJWT = {
   };
   iat: number;
   exp: number;
+};
+
+export type FiltersType = {
+  depart?: string;
+  destination?: string;
+  departAvant?: number;
+  departApres?: number;
+  arriveAvant?: number;
+  arriveApres?: number;
+  minPrixKg?: number;
+  maxPrixKg?: number;
+  minPoidsDisponible?: number;
+  maxPoidsDisponible?: number;
 };

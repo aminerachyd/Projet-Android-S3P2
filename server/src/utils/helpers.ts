@@ -1,8 +1,9 @@
 import crypto from "crypto";
+import { FiltersType, UserType } from "../types";
 import OfferModel from "../models/Offer";
 const HASH_SECRET = process.env.HASH_SECRET;
 
-// Fonction pour hasher un mot de passe
+/** Fonction pour hasher un mot de passe */
 export const hash = (str: string): string | false => {
   if (str.length > 0) {
     let hash = crypto
@@ -16,14 +17,18 @@ export const hash = (str: string): string | false => {
   }
 };
 
-// Fonction pour récupérer les infos de l'utilisateur sans mot de passe
-export const userInfos = (user: any) => {
+/** Fonction pour récupérer les infos de l'utilisateur sans mot de passe */
+export const userInfos = (user: UserType) => {
   const { id, email, nom, prenom, telephone } = user;
   return { id, email, nom, prenom, telephone };
 };
 
-// Fonction pour filtrer les offres
-export const filterOffers = async (args) => {
+/** Fonction pour filtrer les offres */
+export const filterOffers = async (
+  filters: FiltersType,
+  limitNumber: number,
+  pageNumber: number
+) => {
   let {
     depart,
     destination,
@@ -35,9 +40,11 @@ export const filterOffers = async (args) => {
     maxPrixKg,
     minPoidsDisponible,
     maxPoidsDisponible,
-  } = args;
+  } = filters;
 
-  let query = OfferModel.find();
+  let query = OfferModel.find()
+    .limit(limitNumber + 1)
+    .skip(pageNumber);
 
   depart && query.where("lieuDepart").equals(depart);
   destination && query.where("lieuArrivee").equals(destination);
@@ -53,4 +60,21 @@ export const filterOffers = async (args) => {
   const result = await query.exec();
 
   return result;
+};
+
+/**
+ * Fonction pour valider les dates
+ */
+export const validerDates = (dateDepart: Date, dateArrivee: Date) => {
+  let dateNow = new Date();
+  let dateD = new Date(dateDepart);
+  let dateA = new Date(dateArrivee);
+
+  return !(
+    !dateArrivee ||
+    !dateDepart ||
+    dateA < dateD ||
+    dateA < dateNow ||
+    dateD < dateNow
+  );
 };

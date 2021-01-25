@@ -1,13 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import { DecodedJWT } from "../types";
+import jwt from "jsonwebtoken";
 
 /**
  * Middleware d'authentification
- * Si le token est disponible
- * On renvoi l'id du utilisateur dans req.user
+ * Si le token est disponible on renvoi l'id de l'utilisateur dans req.user
  */
-
 const auth = (req: Request, res: Response, next: NextFunction) => {
   let token = req.header("x-auth-token");
 
