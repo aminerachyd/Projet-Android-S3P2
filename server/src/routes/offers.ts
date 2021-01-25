@@ -2,6 +2,7 @@ import express from "express";
 import UserModel from "../models/User";
 import OfferModel from "../models/Offer";
 import { userInfos, filterOffers } from "../utils/helpers";
+import { OfferType } from "../types";
 
 // Limite par défaut d'offres à récupérer par requete
 const MAX_LIMIT = 15;
@@ -18,7 +19,7 @@ router.get("/", async (req, res) => {
   // On récupère la page et le limit depuis la requete
   const { page, limit } = req.query;
 
-  /**
+  /*
    * On évalue la limite et la page
    * La limite ne doit pas dépasser la limite par défaut
    * La page est calculée en fonction de la limite évaluée
@@ -30,11 +31,14 @@ router.get("/", async (req, res) => {
   let realPageNumber = page ? parseInt(<string>page) : 1;
 
   let pageNumber =
-    parseInt(<string>page) > 1
-      ? limitNumber * parseInt(<string>page) - limitNumber
-      : 0;
+    parseInt(<string>page) > 1 ? limitNumber * (parseInt(<string>page) - 1) : 0;
 
   try {
+    /**
+     * On récupère une offre de plus
+     * Si cette dernière offre existe, c'est qu'il y'a plus de documents à récupérer, soit une prochaine page existe.
+     * Si elle n'existe pas, c'est la dernière page.
+     */
     const result = await OfferModel.find()
       .limit(limitNumber + 1)
       .skip(pageNumber);
@@ -45,6 +49,7 @@ router.get("/", async (req, res) => {
 
     for (let i = 0; i < limitNumber; i++) {
       let offer = result[i];
+      // On s'arrete au dernier index si l'offre de plus est null
       if (!offer) {
         break;
       }
@@ -61,6 +66,10 @@ router.get("/", async (req, res) => {
       } = offer;
 
       let userData = await UserModel.findById(user._id);
+      // Si l'utilisateur n'existe pas pour cette offre, on la saute
+      if (!userData) {
+        continue;
+      }
 
       offers.push({
         id,
@@ -97,7 +106,7 @@ router.post("/", async (req, res) => {
   // On récupère la page et le limit depuis la requete
   const { page, limit } = req.query;
 
-  /**
+  /*
    * On évalue la limite et la page
    * La limite ne doit pas dépasser la limite par défaut
    * La page est calculée en fonction de la limite évaluée
@@ -109,12 +118,10 @@ router.post("/", async (req, res) => {
   let realPageNumber = page ? parseInt(<string>page) : 1;
 
   let pageNumber =
-    parseInt(<string>page) > 1
-      ? limitNumber * parseInt(<string>page) - limitNumber
-      : 0;
+    parseInt(<string>page) > 1 ? limitNumber * (parseInt(<string>page) - 1) : 0;
 
   try {
-    const result = await filterOffers(req.body);
+    const result = await filterOffers(req.body, limitNumber, pageNumber);
 
     let offers: any = [];
 
@@ -122,6 +129,7 @@ router.post("/", async (req, res) => {
 
     for (let i = 0; i < limitNumber; i++) {
       let offer = result[i];
+      // On s'arrete au dernier index si l'offre de plus est null
       if (!offer) {
         break;
       }
@@ -138,6 +146,10 @@ router.post("/", async (req, res) => {
       } = offer;
 
       let userData = await UserModel.findById(user._id);
+      // Si l'utilisateur n'existe pas pour cette offre, on la saute
+      if (!userData) {
+        continue;
+      }
 
       offers.push({
         id,

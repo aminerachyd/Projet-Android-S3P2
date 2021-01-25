@@ -30,13 +30,14 @@ router.post("/", async (req, res) => {
 
   let user = await UserModel.findOne({ email });
 
-  if (!user) {
+  if (!user || !password) {
     // Utilisateur non trouvé
     res.status(400).send({
       error: "Email ou mot de passe incorrect",
     });
   } else {
-    let passwordIsValid = hash(password) === (<any>user).password;
+    // Boolean pour vérifier si le mot de passe est valide ou pas
+    let passwordIsValid = hash(password) === user.password;
 
     if (!passwordIsValid) {
       // Mot de passe incorrect
@@ -45,14 +46,14 @@ router.post("/", async (req, res) => {
       });
     } else {
       // On met l'ID de l'utilisateur dans le JWT
-      const payload = {
+      const userData = {
         user: {
           id: user._id,
           jwtVersion: process.env.JWT_VERSION,
         },
       };
 
-      jwt.sign(payload, process.env.JWT_SECRET!, (err, token) => {
+      jwt.sign(userData, process.env.JWT_SECRET!, (err, token) => {
         // Une erreur existe
         if (err) {
           console.log(err);
@@ -62,7 +63,7 @@ router.post("/", async (req, res) => {
         } else {
           res.send({
             message: "Utilisateur authentifié",
-            payload: { token, ...userInfos(user) },
+            payload: { token, ...userInfos(user!) },
           });
         }
       });

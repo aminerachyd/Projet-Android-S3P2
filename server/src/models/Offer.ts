@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { OfferType } from "../types";
 const Schema = mongoose.Schema;
 
+// TODO Add addedAt, updatedAt
 const OfferSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,

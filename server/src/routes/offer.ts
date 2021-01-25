@@ -6,6 +6,7 @@ import { userInfos } from "../utils/helpers";
 
 const router = express.Router();
 
+// TODO vérifier validité des dates, dateArrivée>dateDepart>date actuelle
 /**
  * Route pour enregistrer une nouvelle offre
  * ROUTE: /user
@@ -38,14 +39,20 @@ router.post("/", auth, async (req, res) => {
 
   try {
     const result = await newOffer.save();
-
     res.send({ message: "Nouvelle offre ajoutée", payload: result._id });
   } catch (error) {
-    console.log(error);
+    // Si un champ est manquant, on renvoit une erreur
+    if ((<string>error._message).includes("offer validation failed")) {
+      res.status(400).send({
+        error: "Un ou plusieurs champs sont manquants",
+      });
+    } else {
+      console.log(error._message);
 
-    res.status(500).send({
-      error: "Erreur du serveur",
-    });
+      res.status(500).send({
+        error: "Erreur du serveur",
+      });
+    }
   }
 });
 
@@ -59,11 +66,11 @@ router.get("/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
-    const result = await OfferModel.findById(id);
-    const user = await UserModel.findById(result?.user);
+    const offer = await OfferModel.findById(id);
+    const user = await UserModel.findById(offer?.user);
 
-    if (!user || !result) {
-      // L'utilisateur n'existe pas
+    if (!user || !offer) {
+      // L'utilisateur n'existe pas, on renvoit une erreur
       res.status(400).send({
         error: "Utilisateur ou offre non disponible",
       });
@@ -75,7 +82,7 @@ router.get("/:id", async (req, res) => {
         dateArrivee,
         prixKg,
         poidsDispo,
-      } = result;
+      } = offer;
 
       let payload = {
         id,
@@ -101,6 +108,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// TODO vérifier validité des dates, dateArrivée>dateDepart>date actuelle
 /**
  * Route pour modifier une offre
  * ROUTE: /offer/id
@@ -119,15 +127,6 @@ router.put("/:id", auth, async (req, res) => {
     poidsDispo,
   } = req.body;
 
-  const update = {
-    lieuDepart,
-    lieuArrivee,
-    dateDepart: new Date(dateDepart),
-    dateArrivee: new Date(dateArrivee),
-    prixKg,
-    poidsDispo,
-  };
-
   try {
     let offer = await OfferModel.findById(id);
 
@@ -137,13 +136,23 @@ router.put("/:id", auth, async (req, res) => {
         error: "Utilisateur ou offre non disponible",
       });
     } else {
-      if (offer.user.id !== req?.user?.id) {
+      if (offer.user._id != req?.user?.id) {
         // L'utilisateur actuel ne correspond pas à l'utilisateur propriétaire de l'offre
         res.status(401).send({
           error: "Non autorisé",
         });
       } else {
-        offer?.update(update);
+        // La mise à jour, on évalue les champs nuls
+        const update = {
+          lieuDepart: lieuDepart ?? offer.lieuDepart,
+          lieuArrivee: lieuArrivee ?? offer.lieuArrivee,
+          dateDepart: dateDepart ? new Date(dateDepart) : offer.dateDepart,
+          dateArrivee: dateArrivee ? new Date(dateArrivee) : offer.dateArrivee,
+          prixKg: prixKg ?? offer.prixKg,
+          poidsDispo: poidsDispo ?? offer.poidsDispo,
+        };
+
+        await offer.updateOne(update);
 
         res.send({ message: "Offre mise à jour", payload: id });
       }
@@ -157,30 +166,30 @@ router.put("/:id", auth, async (req, res) => {
   }
 });
 
-// /**
-//  * Route pour supprimer une offre
-//  * ROUTE: /offer/id
-//  * METHOD: DELETE
-//  * RETURN: ID de l'offre supprimée
-//  */
+/**
+ * Route pour supprimer une offre
+ * ROUTE: /offer/id
+ * METHOD: DELETE
+ * RETURN: ID de l'offre supprimée
+ */
 router.delete("/:id", auth, async (req, res) => {
   const id = req.params.id;
 
   try {
-    let offer: any = await OfferModel.findById(id);
+    let offer = await OfferModel.findById(id);
     if (!offer) {
       // Offre non trouvée
       res.status(400).send({
         error: "Offre non disponible",
       });
     } else {
-      if (offer.user.id !== req?.user?.id) {
+      if (offer.user._id != req?.user?.id) {
         // L'utilisateur actuel ne correspond pas à l'utilisateur propriétaire de l'offre
         res.status(401).send({
           error: "Non autorisé",
         });
       } else {
-        offer?.delete();
+        await offer.deleteOne();
 
         res.send({ message: "Offre supprimée", payload: id });
       }

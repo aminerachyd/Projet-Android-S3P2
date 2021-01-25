@@ -1,10 +1,12 @@
 import mongoose, { Schema } from "mongoose";
 import { UserType } from "src/types";
 
+// TODO Add addedAt, updatedAt
 const UserSchema = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   nom: {
     type: String,

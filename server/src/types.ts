@@ -28,3 +28,16 @@ export type DecodedJWT = {
   iat: number;
   exp: number;
 };
+
+export type FiltersType = {
+  depart?: string;
+  destination?: string;
+  departAvant?: number;
+  departApres?: number;
+  arriveAvant?: number;
+  arriveApres?: number;
+  minPrixKg?: number;
+  maxPrixKg?: number;
+  minPoidsDisponible?: number;
+  maxPoidsDisponible?: number;
+};

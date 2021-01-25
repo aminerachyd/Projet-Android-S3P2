@@ -1,5 +1,6 @@
 import express from "express";
 import UserModel from "../models/User";
+import { userInfos } from "../utils/helpers";
 
 const router = express.Router();
 
@@ -12,13 +13,7 @@ const router = express.Router();
 router.get("/", async (_, res) => {
   try {
     const result = await UserModel.find();
-    const modifiedResult = result.map((user) => ({
-      id: user._id,
-      email: user.email,
-      nom: user.nom,
-      prenom: user.prenom,
-      telephone: user.telephone,
-    }));
+    const modifiedResult = result.map((user) => userInfos(user));
 
     res.send({
       message: "Liste d'utilisateurs récupérée",

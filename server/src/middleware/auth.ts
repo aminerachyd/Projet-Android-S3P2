@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import { DecodedJWT } from "../types";
+import jwt from "jsonwebtoken";
 
 /**
  * Middleware d'authentification
