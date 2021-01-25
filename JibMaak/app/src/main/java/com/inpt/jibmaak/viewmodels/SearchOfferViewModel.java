@@ -9,34 +9,33 @@ import androidx.lifecycle.ViewModel;
 
 import com.inpt.jibmaak.model.Offer;
 import com.inpt.jibmaak.model.OfferSearchCriteria;
-import com.inpt.jibmaak.repository.AuthManager;
+import com.inpt.jibmaak.model.Pagination;
 import com.inpt.jibmaak.repository.OfferRepository;
 import com.inpt.jibmaak.repository.Resource;
 import com.inpt.jibmaak.repository.RetrofitOfferRepository;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /** ViewModel associé à l'activité SearchOfferActivity */
 public class SearchOfferViewModel extends ViewModel {
-    protected OfferSearchCriteria criteria = new OfferSearchCriteria();
-    protected MutableLiveData<Resource<List<Offer>>> searchOffersData;
-    protected MutableLiveData<Resource<Offer>> offerData;
-    protected AuthManager authManager;
+    protected OfferSearchCriteria criteria;
+    protected Pagination page;
+    protected MutableLiveData<Resource<ArrayList<Offer>>> searchOffersData;
     protected OfferRepository offerRepo;
+
 
     @ViewModelInject
     public SearchOfferViewModel(@Assisted SavedStateHandle savedState,
-                                RetrofitOfferRepository offerRepo, AuthManager authManager){
-        searchOffersData = new MutableLiveData<>();
-        offerData = new MutableLiveData<>();
+                                RetrofitOfferRepository offerRepo){
         this.offerRepo = offerRepo;
+        searchOffersData = new MutableLiveData<>();
+        criteria = new OfferSearchCriteria();
+        page = new Pagination(1,20);
         this.offerRepo.setSearchData(searchOffersData);
-        this.offerRepo.setOfferData(offerData);
-        this.authManager = authManager;
     }
 
-    public void chercherOffres(OfferSearchCriteria rechercheCriteria) {
-        offerRepo.searchOffer(rechercheCriteria);
+    public void chercherOffres(OfferSearchCriteria rechercheCriteria,Pagination paginate) {
+        offerRepo.searchOffer(rechercheCriteria,paginate);
     }
 
     public OfferSearchCriteria getCriteria() {
@@ -47,6 +46,14 @@ public class SearchOfferViewModel extends ViewModel {
         this.criteria = criteria;
     }
 
+    public Pagination getPage() {
+        return page;
+    }
+
+    public void setPage(Pagination page) {
+        this.page = page;
+    }
+
     public OfferRepository getOfferRepo() {
         return offerRepo;
     }
@@ -55,19 +62,7 @@ public class SearchOfferViewModel extends ViewModel {
         this.offerRepo = offerRepo;
     }
 
-    public LiveData<Resource<List<Offer>>> getSearchOffersData() {
+    public LiveData<Resource<ArrayList<Offer>>> getSearchOffersData() {
         return searchOffersData;
-    }
-
-    public LiveData<Resource<Offer>> getOfferData() {
-        return offerData;
-    }
-
-    public AuthManager getAuthManager() {
-        return authManager;
-    }
-
-    public void setAuthManager(AuthManager authManager) {
-        this.authManager = authManager;
     }
 }

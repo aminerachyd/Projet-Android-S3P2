@@ -25,7 +25,7 @@ public class AuthManager {
 
     protected SharedPreferences sharedPreferences;
     protected RetrofitAuthService authService;
-    protected User user;
+    protected MutableLiveData<User> userData;
     protected MutableLiveData<AuthAction> authActionData;
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String USER = "user";
@@ -35,15 +35,12 @@ public class AuthManager {
         this.authService = authService;
         this.sharedPreferences = sharedPreferences;
         this.authActionData = new MutableLiveData<>();
+        this.userData = new MutableLiveData<>();
         init();
     }
 
     public void init(){
-        user = getUserLogged();
-        if (user != null){
-            AuthAction authAction = new AuthAction(Action.LOGIN,user);
-            authActionData.setValue(authAction);
-        }
+        userData.setValue(getUserLogged());
     }
 
     public void saveTokens(HashMap<String,String> tokens){
@@ -64,7 +61,7 @@ public class AuthManager {
     public void saveUserLogged(){
         Gson gson = new Gson();
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putString(USER,gson.toJson(user));
+        edit.putString(USER,gson.toJson(userData.getValue()));
         edit.apply();
     }
 
@@ -76,17 +73,17 @@ public class AuthManager {
         return gson.fromJson(json_user,User.class);
     }
 
-    public void logout(boolean isUnexpected){
+    public void logout(){
         //TODO : serveur ?
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.remove(ACCESS_TOKEN);
         edit.remove(USER);
         edit.apply();
-        user = null;
         AuthAction authAction = new AuthAction();
-        authAction.setAction(isUnexpected ? Action.UNEXPECTED_LOGOUT : Action.LOGOUT);
+        authAction.setAction(Action.LOGOUT);
         authAction.setUser(null);
         authActionData.setValue(authAction);
+        userData.setValue(null);
     }
 
     public void login(String username,String password){
@@ -112,9 +109,10 @@ public class AuthManager {
                     tokens.put(ACCESS_TOKEN,token);
                     saveTokens(tokens);
                     // On recupere l'utilisateur
-                    user = gson.fromJson(body,User.class);
+                    User user = gson.fromJson(body,User.class);
                     saveUserLogged();
                     authActionData.setValue(new AuthAction(Action.LOGIN,user)); // Authentification reussie
+                    userData.setValue(user);
                 }
             }
             @Override
@@ -161,8 +159,8 @@ public class AuthManager {
         this.authService = authService;
     }
 
-    public User getUser() {
-        return user;
+    public LiveData<User> getUserData() {
+        return userData;
     }
 
     public LiveData<AuthAction> getAuthActionData() {

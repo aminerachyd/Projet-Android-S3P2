@@ -4,19 +4,25 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.inpt.jibmaak.model.Offer;
 import com.inpt.jibmaak.model.OfferSearchCriteria;
+import com.inpt.jibmaak.model.Pagination;
 import com.inpt.jibmaak.services.RetrofitOfferService;
+import com.inpt.jibmaak.services.SearchResponse;
+import com.inpt.jibmaak.services.ServerResponse;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /** Implementation de OfferRepository qui utilise un back-end distant comme
  * source de données et Retrofit
  */
 public class RetrofitOfferRepository implements OfferRepository{
     protected RetrofitOfferService offerService;
-    protected MutableLiveData<Resource<List<Offer>>> searchData;
-    protected MutableLiveData<Resource<Offer>> offerData;
+    protected MutableLiveData<Resource<ArrayList<Offer>>> searchData;
 
     @Inject
     public RetrofitOfferRepository(RetrofitOfferService offerService){
@@ -38,8 +44,33 @@ public class RetrofitOfferRepository implements OfferRepository{
     }
 
     @Override
-    public void searchOffer(OfferSearchCriteria criteria) {
+    public void searchOffer(OfferSearchCriteria criteria, Pagination page) {
+        offerService.searchOffers(page.getPage(),page.getLimit(),criteria).enqueue(new Callback<ServerResponse<SearchResponse>>() {
+            @Override
+            public void onResponse(Call<ServerResponse<SearchResponse>> call, Response<ServerResponse<SearchResponse>> response) {
+                Resource<ArrayList<Offer>> result = new Resource<>();
+                if (!response.isSuccessful())
+                    result.setStatus(Resource.Status.ERROR);
+                else{
+                    ServerResponse<SearchResponse> serverResponse = response.body();
+                    if (serverResponse == null){
+                        result.setStatus(Resource.Status.ERROR);
+                    }
+                    else{
+                        result.setStatus(Resource.Status.OK);
+                        result.setResource(response.body().getPayload().getOffers());
+                    }
+                }
+                searchData.setValue(result);
+            }
 
+            @Override
+            public void onFailure(Call<ServerResponse<SearchResponse>> call, Throwable t) {
+                Resource<ArrayList<Offer>> result = new Resource<>();
+                result.setStatus(Resource.Status.ERROR);
+                searchData.setValue(result);
+            }
+        });
     }
 
     @Override
@@ -58,22 +89,12 @@ public class RetrofitOfferRepository implements OfferRepository{
     }
 
     @Override
-    public MutableLiveData<Resource<List<Offer>>> getSearchData() {
+    public MutableLiveData<Resource<ArrayList<Offer>>> getSearchData() {
         return searchData;
     }
 
     @Override
-    public void setSearchData(MutableLiveData<Resource<List<Offer>>> searchData) {
+    public void setSearchData(MutableLiveData<Resource<ArrayList<Offer>>> searchData) {
         this.searchData = searchData;
-    }
-
-    @Override
-    public MutableLiveData<Resource<Offer>> getOfferData() {
-        return offerData;
-    }
-
-    @Override
-    public void setOfferData(MutableLiveData<Resource<Offer>> offerData) {
-        this.offerData = offerData;
     }
 }

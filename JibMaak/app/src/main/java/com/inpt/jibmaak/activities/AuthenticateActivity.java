@@ -55,10 +55,10 @@ public abstract class AuthenticateActivity extends BaseActivity {
     /**
      * Définit l'action à accomplir si la demande de connexion a reussie
      */
-    public abstract void onAskLoginSuccess();
+    public void onAskLoginSuccess(){}
 
     /**
      * Définit l'action à accomplir si la demande de connexion a échouée
      */
-    public abstract void onAskLoginFailed();
+    public void onAskLoginFailed(){}
 }

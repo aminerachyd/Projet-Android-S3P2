@@ -1,18 +1,21 @@
 package com.inpt.jibmaak.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.model.OfferSearchCriteria;
+import com.inpt.jibmaak.model.Pagination;
 import com.inpt.jibmaak.repository.Resource;
 import com.inpt.jibmaak.viewmodels.SearchOfferViewModel;
 
@@ -28,8 +31,11 @@ public class SearchOfferActivity extends BaseActivity {
 
     // Activité de recherche d'offre
     // L'utilisateur saisi les infos pour trouver l'offre qui le convient
+    public static final String EXTRA_LIST_OFFERS = "com.inpt.jibmaak.EXTRA_LIST_OFFERS";
+    public static final String EXTRA_CRITERIA = "com.inpt.jibmaak.EXTRA_CRITERIA";
     
     protected OfferSearchCriteria criteria;
+    protected Pagination page;
     protected SearchOfferViewModel viewModel;
 
     protected SeekBar slider_poids;
@@ -107,16 +113,27 @@ public class SearchOfferActivity extends BaseActivity {
         viewModel = new ViewModelProvider(this)
                 .get(SearchOfferViewModel.class);
         criteria = viewModel.getCriteria();
+        page = viewModel.getPage();
 
         viewModel.getSearchOffersData().observe(this, listResource -> {
+            removeWaitingScreen();
             Resource.Status status = listResource.getStatus();
-            // TODO : que faire résultat recherche ?
             switch (status){
                 case ERROR:
+                    if (!listResource.isConsumed()){
+                        Toast.makeText(SearchOfferActivity.this,R.string.error_search,
+                                Toast.LENGTH_SHORT).show();
+                        listResource.setConsumed(true);
+                    }
                     break;
                 case UNAUTHORIZED:
                     break;
                 case OK:
+                    Intent intent = new Intent(SearchOfferActivity.this,
+                            SearchOfferResultActivity.class);
+                    intent.putParcelableArrayListExtra(EXTRA_LIST_OFFERS,listResource.getResource());
+                    intent.putExtra(EXTRA_CRITERIA,criteria);
+                    startActivity(intent);
                     break;
             }
         });
@@ -134,7 +151,7 @@ public class SearchOfferActivity extends BaseActivity {
         date_arrive_avant = findViewById(R.id.date_arrive_avant);
         date_arrive_apres = findViewById(R.id.date_arrive_apres);
 
-        bouton_recherche = findViewById(R.id.chercher_offre);
+        bouton_recherche = findViewById(R.id.card_chercher_offre);
 
         // On met en place les listeners sur les sliders
         slider_poids.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -302,27 +319,23 @@ public class SearchOfferActivity extends BaseActivity {
     }
 
     @Override
-    public void onLogin() {
-        // Rien à faire
-    }
-
-    @Override
-    public void onLogout(boolean isUnexpected) {
-        // Rien à faire
-    }
-
-    @Override
-    public void onUnauthorized() {
-        // Normalement pas possible ici
+    public String getConsommateurName() {
+        return "SearchOfferActivity";
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         viewModel.setCriteria(criteria);
+        viewModel.setPage(page);
     }
 
     public void lancerRecherche(){
-        viewModel.chercherOffres(criteria);
+        if (!hasConnection){
+            Toast.makeText(this,R.string.no_connection,Toast.LENGTH_SHORT).show();
+            return;
+        }
+        makeWaitingScreen();
+        viewModel.chercherOffres(criteria,page);
     }
 }

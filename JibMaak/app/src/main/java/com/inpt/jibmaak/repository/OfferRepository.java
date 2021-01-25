@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.inpt.jibmaak.model.Offer;
 import com.inpt.jibmaak.model.OfferSearchCriteria;
+import com.inpt.jibmaak.model.Pagination;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /** Repository en charge de la gestion des offres */
 public interface OfferRepository {
@@ -19,8 +20,9 @@ public interface OfferRepository {
     /**
      * Recupere toutes les offres vérifiant un ensemble de critere
      * @param criteria Un objet contenant les criteres de la recherche
+     * @param paginate Un objet qui définit la page à recuperer
      */
-    void searchOffer(OfferSearchCriteria criteria);
+    void searchOffer(OfferSearchCriteria criteria, Pagination paginate);
 
     /**
      * Met à jour une offre à jour. Son identifiant n'est pas mis à jour
@@ -40,12 +42,8 @@ public interface OfferRepository {
      */
     void createOffer(Offer offerToCreate);
 
-    MutableLiveData<Resource<List<Offer>>> getSearchData();
+    MutableLiveData<Resource<ArrayList<Offer>>> getSearchData();
 
-    void setSearchData(MutableLiveData<Resource<List<Offer>>> searchData);
-
-    MutableLiveData<Resource<Offer>> getOfferData();
-
-    void setOfferData(MutableLiveData<Resource<Offer>> offerData);
+    void setSearchData(MutableLiveData<Resource<ArrayList<Offer>>> searchData);
 
 }

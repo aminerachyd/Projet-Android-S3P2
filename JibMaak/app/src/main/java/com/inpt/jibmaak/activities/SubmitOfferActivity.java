@@ -22,7 +22,7 @@ public class SubmitOfferActivity extends AppCompatActivity {
         setContentView(R.layout.activity_submit_offer);
 
         // On map les différents boutons a la vue
-        proposerOffre = findViewById(R.id.proposer_offre);
+        proposerOffre = findViewById(R.id.card_gerer_offre);
         retour = findViewById(R.id.retour);
 
         retour.setOnClickListener(v -> {

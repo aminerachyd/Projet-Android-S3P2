@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.inpt.jibmaak.R;
+import com.inpt.jibmaak.repository.AuthAction;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -52,17 +53,8 @@ public class LoginActivity extends BaseActivity {
                 Toast.makeText(LoginActivity.this,R.string.mdp_vide,
                         Toast.LENGTH_SHORT).show();
             else{
+                makeWaitingScreen();
                 authManager.login(saisie_mail,saisie_mdp);
-            }
-        });
-        authManager.getAuthActionData().observe(this, authAction -> {
-            switch (authAction.getAction()){
-                case LOGIN_INCORRECT:
-                    Toast.makeText(this,R.string.error_credentials,Toast.LENGTH_SHORT).show();
-                    break;
-                case LOGIN_ERROR:
-                    Toast.makeText(this,R.string.error,Toast.LENGTH_SHORT).show();
-                    break;
             }
         });
     }
@@ -75,12 +67,20 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    public void onLogout(boolean isUnexpected) {
-        // Rien à faire ici
+    public void onAuthAction(AuthAction.Action action) {
+        super.onAuthAction(action);
+        switch (action){
+            case LOGIN_INCORRECT:
+                Toast.makeText(this,R.string.error_credentials,Toast.LENGTH_SHORT).show();
+                break;
+            case LOGIN_ERROR:
+                Toast.makeText(this,R.string.error,Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     @Override
-    public void onUnauthorized() {
-        // Rien à faire ici
+    public String getConsommateurName() {
+        return "LoginActivity";
     }
 }

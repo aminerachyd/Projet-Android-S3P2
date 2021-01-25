@@ -13,8 +13,11 @@ public class Resource<T> {
     }
     protected T resource;
     protected Status status;
+    protected boolean consumed = false;
 
     public T getResource() {
+        if (!consumed)
+            consumed = true;
         return resource;
     }
 
@@ -28,5 +31,13 @@ public class Resource<T> {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public boolean isConsumed() {
+        return consumed;
+    }
+
+    public void setConsumed(boolean consumed) {
+        this.consumed = consumed;
     }
 }

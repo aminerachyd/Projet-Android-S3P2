@@ -13,10 +13,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /** Intercepteur chargé d'ajouter le token aux requetes */
-public class AuthInterceptor implements Interceptor {
+public class AddAuthTokenInterceptor implements Interceptor {
     protected SharedPreferences sharedPreferences;
     @Inject
-    public AuthInterceptor(SharedPreferences sharedPreferences){
+    public AddAuthTokenInterceptor(SharedPreferences sharedPreferences){
         this.sharedPreferences = sharedPreferences;
     }
     @Override

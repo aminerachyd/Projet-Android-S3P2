@@ -1,90 +1,132 @@
 package com.inpt.jibmaak.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class Offer {
-    protected int id,user_id;
-    protected int poids_disponible, prix_kg;
-    protected String depart, destination;
-    protected Date date_depart,date_arrive;
+public class Offer implements Parcelable {
+    protected String id;
+    protected int poidsDispo, prixKg;
+    protected String lieuDepart, lieuDestination;
+    protected Date dateDepart,dateArrive;
+    protected User proprietaire;
+    public static final Creator<Offer> CREATOR = new Creator<Offer>() {
+        @Override
+        public Offer createFromParcel(Parcel in) {
+            return new Offer(in);
+        }
 
-    public Offer() {
+        @Override
+        public Offer[] newArray(int size) {
+            return new Offer[size];
+        }
+    };
 
-    }
+    public Offer(){}
 
-    public Offer(int id, int user_id, int poids_disponible, int prix_kg, String depart, String destination, Date date_depart, Date date_arrive) {
+    public Offer(String id, int poidsDispo, int prixKg, String lieuDepart, String lieuDestination,
+                 Date dateDepart, Date dateArrive, User proprietaire) {
         this.id = id;
-        this.user_id = user_id;
-        this.poids_disponible = poids_disponible;
-        this.prix_kg = prix_kg;
-        this.depart = depart;
-        this.destination = destination;
-        this.date_depart = date_depart;
-        this.date_arrive = date_arrive;
+        this.poidsDispo = poidsDispo;
+        this.prixKg = prixKg;
+        this.lieuDepart = lieuDepart;
+        this.lieuDestination = lieuDestination;
+        this.dateDepart = dateDepart;
+        this.dateArrive = dateArrive;
+        this.proprietaire = proprietaire;
     }
 
-    public int getId() {
+    protected Offer(Parcel in){
+        this.proprietaire = in.readParcelable(User.class.getClassLoader());
+        this.id = in.readString();
+        this.poidsDispo = in.readInt();
+        this.prixKg = in.readInt();
+        this.lieuDepart = in.readString();
+        this.lieuDestination = in.readString();
+        this.dateDepart = new Date(in.readLong());
+        this.dateArrive = new Date(in.readLong());
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getPoidsDispo() {
+        return poidsDispo;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setPoidsDispo(int poidsDispo) {
+        this.poidsDispo = poidsDispo;
     }
 
-    public int getPoids_disponible() {
-        return poids_disponible;
+    public int getPrixKg() {
+        return prixKg;
     }
 
-    public void setPoids_disponible(int poids_disponible) {
-        this.poids_disponible = poids_disponible;
+    public void setPrixKg(int prixKg) {
+        this.prixKg = prixKg;
     }
 
-    public int getPrix_kg() {
-        return prix_kg;
+    public String getLieuDepart() {
+        return lieuDepart;
     }
 
-    public void setPrix_kg(int prix_kg) {
-        this.prix_kg = prix_kg;
+    public void setLieuDepart(String lieuDepart) {
+        this.lieuDepart = lieuDepart;
     }
 
-    public String getDepart() {
-        return depart;
+    public String getLieuDestination() {
+        return lieuDestination;
     }
 
-    public void setDepart(String depart) {
-        this.depart = depart;
+    public void setLieuDestination(String lieuDestination) {
+        this.lieuDestination = lieuDestination;
     }
 
-    public String getDestination() {
-        return destination;
+    public Date getDateDepart() {
+        return dateDepart;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+    public void setDateDepart(Date dateDepart) {
+        this.dateDepart = dateDepart;
     }
 
-    public Date getDate_depart() {
-        return date_depart;
+    public Date getDateArrive() {
+        return dateArrive;
     }
 
-    public void setDate_depart(Date date_depart) {
-        this.date_depart = date_depart;
+    public void setDateArrive(Date dateArrive) {
+        this.dateArrive = dateArrive;
     }
 
-    public Date getDate_arrive() {
-        return date_arrive;
+    public User getProprietaire() {
+        return proprietaire;
     }
 
-    public void setDate_arrive(Date date_arrive) {
-        this.date_arrive = date_arrive;
+    public void setProprietaire(User proprietaire) {
+        this.proprietaire = proprietaire;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.proprietaire,flags);
+        dest.writeString(this.id);
+        dest.writeInt(this.poidsDispo);
+        dest.writeInt(this.prixKg);
+        dest.writeString(this.lieuDepart);
+        dest.writeString(this.lieuDestination);
+        dest.writeLong(this.dateDepart.getTime());
+        dest.writeLong(this.dateArrive.getTime());
     }
 }
 

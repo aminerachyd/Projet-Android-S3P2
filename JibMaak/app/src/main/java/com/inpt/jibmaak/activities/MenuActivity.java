@@ -2,7 +2,7 @@ package com.inpt.jibmaak.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.View;
 
 import androidx.cardview.widget.CardView;
 
@@ -11,41 +11,41 @@ import com.inpt.jibmaak.R;
 public class MenuActivity extends AuthenticateActivity {
 
     // Le menu principal
-    // Devra être disponible après le login
 
-    CardView aPropos, chercherOffre, proposerOffre;
+    protected CardView card_compte;
+    protected CardView card_gerer_offre;
+    protected CardView card_chercher_offre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        // On recupere les vues
+        card_compte = findViewById(R.id.card_compte);
+        card_chercher_offre= findViewById(R.id.card_chercher_offre);
+        card_gerer_offre = findViewById(R.id.card_gerer_offre);
 
-        // On map les différents boutons a la vue
-        aPropos = findViewById(R.id.a_propos);
-        chercherOffre = findViewById(R.id.chercher_offre);
-        proposerOffre = findViewById(R.id.proposer_offre);
-
-        // Passage à l'activité de recherche d'offre
-        chercherOffre.setOnClickListener(v -> {
-            Intent intent = new Intent(getBaseContext(), SearchOfferActivity.class
-            );
-
+        card_chercher_offre.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this,SearchOfferActivity.class);
             startActivity(intent);
         });
 
-        // Passage à l'activité de proposition d'offre
-        proposerOffre.setOnClickListener(v -> {
-            Intent intent = new Intent(getBaseContext(), SubmitOfferActivity.class
-            );
-
-            startActivity(intent);
+        card_gerer_offre.setOnClickListener(v -> {
+            if (user == null){
+                askLogin();
+            }
+            else{
+                // TODO : activité gerer offre
+            }
         });
 
-        // Passage à l'activité A propos
-        aPropos.setOnClickListener(v -> {
-            // TODO Doit créer une activité a propos
-
-            Toast.makeText(getBaseContext(), "A propos pas disponbile pour l'instant", Toast.LENGTH_LONG).show();
+        card_compte.setOnClickListener(v -> {
+            if (user == null){
+                askLogin();
+            }
+            else{
+                // TODO : activité gerer compte
+            }
         });
     }
 
@@ -62,26 +62,20 @@ public class MenuActivity extends AuthenticateActivity {
 
     @Override
     public void onLogin() {
-
+        // On affiche les cartes gerer compte et gerer offres
+        card_compte.setVisibility(View.VISIBLE);
+        card_gerer_offre.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onLogout(boolean isUnexpected) {
-
+        // On masque les cartes gerer compte et gerer offres
+        card_compte.setVisibility(View.GONE);
+        card_gerer_offre.setVisibility(View.GONE);
     }
 
     @Override
-    public void onUnauthorized() {
-
-    }
-
-    @Override
-    public void onAskLoginSuccess() {
-
-    }
-
-    @Override
-    public void onAskLoginFailed() {
-
+    public String getConsommateurName() {
+        return "MenuActivity";
     }
 }

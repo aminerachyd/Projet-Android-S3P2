@@ -91,7 +91,7 @@ public class AuthManagerTest {
         // On attend un peu pour que le callback soit executé
         Thread.sleep(300);
         assertNotNull(authManager.getTokens());
-        assertEquals(fakeUser,authManager.getUser());
+        assertEquals(fakeUser,authManager.getUserData().getValue());
     }
 
     @Test
@@ -114,7 +114,7 @@ public class AuthManagerTest {
 
         assertEquals(1,server.getRequestCount());
         assertEquals(AuthAction.Action.LOGIN_INCORRECT,authManager.getAuthActionData().getValue().getAction());
-        assertNull(authManager.getUser());
+        assertNull(authManager.getUserData().getValue());
     }
 
     @Test

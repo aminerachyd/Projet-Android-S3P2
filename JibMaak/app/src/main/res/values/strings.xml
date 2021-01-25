@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">JibMaak</string>
-    <string name="search">Chercher une offre</string>
-    <string name="deliver">Proposer une offre</string>
-    <string name="about">A propos</string>
     <string name="breadcrumb_search_offer"><![CDATA[Menu > Chercher une offre]]></string>
     <string name="lieu_depart">Lieu de départ :</string>
     <string name="chercher_offre">Chercher une offre</string>
@@ -53,4 +50,11 @@
     <string name="error_register_mdp_conf">Erreur : les mots de passe ne sont pas identiques</string>
     <string name="register_error">Une erreur s\'est produite</string>
     <string name="register_success">Votre compte a bien été crée</string>
+    <string name="menu">Menu</string>
+    <string name="gerer_compte">Gérer mon compte</string>
+    <string name="gerer_offres">Gérer mes offres</string>
+    <string name="description_loupe">Loupe</string>
+    <string name="description_camion">Camion</string>
+    <string name="description_compte">Compte</string>
+    <string name="error_search">Erreur lors de la recherche</string>
 </resources>

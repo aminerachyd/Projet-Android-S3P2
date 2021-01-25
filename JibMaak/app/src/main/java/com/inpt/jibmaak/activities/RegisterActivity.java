@@ -42,19 +42,6 @@ public class RegisterActivity extends BaseActivity {
         Button inscrire = findViewById(R.id.bouton_inscrire);
 
         inscrire.setOnClickListener(v -> register());
-
-        authManager.getAuthActionData().observe(this, authAction -> {
-            AuthAction.Action action = authAction.getAction();
-            if (action == REGISTER){
-                Toast.makeText(RegisterActivity.this,
-                        R.string.register_success,Toast.LENGTH_LONG).show();
-                finish();
-            }
-            else if (action == REGISTER_ERROR){
-                Toast.makeText(RegisterActivity.this,
-                        R.string.register_error,Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     public void register(){
@@ -98,6 +85,7 @@ public class RegisterActivity extends BaseActivity {
             body.put("email",email);
             body.put("telephone",telephone);
             body.put("password",mdp);
+            makeWaitingScreen();
             authManager.register(body);
         }
     }
@@ -109,12 +97,21 @@ public class RegisterActivity extends BaseActivity {
     }
 
     @Override
-    public void onLogout(boolean isUnexpected) {
-        // Rien à faire
+    public void onAuthAction(AuthAction.Action action) {
+        super.onAuthAction(action);
+        if (action == REGISTER){
+            Toast.makeText(RegisterActivity.this,
+                    R.string.register_success,Toast.LENGTH_LONG).show();
+            finish();
+        }
+        else if (action == REGISTER_ERROR){
+            Toast.makeText(RegisterActivity.this,
+                    R.string.register_error,Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
-    public void onUnauthorized() {
-        // Rien à faire
+    public String getConsommateurName() {
+        return "RegisterActivity";
     }
 }

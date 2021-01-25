@@ -5,12 +5,11 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.model.User;
+import com.inpt.jibmaak.repository.AuthAction;
 import com.inpt.jibmaak.repository.AuthManager;
 
 import javax.inject.Inject;
@@ -31,30 +30,26 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        authManager.getUserData().observe(this, user -> {
+            boolean isUnexpected = hasWaitingScreen;
+            removeWaitingScreen();
+            if (user == null){
+                BaseActivity.this.user = null;
+                onLogout(isUnexpected);
+            }
+            else{
+                BaseActivity.this.user = user;
+                onLogin();
+            }
+        });
         // Un observateur qui surveille les actions de connexion
         // (connexion, deconnexion, etc)
         authManager.getAuthActionData().observe(this, authAction -> {
             removeWaitingScreen();
-            switch (authAction.getAction()){
-                case LOGOUT:
-                    user = null;
-                    onLogout(false);
-                    break;
-                case LOGIN:
-                    user = authAction.getUser();
-                    onLogin();
-                    break;
-                case UNEXPECTED_LOGOUT:
-                    user = null;
-                    // On affiche un message d'erreur
-                    Toast.makeText(BaseActivity.this, R.string.deconnexion_surprise,
-                            Toast.LENGTH_LONG).show();
-                    onLogout(true);
-                    break;
-                case UNAUTHORIZED:
-                    onUnauthorized();
-                    break;
-            }
+            String consommateur = getConsommateurName();
+            AuthAction.Action action = authAction.getAction(consommateur);
+            if (action != null)
+                onAuthAction(action);
         });
         // Callback qui surveille l'etat de la connexion internet
         ConnectivityManager connectivityManager =  (ConnectivityManager)
@@ -74,6 +69,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         };
         connectivityManager.registerDefaultNetworkCallback(networkCallback);
     }
+
+
+    /**
+     * Methode appelée quand un évènement de connexion se produit
+     * @param action l'action
+     */
+    public void onAuthAction(AuthAction.Action action){ }
+
 
     @Override
     public void onDestroy() {
@@ -107,16 +110,23 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * Methode appelée à la connexion de l'utilisateur
      */
-    public abstract void onLogin();
+    public void onLogin(){}
 
     /**
      * Methode appelée à la deconnexion de l'utilisateur
      * @param isUnexpected est-ce que la connexion était volontaire
      */
-    public abstract void onLogout(boolean isUnexpected);
+    public void onLogout(boolean isUnexpected){}
 
     /** Methode appelée lorsqu'une erreur 401 est recu
      *
      */
-    public abstract void onUnauthorized();
+    public void onUnauthorized(){}
+
+    /**
+     * Renvoie le nom de l'activité qui souhaite consommer l'evenement
+     * Ceci permet d'éviter la consommation multiple d'un evenement
+     * @return Le nom de l'activité consommatrice
+     */
+    public abstract String getConsommateurName();
 }

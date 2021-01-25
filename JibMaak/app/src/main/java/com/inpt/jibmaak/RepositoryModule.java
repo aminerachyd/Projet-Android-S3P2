@@ -1,14 +1,11 @@
 package com.inpt.jibmaak;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.inpt.jibmaak.repository.OfferRepository;
 import com.inpt.jibmaak.repository.RetrofitOfferRepository;
 import com.inpt.jibmaak.repository.RetrofitUserRepository;
 import com.inpt.jibmaak.repository.UserRepository;
-import com.inpt.jibmaak.services.AuthInterceptor;
-import com.inpt.jibmaak.services.RetrofitAuthService;
+import com.inpt.jibmaak.services.AddAuthTokenInterceptor;
+import com.inpt.jibmaak.services.ManageAuthErrorInterceptor;
 import com.inpt.jibmaak.services.RetrofitOfferService;
 import com.inpt.jibmaak.services.RetrofitUserService;
 
@@ -17,13 +14,14 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.android.components.ActivityRetainedComponent;
-import dagger.hilt.android.qualifiers.ApplicationContext;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-/** Module qui définit comment fournir les dependances pour l'injection */
+/** Module qui définit comment fournir les dependances pour l'injection
+ * Elles ont une portée de viewmodel
+ * */
 @Module
 @InstallIn(ActivityRetainedComponent.class)
 public abstract class RepositoryModule {
@@ -32,38 +30,32 @@ public abstract class RepositoryModule {
     // la machine
 
     @Provides
-    public static SharedPreferences getSharedPreferences(@ApplicationContext Context context){
-        return context.getSharedPreferences("infos",Context.MODE_PRIVATE);
-    }
-    
-    @Provides
-    public static RetrofitAuthService getRetrofitAuthService(AuthInterceptor interceptor){
-        Retrofit retrofit = setupRetrofit(interceptor);
-        return retrofit.create(RetrofitAuthService.class);
-    }
-
-    @Provides
-    public static RetrofitOfferService getRetrofitOfferService(AuthInterceptor interceptor){
-        Retrofit retrofit = setupRetrofit(interceptor);
+    public static RetrofitOfferService getRetrofitOfferService(AddAuthTokenInterceptor tokenInterceptor,
+                                                               ManageAuthErrorInterceptor authErrorInterceptor) {
+        Retrofit retrofit = setupRetrofit(tokenInterceptor, authErrorInterceptor);
         return retrofit.create(RetrofitOfferService.class);
     }
 
     @Provides
-    public static RetrofitUserService getRetrofitUserService(AuthInterceptor interceptor){
-        Retrofit retrofit = setupRetrofit(interceptor);
+    public static RetrofitUserService getRetrofitUserService(AddAuthTokenInterceptor tokenInterceptor,
+                                                             ManageAuthErrorInterceptor authErrorInterceptor) {
+        Retrofit retrofit = setupRetrofit(tokenInterceptor, authErrorInterceptor);
         return retrofit.create(RetrofitUserService.class);
     }
-    
+
+
     @Binds
     public abstract OfferRepository getOfferRepository(RetrofitOfferRepository repo);
 
     @Binds
     public abstract UserRepository getUserRepository(RetrofitUserRepository repo);
 
-    public static Retrofit setupRetrofit(AuthInterceptor interceptor){
+    public static Retrofit setupRetrofit(AddAuthTokenInterceptor tokenInterceptor,
+                                         ManageAuthErrorInterceptor authErrorInterceptor){
         OkHttpClient okHttpClient = new OkHttpClient()
                 .newBuilder()
-                .addInterceptor(interceptor)
+                .addInterceptor(tokenInterceptor)
+                .addInterceptor(authErrorInterceptor)
                 .build();
         return new Retrofit.Builder().baseUrl(BASE_URL)
                 .client(okHttpClient)
@@ -71,5 +63,4 @@ public abstract class RepositoryModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
-
 }

@@ -3,7 +3,6 @@ package com.inpt.jibmaak.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.inpt.jibmaak.R;
 
@@ -31,33 +30,14 @@ public class FirstActivity extends AuthenticateActivity{
 
     @Override
     public void onLogin() {
-        // On passe au menu
-        Toast.makeText(this,getString(R.string.salutations,user.getPrenom()),Toast.LENGTH_SHORT).show();
+        // On passe directement au menu
         Intent intent = new Intent(getBaseContext(), MenuActivity.class);
         startActivity(intent);
         finish();
     }
 
     @Override
-    public void onLogout(boolean isUnexpected) {
-        // Rien à faire
-    }
-
-    @Override
-    public void onUnauthorized() {
-        // Rien à faire
-    }
-
-    @Override
-    public void onAskLoginSuccess() {
-        // On passe au menu
-        Intent intent = new Intent(getBaseContext(), MenuActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
-    public void onAskLoginFailed() {
-        // Rien
+    public String getConsommateurName() {
+        return "FirstActivity";
     }
 }

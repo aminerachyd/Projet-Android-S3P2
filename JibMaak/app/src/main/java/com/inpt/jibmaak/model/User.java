@@ -1,8 +1,11 @@
 package com.inpt.jibmaak.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Objects;
 
-public class User {
+public class User implements Parcelable {
 
     protected String id;
     protected String email;
@@ -21,6 +24,26 @@ public class User {
         this.prenom = prenom;
         this.telephone = telephone;
     }
+
+    protected User(Parcel in) {
+        id = in.readString();
+        email = in.readString();
+        nom = in.readString();
+        prenom = in.readString();
+        telephone = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -77,5 +100,19 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, email, nom, prenom, telephone);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(email);
+        dest.writeString(nom);
+        dest.writeString(prenom);
+        dest.writeString(telephone);
     }
 }

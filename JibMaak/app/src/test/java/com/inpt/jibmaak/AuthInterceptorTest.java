@@ -5,9 +5,9 @@ import android.content.SharedPreferences;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.test.filters.SmallTest;
 
-import com.inpt.jibmaak.repository.AuthCallbackInterceptor;
 import com.inpt.jibmaak.repository.AuthManager;
-import com.inpt.jibmaak.services.AuthInterceptor;
+import com.inpt.jibmaak.services.AddAuthTokenInterceptor;
+import com.inpt.jibmaak.services.ManageAuthErrorInterceptor;
 import com.inpt.jibmaak.services.ServerResponse;
 import com.inpt.jibmaak.services.RetrofitAuthService;
 
@@ -63,7 +63,7 @@ public class AuthInterceptorTest {
         // On cree l'objet avec l'intercepteur chargé d'ajouter le token
         OkHttpClient okHttpClient = new OkHttpClient()
                 .newBuilder()
-                .addInterceptor(new AuthInterceptor(sharedPreferences))
+                .addInterceptor(new AddAuthTokenInterceptor(sharedPreferences))
                 .build();
         Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
                 .client(okHttpClient)
@@ -88,43 +88,36 @@ public class AuthInterceptorTest {
     }
 
     @Test
-    public void isAuthCallbackInterceptorCorrect() throws IOException {
-        // On vérifie le callback fonctionne bien
+    public void isAuthErrorInterceptorCorrect() throws IOException {
+        // On vérifie que l'intercepteur detecte bien l'erreur
         MockWebServer server = new MockWebServer();
         server.enqueue(new MockResponse().setResponseCode(401));
-        server.enqueue(new MockResponse().setBody("Token invalide, veuillez vous reconnecter")
+        server.enqueue(new MockResponse().setBody("{\"error\":\"Token invalide, veuillez vous reconnecter\"")
                 .setResponseCode(400));
         server.start();
         HttpUrl baseUrl = server.url("/");
-
-        RetrofitAuthService authService = setupRetrofit(baseUrl).create(RetrofitAuthService.class);
-
         AuthManager authManager = mock(AuthManager.class);
-        AuthCallbackInterceptor<ServerResponse<String>> interceptor = new AuthCallbackInterceptor<ServerResponse<String>>(authManager) {
-            @Override
-            public void onFailure(Call<ServerResponse<String>> call, Throwable t) {
-            }
 
-            @Override
-            public void onGetResponse(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response) {
-            }
-        };
+        // On cree l'objet avec l'intercepteur
+        OkHttpClient okHttpClient = new OkHttpClient()
+                .newBuilder()
+                .addInterceptor(new ManageAuthErrorInterceptor(authManager))
+                .build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
+                .client(okHttpClient)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RetrofitAuthService authService = retrofit.create(RetrofitAuthService.class);
+
+
         // On lance le test
         Call<ServerResponse<String>> call = authService.checkLogin();
         Response<ServerResponse<String>> response = call.execute();
-        interceptor.onResponse(call,response);
         verify(authManager,times(1)).unauthorizedAction();
 
         call = authService.checkLogin();
         response = call.execute();
-        interceptor.onResponse(call,response);
-        verify(authManager,times(1)).logout(true);
-    }
-
-    public static Retrofit setupRetrofit(HttpUrl url){
-        return new Retrofit.Builder().baseUrl(url)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        verify(authManager,times(1)).logout();
     }
 }
