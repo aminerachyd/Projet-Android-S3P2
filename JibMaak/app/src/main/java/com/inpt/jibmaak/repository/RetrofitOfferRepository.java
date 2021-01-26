@@ -18,8 +18,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.inpt.jibmaak.repository.Resource.Operation.*;
-import static com.inpt.jibmaak.repository.Resource.Status.*;
+import static com.inpt.jibmaak.repository.Resource.Operation.CREATE;
+import static com.inpt.jibmaak.repository.Resource.Operation.DELETE;
+import static com.inpt.jibmaak.repository.Resource.Operation.READ;
+import static com.inpt.jibmaak.repository.Resource.Operation.UPDATE;
+import static com.inpt.jibmaak.repository.Resource.Status.ERROR;
+import static com.inpt.jibmaak.repository.Resource.Status.OK;
+import static com.inpt.jibmaak.repository.Resource.Status.REQUEST_ERROR;
+import static com.inpt.jibmaak.repository.Resource.Status.SERVER_ERROR;
 
 /** Implementation de OfferRepository qui utilise un back-end distant comme
  * source de données et Retrofit

@@ -9,8 +9,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.inpt.jibmaak.model.User;
 import com.inpt.jibmaak.repository.AuthAction.Action;
-import com.inpt.jibmaak.services.ServerResponse;
 import com.inpt.jibmaak.services.RetrofitAuthService;
+import com.inpt.jibmaak.services.ServerResponse;
 
 import java.util.HashMap;
 

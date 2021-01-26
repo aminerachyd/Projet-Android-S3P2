@@ -8,8 +8,8 @@ import androidx.test.filters.SmallTest;
 import com.inpt.jibmaak.repository.AuthManager;
 import com.inpt.jibmaak.services.AddAuthTokenInterceptor;
 import com.inpt.jibmaak.services.ManageAuthErrorInterceptor;
-import com.inpt.jibmaak.services.ServerResponse;
 import com.inpt.jibmaak.services.RetrofitAuthService;
+import com.inpt.jibmaak.services.ServerResponse;
 
 import org.junit.Rule;
 import org.junit.Test;

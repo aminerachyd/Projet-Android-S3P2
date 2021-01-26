@@ -57,4 +57,10 @@
     <string name="description_camion">Camion</string>
     <string name="description_compte">Compte</string>
     <string name="error_search">Erreur lors de la recherche</string>
+    <string name="menu_chercher_offre"><![CDATA[Menu > Chercher une offre]]></string>
+    <string name="nom_prop_offre" >%1$s %2$s</string>
+    <string name="description_offre">%1$s -> %2$s \n%3$s \n%4$d mad | %5$d kg</string>
+    <string name="error_server">Le serveur a rencontré une erreur veuillez reessayer plus tard</string>
+    <string name="no_results_search">Pas de résultats</string>
+    <string name="yes_resuts_search">Résultats de la recherche : </string>
 </resources>

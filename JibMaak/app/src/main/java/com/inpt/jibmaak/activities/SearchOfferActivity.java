@@ -33,6 +33,7 @@ public class SearchOfferActivity extends BaseActivity {
     // L'utilisateur saisi les infos pour trouver l'offre qui le convient
     public static final String EXTRA_LIST_OFFERS = "com.inpt.jibmaak.EXTRA_LIST_OFFERS";
     public static final String EXTRA_CRITERIA = "com.inpt.jibmaak.EXTRA_CRITERIA";
+    public static final String EXTRA_PAGINATION = "com.inpt.jibmaak.EXTRA_PAGINATION";
     
     protected OfferSearchCriteria criteria;
     protected Pagination page;
@@ -129,11 +130,14 @@ public class SearchOfferActivity extends BaseActivity {
                 case UNAUTHORIZED:
                     break;
                 case OK:
-                    Intent intent = new Intent(SearchOfferActivity.this,
-                            SearchOfferResultActivity.class);
-                    intent.putParcelableArrayListExtra(EXTRA_LIST_OFFERS,listResource.getResource());
-                    intent.putExtra(EXTRA_CRITERIA,criteria);
-                    startActivity(intent);
+                    if (!listResource.isConsumed()) {
+                        Intent intent = new Intent(SearchOfferActivity.this,
+                                SearchOfferResultActivity.class);
+                        intent.putParcelableArrayListExtra(EXTRA_LIST_OFFERS, listResource.getResource());
+                        intent.putExtra(EXTRA_CRITERIA, criteria);
+                        intent.putExtra(EXTRA_PAGINATION, page);
+                        startActivity(intent);
+                    }
                     break;
             }
         });

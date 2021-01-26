@@ -9,7 +9,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.inpt.jibmaak.repository.Resource.Status.*;
+import static com.inpt.jibmaak.repository.Resource.Status.ERROR;
+import static com.inpt.jibmaak.repository.Resource.Status.OK;
+import static com.inpt.jibmaak.repository.Resource.Status.REQUEST_ERROR;
+import static com.inpt.jibmaak.repository.Resource.Status.SERVER_ERROR;
+import static com.inpt.jibmaak.repository.Resource.Status.UNAUTHORIZED;
 
 /** Callback appelé lorsque le serveur répond à une opération de crud */
 public class CrudCallback<T> implements Callback<ServerResponse<T>> {

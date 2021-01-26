@@ -9,9 +9,9 @@ import java.util.Objects;
 public class Offer implements Parcelable {
     protected String id;
     protected int poidsDispo, prixKg;
-    protected String lieuDepart, lieuDestination;
-    protected Date dateDepart,dateArrive;
-    protected User proprietaire;
+    protected String lieuDepart, lieuArrivee;
+    protected Date dateDepart, dateArrivee;
+    protected User user;
     public static final Creator<Offer> CREATOR = new Creator<Offer>() {
         @Override
         public Offer createFromParcel(Parcel in) {
@@ -26,27 +26,27 @@ public class Offer implements Parcelable {
 
     public Offer(){}
 
-    public Offer(String id, int poidsDispo, int prixKg, String lieuDepart, String lieuDestination,
-                 Date dateDepart, Date dateArrive, User proprietaire) {
+    public Offer(String id, int poidsDispo, int prixKg, String lieuDepart, String lieuArrivee,
+                 Date dateDepart, Date dateArrivee, User user) {
         this.id = id;
         this.poidsDispo = poidsDispo;
         this.prixKg = prixKg;
         this.lieuDepart = lieuDepart;
-        this.lieuDestination = lieuDestination;
+        this.lieuArrivee = lieuArrivee;
         this.dateDepart = dateDepart;
-        this.dateArrive = dateArrive;
-        this.proprietaire = proprietaire;
+        this.dateArrivee = dateArrivee;
+        this.user = user;
     }
 
     protected Offer(Parcel in){
-        this.proprietaire = in.readParcelable(User.class.getClassLoader());
+        this.user = in.readParcelable(User.class.getClassLoader());
         this.id = in.readString();
         this.poidsDispo = in.readInt();
         this.prixKg = in.readInt();
         this.lieuDepart = in.readString();
-        this.lieuDestination = in.readString();
+        this.lieuArrivee = in.readString();
         this.dateDepart = new Date(in.readLong());
-        this.dateArrive = new Date(in.readLong());
+        this.dateArrivee = new Date(in.readLong());
     }
 
     public String getId() {
@@ -81,12 +81,12 @@ public class Offer implements Parcelable {
         this.lieuDepart = lieuDepart;
     }
 
-    public String getLieuDestination() {
-        return lieuDestination;
+    public String getLieuArrivee() {
+        return lieuArrivee;
     }
 
-    public void setLieuDestination(String lieuDestination) {
-        this.lieuDestination = lieuDestination;
+    public void setLieuArrivee(String lieuArrivee) {
+        this.lieuArrivee = lieuArrivee;
     }
 
     public Date getDateDepart() {
@@ -97,20 +97,20 @@ public class Offer implements Parcelable {
         this.dateDepart = dateDepart;
     }
 
-    public Date getDateArrive() {
-        return dateArrive;
+    public Date getDateArrivee() {
+        return dateArrivee;
     }
 
-    public void setDateArrive(Date dateArrive) {
-        this.dateArrive = dateArrive;
+    public void setDateArrivee(Date dateArrivee) {
+        this.dateArrivee = dateArrivee;
     }
 
-    public User getProprietaire() {
-        return proprietaire;
+    public User getUser() {
+        return user;
     }
 
-    public void setProprietaire(User proprietaire) {
-        this.proprietaire = proprietaire;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -120,14 +120,14 @@ public class Offer implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(this.proprietaire,flags);
+        dest.writeParcelable(this.user,flags);
         dest.writeString(this.id);
         dest.writeInt(this.poidsDispo);
         dest.writeInt(this.prixKg);
         dest.writeString(this.lieuDepart);
-        dest.writeString(this.lieuDestination);
+        dest.writeString(this.lieuArrivee);
         dest.writeLong(this.dateDepart.getTime());
-        dest.writeLong(this.dateArrive.getTime());
+        dest.writeLong(this.dateArrivee.getTime());
     }
 
     @Override
@@ -139,15 +139,15 @@ public class Offer implements Parcelable {
                 prixKg == offer.prixKg &&
                 Objects.equals(id, offer.id) &&
                 Objects.equals(lieuDepart, offer.lieuDepart) &&
-                Objects.equals(lieuDestination, offer.lieuDestination) &&
+                Objects.equals(lieuArrivee, offer.lieuArrivee) &&
                 Objects.equals(dateDepart, offer.dateDepart) &&
-                Objects.equals(dateArrive, offer.dateArrive) &&
-                Objects.equals(proprietaire, offer.proprietaire);
+                Objects.equals(dateArrivee, offer.dateArrivee) &&
+                Objects.equals(user, offer.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, poidsDispo, prixKg, lieuDepart, lieuDestination, dateDepart, dateArrive, proprietaire);
+        return Objects.hash(id, poidsDispo, prixKg, lieuDepart, lieuArrivee, dateDepart, dateArrivee, user);
     }
 }
 
