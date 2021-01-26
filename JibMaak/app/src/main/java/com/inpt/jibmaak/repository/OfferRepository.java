@@ -1,6 +1,7 @@
 package com.inpt.jibmaak.repository;
 
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.inpt.jibmaak.model.Offer;
@@ -15,7 +16,7 @@ public interface OfferRepository {
      * Recupere l'offre correspondant à l'id
      * @param offerId l'identifiant de l'offre qu'on cherche
      */
-    void getOffer(int offerId) ;
+    void getOffer(String offerId) ;
 
     /**
      * Recupere toutes les offres vérifiant un ensemble de critere
@@ -34,7 +35,7 @@ public interface OfferRepository {
      * Supprime une offre
      * @param offerId L'identifiant de l'offre à supprimer
      */
-    void deleteOffer(int offerId);
+    void deleteOffer(String offerId);
 
     /**
      * Cree une offre
@@ -42,8 +43,14 @@ public interface OfferRepository {
      */
     void createOffer(Offer offerToCreate);
 
-    MutableLiveData<Resource<ArrayList<Offer>>> getSearchData();
+    LiveData<Resource<ArrayList<Offer>>> getSearchData();
 
     void setSearchData(MutableLiveData<Resource<ArrayList<Offer>>> searchData);
+
+    LiveData<Resource<String>> getResultData();
+
+    void setResultData(MutableLiveData<Resource<String>> resultData);
+
+
 
 }

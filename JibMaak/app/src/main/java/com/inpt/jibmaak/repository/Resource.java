@@ -9,10 +9,22 @@ public class Resource<T> {
         /** L'operation n'est pas permise */
         UNAUTHORIZED,
         /** L'operation a été correctement effectuée */
-        OK
+        OK,
+        /** Une erreur du serveur */
+        SERVER_ERROR,
+        /** Une erreur mais liée à la requete */
+        REQUEST_ERROR
+    }
+    /** Les différentes opérations de crud possibles */
+    public enum Operation{
+        CREATE,
+        READ,
+        UPDATE,
+        DELETE
     }
     protected T resource;
     protected Status status;
+    protected Operation operation;
     protected boolean consumed = false;
 
     public T getResource() {
@@ -39,5 +51,13 @@ public class Resource<T> {
 
     public void setConsumed(boolean consumed) {
         this.consumed = consumed;
+    }
+
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public void setOperation(Operation operation) {
+        this.operation = operation;
     }
 }

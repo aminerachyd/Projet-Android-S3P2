@@ -1,4 +1,4 @@
-package com.inpt.jibmaak;
+package com.inpt.jibmaak.classes;
 
 import android.content.SharedPreferences;
 
@@ -42,7 +42,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @SmallTest
-public class AuthInterceptorTest {
+public class AuthInterceptorsTest {
     @Mock()
     public SharedPreferences sharedPreferences;
 
@@ -113,11 +113,11 @@ public class AuthInterceptorTest {
 
         // On lance le test
         Call<ServerResponse<String>> call = authService.checkLogin();
-        Response<ServerResponse<String>> response = call.execute();
+        call.execute();
         verify(authManager,times(1)).unauthorizedAction();
 
         call = authService.checkLogin();
-        response = call.execute();
+        call.execute();
         verify(authManager,times(1)).logout();
     }
 }

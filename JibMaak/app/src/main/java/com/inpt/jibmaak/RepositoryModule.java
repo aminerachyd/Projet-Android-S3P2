@@ -1,5 +1,6 @@
 package com.inpt.jibmaak;
 
+import com.google.gson.Gson;
 import com.inpt.jibmaak.repository.OfferRepository;
 import com.inpt.jibmaak.repository.RetrofitOfferRepository;
 import com.inpt.jibmaak.repository.RetrofitUserRepository;
@@ -57,10 +58,11 @@ public abstract class RepositoryModule {
                 .addInterceptor(tokenInterceptor)
                 .addInterceptor(authErrorInterceptor)
                 .build();
+        Gson gson = new Gson().newBuilder().setDateFormat("yyyy-mm-dd'T'hh:mm:ss").create();
         return new Retrofit.Builder().baseUrl(BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
 }

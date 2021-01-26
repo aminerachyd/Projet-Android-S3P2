@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Offer implements Parcelable {
     protected String id;
@@ -127,6 +128,26 @@ public class Offer implements Parcelable {
         dest.writeString(this.lieuDestination);
         dest.writeLong(this.dateDepart.getTime());
         dest.writeLong(this.dateArrive.getTime());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Offer offer = (Offer) o;
+        return poidsDispo == offer.poidsDispo &&
+                prixKg == offer.prixKg &&
+                Objects.equals(id, offer.id) &&
+                Objects.equals(lieuDepart, offer.lieuDepart) &&
+                Objects.equals(lieuDestination, offer.lieuDestination) &&
+                Objects.equals(dateDepart, offer.dateDepart) &&
+                Objects.equals(dateArrive, offer.dateArrive) &&
+                Objects.equals(proprietaire, offer.proprietaire);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, poidsDispo, prixKg, lieuDepart, lieuDestination, dateDepart, dateArrive, proprietaire);
     }
 }
 

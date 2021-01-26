@@ -74,7 +74,6 @@ public class AuthManager {
     }
 
     public void logout(){
-        //TODO : serveur ?
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.remove(ACCESS_TOKEN);
         edit.remove(USER);

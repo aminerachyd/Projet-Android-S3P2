@@ -1,6 +1,7 @@
 package com.inpt.jibmaak.repository;
 
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.inpt.jibmaak.model.User;
@@ -13,6 +14,7 @@ import javax.inject.Inject;
  */
 public class RetrofitUserRepository implements UserRepository {
     protected MutableLiveData<Resource<User>> userData;
+    protected MutableLiveData<Resource<String>> operationData;
     protected RetrofitUserService userService;
 
     @Inject
@@ -20,23 +22,41 @@ public class RetrofitUserRepository implements UserRepository {
         this.userService = userService;
     }
 
-    // TODO: methodes
     @Override
-    public void getUser(int userId) {
+    public void getUser(String userId) {
+        userService.getUser(userId).enqueue(new CrudCallback<>(Resource.Operation.READ,userData));
     }
 
     @Override
     public void updateUser(User userToUpdate) {
+        userService.updateUser(userToUpdate.getId(),userToUpdate)
+                .enqueue(new CrudCallback<>(Resource.Operation.READ,operationData));
     }
 
     @Override
-    public MutableLiveData<Resource<User>> getUserData() {
+    public void deleteUser(String userId) {
+        userService.deleteUser(userId)
+                .enqueue(new CrudCallback<>(Resource.Operation.DELETE,operationData));
+    }
+
+    @Override
+    public LiveData<Resource<User>> getUserData() {
         return userData;
     }
 
     @Override
     public void setUserData(MutableLiveData<Resource<User>> userData) {
         this.userData = userData;
+    }
+
+    @Override
+    public void setOperationData(MutableLiveData<Resource<String>> operationData) {
+        this.operationData = operationData;
+    }
+
+    @Override
+    public LiveData<Resource<String>> getOperationData() {
+        return operationData;
     }
 
     public RetrofitUserService getUserService() {

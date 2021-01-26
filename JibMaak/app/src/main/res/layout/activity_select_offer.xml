@@ -64,7 +64,7 @@
 
                     <Space
                         android:layout_width="60dp"
-                        android:layout_height="match_parent"></Space>
+                        android:layout_height="match_parent" />
 
 
                     <TextView
@@ -90,7 +90,7 @@
 
                     <Space
                         android:layout_width="60dp"
-                        android:layout_height="match_parent"></Space>
+                        android:layout_height="match_parent" />
 
 
                     <TextView
@@ -116,7 +116,7 @@
 
                     <Space
                         android:layout_width="60dp"
-                        android:layout_height="match_parent"></Space>
+                        android:layout_height="match_parent" />
 
 
                     <TextView
@@ -142,7 +142,7 @@
 
                     <Space
                         android:layout_width="60dp"
-                        android:layout_height="match_parent"></Space>
+                        android:layout_height="match_parent" />
 
 
                     <TextView
@@ -168,7 +168,7 @@
 
                     <Space
                         android:layout_width="60dp"
-                        android:layout_height="match_parent"></Space>
+                        android:layout_height="match_parent" />
 
 
                     <TextView
@@ -194,7 +194,7 @@
 
                     <Space
                         android:layout_width="60dp"
-                        android:layout_height="match_parent"></Space>
+                        android:layout_height="match_parent" />
 
 
                     <TextView
@@ -220,7 +220,7 @@
 
                     <Space
                         android:layout_width="60dp"
-                        android:layout_height="match_parent"></Space>
+                        android:layout_height="match_parent" />
 
 
                     <TextView

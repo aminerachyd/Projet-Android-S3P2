@@ -1,4 +1,4 @@
-package com.inpt.jibmaak;
+package com.inpt.jibmaak.classes;
 
 import android.content.SharedPreferences;
 
