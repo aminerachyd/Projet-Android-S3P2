@@ -14,6 +14,7 @@ const router = express.Router();
  */
 router.post("/", auth, async (req, res) => {
   // On récupère l'utilisateur
+  // FIXME Doit vérifier si l'utilisateur existe déjà dans la base de données ou pas
   const user = req.user;
 
   // On récupère les données de l'offre
@@ -141,6 +142,7 @@ router.put("/:id", auth, async (req, res) => {
       });
     } else {
       if (offer.user._id != req?.user?.id) {
+        // FIXME Doit vérifier si l'utilisateur existe déjà dans la base de données ou pas
         // L'utilisateur actuel ne correspond pas à l'utilisateur propriétaire de l'offre
         res.status(401).send({
           error: "Non autorisé",
@@ -202,6 +204,7 @@ router.delete("/:id", auth, async (req, res) => {
       });
     } else {
       if (offer.user._id != req?.user?.id) {
+        // FIXME Doit vérifier si l'utilisateur existe déjà dans la base de données ou pas
         // L'utilisateur actuel ne correspond pas à l'utilisateur propriétaire de l'offre
         res.status(401).send({
           error: "Non autorisé",

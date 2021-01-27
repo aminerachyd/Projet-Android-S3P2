@@ -25,5 +25,8 @@
   },
   "exclude": ["node_modules"],
   "include": ["./src/**/*.tsx", "./src/**/*.ts"],
-  "files": ["./src/custom.d.ts"]
+  "files": ["./src/custom.d.ts"],
+  "ts-node": {
+    "files": true
+  }
 }
