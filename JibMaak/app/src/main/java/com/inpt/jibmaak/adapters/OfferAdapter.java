@@ -22,6 +22,7 @@ public class OfferAdapter extends BaseAdapter {
 
     protected LayoutInflater inflater;
     protected ArrayList<Offer> offers;
+    protected String userId;
 
     public OfferAdapter(LayoutInflater inflater){
         this.inflater = inflater;
@@ -35,6 +36,20 @@ public class OfferAdapter extends BaseAdapter {
 
     public void clearOffers(){
         offers.clear();
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<Offer> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(ArrayList<Offer> offers){
+        this.offers = offers;
+        notifyDataSetChanged();
+    }
+
+    public void setUserId(String userId){
+        this.userId = userId;
         notifyDataSetChanged();
     }
 
@@ -59,13 +74,7 @@ public class OfferAdapter extends BaseAdapter {
         Offer offer = offers.get(position);
         Context context = inflater.getContext();
         if (convertView == null){
-            convertView = inflater.inflate(R.layout.liste_offer_item,parent,false);
-            if (position % 2 == 0){
-                convertView.setBackgroundColor(context.getColor(R.color.beige));
-            }
-            else{
-                convertView.setBackgroundColor(context.getColor(R.color.white));
-            }
+            convertView = inflater.inflate(R.layout.list_offer_item,parent,false);
             vh = new ViewHolder();
             vh.description = convertView.findViewById(R.id.label_description_offre);
             vh.proprietaire = convertView.findViewById(R.id.label_nom_proprietaire);
@@ -74,11 +83,19 @@ public class OfferAdapter extends BaseAdapter {
         else{
             vh = (ViewHolder) convertView.getTag();
         }
-
-
+        if (position % 2 == 0){
+            convertView.setBackgroundColor(context.getColor(R.color.beige));
+        }
+        else{
+            convertView.setBackgroundColor(context.getColor(R.color.white));
+        }
         String prop = context.getString(R.string.nom_prop_offre,
                 offer.getUser().getNom(),offer.getUser().getPrenom());
         vh.proprietaire.setText(prop);
+        if (offer.getUser().getId().equals(userId))
+            vh.proprietaire.setTextColor(context.getColor(R.color.blue));
+        else
+            vh.proprietaire.setTextColor(context.getColor(R.color.black));
 
         String formatDate = DateFormat.getDateTimeInstance().format(offer.getDateDepart());
         String description = context.getString(R.string.description_offre,offer.getLieuDepart(),

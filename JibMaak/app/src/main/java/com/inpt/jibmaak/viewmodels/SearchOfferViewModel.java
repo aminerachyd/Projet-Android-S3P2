@@ -30,7 +30,7 @@ public class SearchOfferViewModel extends ViewModel {
         this.offerRepo = offerRepo;
         searchOffersData = new MutableLiveData<>();
         criteria = new OfferSearchCriteria();
-        page = new Pagination(1,20);
+        page = new Pagination(1,3);
         this.offerRepo.setSearchData(searchOffersData);
     }
 

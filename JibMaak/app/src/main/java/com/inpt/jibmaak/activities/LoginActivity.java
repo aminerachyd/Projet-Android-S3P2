@@ -39,11 +39,6 @@ public class LoginActivity extends BaseActivity {
         });
 
         connexion.setOnClickListener(v -> {
-            if (!hasConnection){
-                Toast.makeText(LoginActivity.this,R.string.no_connection,
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
             String saisie_mail = mail.getText().toString();
             String saisie_mdp = mdp.getText().toString();
             if (saisie_mail.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(saisie_mail).matches())
@@ -52,8 +47,7 @@ public class LoginActivity extends BaseActivity {
             else if (saisie_mdp.length() == 0)
                 Toast.makeText(LoginActivity.this,R.string.mdp_vide,
                         Toast.LENGTH_SHORT).show();
-            else{
-                makeWaitingScreen();
+            else if (prepareAction()){
                 authManager.login(saisie_mail,saisie_mdp);
             }
         });

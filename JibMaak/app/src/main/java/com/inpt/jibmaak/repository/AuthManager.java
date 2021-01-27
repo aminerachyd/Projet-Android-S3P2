@@ -109,9 +109,9 @@ public class AuthManager {
                     saveTokens(tokens);
                     // On recupere l'utilisateur
                     User user = gson.fromJson(body,User.class);
-                    saveUserLogged();
                     authActionData.setValue(new AuthAction(Action.LOGIN,user)); // Authentification reussie
                     userData.setValue(user);
+                    saveUserLogged();
                 }
             }
             @Override

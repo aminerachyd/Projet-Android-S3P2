@@ -1,18 +1,18 @@
 <resources>
     <string name="app_name">JibMaak</string>
     <string name="breadcrumb_search_offer"><![CDATA[Menu > Chercher une offre]]></string>
-    <string name="lieu_depart">Lieu de départ :</string>
+    <string name="lieu_depart">Lieu de départ : </string>
     <string name="chercher_offre">Chercher une offre</string>
     <string name="entrez_lieu_depart">Entrez votre lieu de départ</string>
-    <string name="lieu_arrive">Lieu d\'arrivée :</string>
+    <string name="lieu_arrive">Lieu d\'arrivée : </string>
     <string name="entrez_lieu_arrive">Entrez votre lieu d\'arrivée</string>
-    <string name="date_depart">Date de départ :</string>
+    <string name="date_depart">Date de départ : </string>
     <string name="entrez_date_depart">Entrez votre date de départ</string>
     <string name="prix_livraison">Prix de livraison :</string>
     <string name="choisir_date">Choisir une date</string>
     <string name="avant_le">Avant le</string>
     <string name="apres_le">Apres le</string>
-    <string name="poids_disponible">Poids disponible minimum : %1$d kg</string>
+    <string name="poids_disponible_minimum">Poids disponible minimum : %1$d kg</string>
     <string name="prix_minimum">Prix minimum : %1$d dh/kg</string>
     <string name="prix_maximum">Prix maximum : %1$d dh/kg</string>
     <string name="email_incorrect">Erreur : mail incorrect</string>
@@ -63,4 +63,11 @@
     <string name="error_server">Le serveur a rencontré une erreur veuillez reessayer plus tard</string>
     <string name="no_results_search">Pas de résultats</string>
     <string name="yes_resuts_search">Résultats de la recherche : </string>
+    <string name="label_details_offre">Details de l\'offre :</string>
+    <string name="nom_livreur">Nom du livreur : </string>
+    <string name="poids_disponible">Poids disponible : </string>
+    <string name="prix_par_kg">Prix par Kg : </string>
+    <string name="heure_depart">Heure de départ : </string>
+    <string name="tel_livreur">Telephone du livreur : </string>
+    <string name="modifier">Modifier</string>
 </resources>

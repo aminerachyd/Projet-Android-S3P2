@@ -1,26 +1,41 @@
 package com.inpt.jibmaak.viewmodels;
 
+import androidx.hilt.Assisted;
 import androidx.hilt.lifecycle.ViewModelInject;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
 
-import com.inpt.jibmaak.adapters.OfferAdapter;
 import com.inpt.jibmaak.model.Offer;
 import com.inpt.jibmaak.model.OfferSearchCriteria;
 import com.inpt.jibmaak.model.Pagination;
+import com.inpt.jibmaak.repository.OfferRepository;
 import com.inpt.jibmaak.repository.Resource;
 
 import java.util.ArrayList;
 
 public class SearchOfferResultViewModel extends ViewModel {
     protected MutableLiveData<Resource<ArrayList<Offer>>> offersData;
+    protected OfferRepository offerRepository;
+    protected ArrayList<Offer> savedOffers;
     protected OfferSearchCriteria criteria;
     protected Pagination page;
-    protected OfferAdapter offerAdapter;
+    protected boolean searchFinished;
 
     @ViewModelInject
-    public SearchOfferResultViewModel(){
-        offersData = new MutableLiveData<>();
+    public SearchOfferResultViewModel(@Assisted SavedStateHandle savedStateHandle,
+                                      OfferRepository offerRepository){
+        this.offersData = new MutableLiveData<>();
+        this.offerRepository = offerRepository;
+        offerRepository.setSearchData(offersData);
+        this.searchFinished = false;
+    }
+
+    public void continueSearch(){
+        if (!searchFinished){
+            page.setPage(page.getPage()+1);
+            offerRepository.searchOffer(criteria,page);
+        }
     }
 
     public MutableLiveData<Resource<ArrayList<Offer>>> getOffersData() {
@@ -43,11 +58,25 @@ public class SearchOfferResultViewModel extends ViewModel {
         this.page = page;
     }
 
-    public OfferAdapter getOfferAdapter() {
-        return offerAdapter;
+    public ArrayList<Offer> getSavedOffers() {
+        return savedOffers;
     }
 
-    public void setOfferAdapter(OfferAdapter offerAdapter) {
-        this.offerAdapter = offerAdapter;
+    public void setSavedOffers(ArrayList<Offer> savedOffers) {
+        this.savedOffers = savedOffers;
+    }
+
+    public boolean isSearchFinished() {
+        return searchFinished;
+    }
+
+    public void setSearchFinished(boolean searchFinished) {
+        this.searchFinished = searchFinished;
+    }
+
+    public void refresh() {
+        page.setPage(0);
+        searchFinished = false;
+        continueSearch();
     }
 }

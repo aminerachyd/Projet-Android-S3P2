@@ -74,10 +74,7 @@ public class RegisterActivity extends BaseActivity {
         else if (!mdp.equals(mdp_conf)){
             Toast.makeText(this,R.string.error_register_mdp_conf,Toast.LENGTH_SHORT).show();
         }
-        else if (!hasConnection){
-            Toast.makeText(this,R.string.no_connection, Toast.LENGTH_SHORT).show();
-        }
-        else{
+        else if (prepareAction()){
             // Les champs sont corrects : on peut lancer la requete
             HashMap<String,String> body = new HashMap<>();
             body.put("nom",nom);

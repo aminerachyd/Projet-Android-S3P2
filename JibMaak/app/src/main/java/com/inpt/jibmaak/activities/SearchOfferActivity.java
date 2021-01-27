@@ -161,7 +161,7 @@ public class SearchOfferActivity extends BaseActivity {
         slider_poids.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                label_poids.setText(getString(R.string.poids_disponible,progress));
+                label_poids.setText(getString(R.string.poids_disponible_minimum,progress));
                 criteria.setMinPoidsDisponible(progress);
             }
 
@@ -335,11 +335,8 @@ public class SearchOfferActivity extends BaseActivity {
     }
 
     public void lancerRecherche(){
-        if (!hasConnection){
-            Toast.makeText(this,R.string.no_connection,Toast.LENGTH_SHORT).show();
-            return;
+        if (prepareAction()){
+            viewModel.chercherOffres(criteria,page);
         }
-        makeWaitingScreen();
-        viewModel.chercherOffres(criteria,page);
     }
 }

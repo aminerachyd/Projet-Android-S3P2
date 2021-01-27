@@ -5,9 +5,11 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.model.User;
 import com.inpt.jibmaak.repository.AuthAction;
 import com.inpt.jibmaak.repository.AuthManager;
@@ -105,6 +107,15 @@ public abstract class BaseActivity extends AppCompatActivity {
             //TODO : code
             hasWaitingScreen = false;
         }
+    }
+
+    public boolean prepareAction(){
+        if (!hasConnection)
+            Toast.makeText(this, R.string.no_connection,
+                    Toast.LENGTH_SHORT).show();
+        else
+            makeWaitingScreen();
+        return hasConnection;
     }
 
     /**
