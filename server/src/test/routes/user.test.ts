@@ -11,24 +11,6 @@ const TEST_TOKEN = process.env.TEST_TOKEN;
 let tempId: string;
 
 describe("Route /user", () => {
-  //   before((done) => {
-  //     chai
-  //       .request(app)
-  //       .post("/user")
-  //       .send({
-  //         email: "temp@temp.com",
-  //         nom: "temp",
-  //         prenom: "temp",
-  //         telephone: "temp",
-  //         password: "temp",
-  //       })
-  //       .set({ Accept: "application/json" })
-  //       .end((err, res) => {
-  //         tempId = res.body.payload;
-  //         done();
-  //       });
-  //   });
-
   it("POST : Doit enregistrer un utilisateur", (done) => {
     chai
       .request(app)

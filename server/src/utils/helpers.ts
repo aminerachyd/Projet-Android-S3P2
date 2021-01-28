@@ -1,6 +1,7 @@
 import crypto from "crypto";
-import { FiltersType, UserType } from "../types";
 import OfferModel from "../models/Offer";
+import UserModel from "../models/User";
+import { FiltersType, OfferType, UserType } from "../types";
 const HASH_SECRET = process.env.HASH_SECRET;
 
 /** Fonction pour hasher un mot de passe */
@@ -60,6 +61,61 @@ export const filterOffers = async (
   const result = await query.exec();
 
   return result;
+};
+
+/**
+ * Fonction pour retourner les offres d'un utilisateur donné celon son id
+ */
+export const findUserOffers = async (
+  id: UserType["_id"],
+  limitNumber: number,
+  pageNumber: number
+) => {
+  try {
+    const user = await UserModel.findById(id);
+
+    const offersIds = user?.offres;
+
+    if (!offersIds) {
+      return false;
+    }
+
+    let offers: any[] = [];
+
+    for (let i = 0; i < offersIds.length; i++) {
+      let id = offersIds[i];
+
+      if (!id) {
+        break;
+      }
+
+      const offer = await OfferModel.findById(id);
+
+      let {
+        id: _id,
+        lieuDepart,
+        lieuArrivee,
+        dateDepart,
+        dateArrivee,
+        prixKg,
+        poidsDispo,
+      } = offer!;
+
+      offers.push({
+        id,
+        lieuDepart,
+        lieuArrivee,
+        dateDepart,
+        dateArrivee,
+        prixKg,
+        poidsDispo,
+      });
+    }
+
+    return offers;
+  } catch (error) {
+    return false;
+  }
 };
 
 /**

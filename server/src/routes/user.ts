@@ -19,6 +19,7 @@ router.post("/", async (req, res) => {
     nom,
     prenom,
     telephone,
+    offres: [],
     password: hash(password),
   });
 

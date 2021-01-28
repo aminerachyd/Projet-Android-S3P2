@@ -16,6 +16,12 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    offres: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "users",
+      },
+    ],
     telephone: {
       type: String,
       required: true,

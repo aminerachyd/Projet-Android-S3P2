@@ -6,6 +6,7 @@ export type UserType = Document<any> & {
   email: string;
   prenom: string;
   telephone: string;
+  offres: [string];
   password?: string;
   createdAt?: Date;
   updatedAt?: Date;
