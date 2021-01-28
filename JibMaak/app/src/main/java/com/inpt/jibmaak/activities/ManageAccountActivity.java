@@ -25,7 +25,8 @@ import static com.inpt.jibmaak.repository.Resource.Operation.UPDATE;
 
 @AndroidEntryPoint
 public class ManageAccountActivity extends AuthenticateActivity {
-    protected AlertDialog dialog;
+    protected AlertDialog updateDialog;
+    protected AlertDialog deleteDialog;
     protected Button bouton_update;
     protected Button bouton_delete;
     protected Button bouton_deconnecter;
@@ -52,13 +53,14 @@ public class ManageAccountActivity extends AuthenticateActivity {
                 return;
             }
             AlertDialog.Builder adb = new AlertDialog.Builder(ManageAccountActivity.this);
-            adb.setMessage(R.string.delete_compte_confirm)
+            deleteDialog = adb.setMessage(R.string.delete_compte_confirm)
                     .setPositiveButton(R.string.yes, (dialog, which) -> {
                         if (prepareAction())
                             viewModel.deleteUser(user.getId());
                     })
                     .setNegativeButton(R.string.annuler, (dialog, which) -> dialog.dismiss())
-                    .create().show();
+                    .create();
+            deleteDialog.show();
         });
         bouton_deconnecter.setOnClickListener(v -> {
             authManager.logout();
@@ -73,6 +75,7 @@ public class ManageAccountActivity extends AuthenticateActivity {
                 return;
             Resource.Status status = stringResource.getStatus();
             Resource.Operation operation = stringResource.getOperation();
+            stringResource.setConsumed(true);
             switch (status){
                 case OK:
                     if (operation.equals(UPDATE)){
@@ -97,15 +100,15 @@ public class ManageAccountActivity extends AuthenticateActivity {
     }
 
     public void showDialogUpdate() {
-        dialog = new AlertDialog.Builder(this).setView(R.layout.dialog_update_infos).create();
-        dialog.show();
-        EditText zone_nom = dialog.findViewById(R.id.zone_nom_update);
-        EditText zone_prenom = dialog.findViewById(R.id.zone_prenom_update);
-        EditText zone_telephone = dialog.findViewById(R.id.zone_phone_update);
-        EditText zone_mail = dialog.findViewById(R.id.zone_mail_update);
-        SwitchCompat switch_mdp_maj = dialog.findViewById(R.id.switch_mdp_update);
-        EditText zone_mdp = dialog.findViewById(R.id.zone_mdp_update);
-        Button bouton_maj = dialog.findViewById(R.id.bouton_maj);
+        updateDialog = new AlertDialog.Builder(this).setView(R.layout.dialog_update_infos).create();
+        updateDialog.show();
+        EditText zone_nom = updateDialog.findViewById(R.id.zone_nom_update);
+        EditText zone_prenom = updateDialog.findViewById(R.id.zone_prenom_update);
+        EditText zone_telephone = updateDialog.findViewById(R.id.zone_phone_update);
+        EditText zone_mail = updateDialog.findViewById(R.id.zone_mail_update);
+        SwitchCompat switch_mdp_maj = updateDialog.findViewById(R.id.switch_mdp_update);
+        EditText zone_mdp = updateDialog.findViewById(R.id.zone_mdp_update);
+        Button bouton_maj = updateDialog.findViewById(R.id.bouton_maj);
 
         zone_nom.setText(user.getNom());
         zone_prenom.setText(user.getPrenom());
@@ -155,7 +158,7 @@ public class ManageAccountActivity extends AuthenticateActivity {
                     body.put("password",mdp);
                 viewModel.setUserToUpdate(userToUpdate);
                 viewModel.updateUser(user.getId(),body);
-                dialog.dismiss();
+                updateDialog.dismiss();
             }
         });
     }
@@ -163,22 +166,19 @@ public class ManageAccountActivity extends AuthenticateActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (dialog != null)
-            dialog.dismiss();
+        dismissDialogs();
     }
 
     @Override
     public void onLogout(boolean isUnexpected) {
         super.onLogout(isUnexpected);
-        if (dialog != null)
-            dialog.dismiss();
+        dismissDialogs();
     }
 
     @Override
     public void onLogin() {
         super.onLogin();
-        if (dialog != null)
-            dialog.dismiss();
+        dismissDialogs();
     }
 
     @Override
@@ -190,5 +190,12 @@ public class ManageAccountActivity extends AuthenticateActivity {
     @Override
     public String getConsommateurName() {
         return "AuthenticateActivity";
+    }
+
+    protected void dismissDialogs(){
+        if (updateDialog != null)
+            updateDialog.dismiss();
+        if (deleteDialog != null)
+            deleteDialog.dismiss();
     }
 }

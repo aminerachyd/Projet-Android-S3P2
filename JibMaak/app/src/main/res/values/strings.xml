@@ -58,7 +58,7 @@
     <string name="description_compte">Compte</string>
     <string name="error_search">Erreur lors de la recherche</string>
     <string name="menu_chercher_offre"><![CDATA[Menu > Chercher une offre]]></string>
-    <string name="nom_prop_offre" >%1$s %2$s</string>
+    <string name="nom_prop_offre">%1$s %2$s</string>
     <string name="description_offre">%1$s -> %2$s \n%3$s \n%4$d mad | %5$d kg</string>
     <string name="error_server">Le serveur a rencontré une erreur veuillez reessayer plus tard</string>
     <string name="no_results_search">Pas de résultats</string>
@@ -81,4 +81,19 @@
     <string name="yes">Oui</string>
     <string name="se_deconnecter">Se deconnecter</string>
     <string name="deconnexion_volontaire">Vous vous êtes déconnectés</string>
+    <string name="breadcrumbs_gerer_offres">Gérer mes offres</string>
+    <string name="voir_mes_offres">Voir mes offres</string>
+    <string name="ajouter_une_offre">Ajouter une offre</string>
+    <string name="date_arrivee">Date d\'arrivée :</string>
+    <string name="poids_disponible_complet">Poids disponible en kg :</string>
+    <string name="prix_kg_complet">Prix par kg :</string>
+    <string name="breadcrumbs_creer_offre"><![CDATA[Gerer mes offres > Créer une offre]]></string>
+    <string name="creer_offre">Creer l\'offre</string>
+    <string name="poids_ici">Poids ici</string>
+    <string name="prix_ici">Prix ici</string>
+    <string name="creer_offre_succes">Votre offre a bien été crée</string>
+    <string name="error_poids_incorrect">Erreur ; poids incorrect</string>
+    <string name="error_prix_incorrect">Erreur : prix incorrect</string>
+    <string name="error_lieu_depart_court">Erreur : lieu de départ trop court</string>
+    <string name="error_lieu_arrivee_court">Erreur : lieu d\'arrivee trop court</string>
 </resources>

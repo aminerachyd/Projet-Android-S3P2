@@ -28,16 +28,19 @@ public abstract class AuthenticateActivity extends BaseActivity {
      */
     public static final int REQUEST_CODE_REGISTER = 2;
 
+    protected AlertDialog loginDialog;
+
     /** Demarre le processus de connexion */
     public void askLogin(){
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
-        adb.setMessage(R.string.demande_connexion)
+        loginDialog = adb.setMessage(R.string.demande_connexion)
                 .setPositiveButton(R.string.se_connecter, (dialog, which) -> {
                     Intent intent = new Intent(AuthenticateActivity.this,LoginActivity.class);
                     startActivityForResult(intent,REQUEST_CODE_LOGIN);
                 })
                 .setNegativeButton(R.string.annuler, (dialog, which) -> onAskLoginFailed())
-                .setOnCancelListener(dialog -> onAskLoginFailed()).create().show();
+                .setOnCancelListener(dialog -> onAskLoginFailed()).create();
+        loginDialog.show();
     }
 
     @Override
@@ -61,4 +64,11 @@ public abstract class AuthenticateActivity extends BaseActivity {
      * Définit l'action à accomplir si la demande de connexion a échouée
      */
     public void onAskLoginFailed(){}
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (loginDialog != null)
+            loginDialog.dismiss();
+    }
 }

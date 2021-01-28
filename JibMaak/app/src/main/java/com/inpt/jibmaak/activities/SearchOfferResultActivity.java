@@ -59,19 +59,13 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
                     SearchOfferActivity.EXTRA_CRITERIA);
             Pagination page = starterIntent.getParcelableExtra(
                     SearchOfferActivity.EXTRA_PAGINATION);
-            ArrayList<Offer> offers = starterIntent.getParcelableArrayListExtra(
-                    SearchOfferActivity.EXTRA_LIST_OFFERS);
-            if (criteria == null || page == null || offers == null){
+            if (criteria == null || page == null){
                 // On arrete l'activité : c'est une erreur
                 finish();
             }
             viewModel.setCriteria(criteria);
             viewModel.setPage(page);
-            Resource<ArrayList<Offer>> offersResource = new Resource<>();
-            offersResource.setStatus(Resource.Status.OK);
-            offersResource.setOperation(Resource.Operation.READ);
-            offersResource.setResource(offers);
-            viewModel.getOffersData().setValue(offersResource);
+            viewModel.continueSearch();
         }
 
         adapter = new OfferAdapter(getLayoutInflater());
@@ -97,6 +91,8 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
             // On extrait les informations
             if (!offers.isConsumed()){
                 Resource.Status status = offers.getStatus();
+                offers.setConsumed(true);
+                // TODO: revoir chaque cas
                 switch (status){
                     case OK:
                         // On affiche les données
@@ -159,7 +155,7 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
 
         DateFormat dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.FULL);
         DateFormat heureFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT);
-
+        // TODO : ajouter la date/heure arrivee
         label_nom.append(livreur.getNom());
         label_nom.append(" ");
         label_nom.append(livreur.getPrenom());

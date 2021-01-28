@@ -58,7 +58,7 @@ public abstract class RepositoryModule {
                 .addInterceptor(tokenInterceptor)
                 .addInterceptor(authErrorInterceptor)
                 .build();
-        Gson gson = new Gson().newBuilder().setDateFormat("yyyy-mm-dd'T'hh:mm:ss").create();
+        Gson gson = new Gson().newBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         return new Retrofit.Builder().baseUrl(BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(ScalarsConverterFactory.create())

@@ -1,137 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/primary_light"
-    tools:context=".activities.MenuActivity">
-
-    <FrameLayout
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/roadmap" />
-
-    <TextView
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/accent"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="5dp"
-        android:text="Menu > Proposer une offre"
-        android:textColor="#FFFFFF"
-        android:textSize="17dp" />
+        android:background="@color/primary_light"
+        tools:context=".activities.MenuActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:paddingHorizontal="20dp">
+        <FrameLayout
+            android:id="@+id/frameLayout2"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/roadmap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_prix">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="Lieu de départ :"
-            android:textColor="#000000" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Entrez votre lieu de départ"
-            android:textSize="15dp" />
+        </FrameLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/breadcrumb"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="5dp"
-            android:text="Lieu d'arrivée :"
-            android:textColor="#000000" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Entrez votre lieu d'arrivée"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="5dp"
-            android:text="Date de départ :"
-            android:textColor="#000000" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Entrez votre date de départ"
-            android:inputType="date"
-            android:textSize="15dp" />
+            android:background="@color/accent"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="5dp"
+            android:text="@string/breadcrumbs_creer_offre"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/label_lieu_depart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="5dp"
-            android:text="Heure de départ :"
-            android:textColor="#000000" />
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/lieu_depart"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/breadcrumb" />
 
         <EditText
-            android:layout_width="match_parent"
+            android:id="@+id/zone_lieu_depart_create"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Entrez votre heure de départ"
-            android:inputType="date"
-            android:textSize="15dp" />
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
+            android:autofillHints="addressLocality"
+            android:hint="@string/entrez_lieu_depart"
+            android:inputType="text"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_lieu_depart" />
 
         <TextView
+            android:id="@+id/label_lieu_arrivee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="5dp"
-            android:text="Poids disponible :"
-            android:textColor="#000000" />
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/lieu_arrive"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/zone_lieu_depart_create" />
 
         <EditText
+            android:id="@+id/zone_lieu_arrivee_create"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Entrez votre date de départ"
-            android:inputType="date"
-            android:textSize="15dp" />
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
+            android:autofillHints="addressLocality"
+            android:hint="@string/entrez_lieu_arrive"
+            android:inputType="text"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_lieu_arrivee" />
 
         <TextView
+            android:id="@+id/label_date_depart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="5dp"
-            android:text="Prix par Kg :"
-            android:textColor="#000000" />
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/date_depart"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/zone_lieu_arrivee_create" />
 
-        <EditText
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/date_depart_create"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Entrez votre prix désiré"
-            android:textSize="15dp" />
+            android:layout_marginTop="15dp"
+            android:hint="@string/choisir_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_date_arrivee"
+            app:layout_constraintTop_toBottomOf="@+id/zone_lieu_arrivee_create" />
 
 
         <Button
-            android:id="@+id/card_gerer_offre"
+            android:id="@+id/bouton_creer_offre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginVertical="20dp"
-            android:text="Proposer cette offre"
-            android:textColor="#FFFFFF" />
+            android:layout_marginTop="50dp"
+            android:text="@string/creer_offre"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_prix" />
 
-        <Button
-            android:id="@+id/retour"
+        <TextView
+            android:id="@+id/date_arrivee_create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Retour"
-            android:textColor="#FFFFFF" />
-    </LinearLayout>
+            android:layout_marginTop="15dp"
+            android:hint="@string/choisir_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_date_arrivee"
+            app:layout_constraintTop_toBottomOf="@+id/date_depart_create" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/label_date_arrivee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/date_arrivee"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_date_depart" />
+
+        <TextView
+            android:id="@+id/label_poids"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/poids_disponible_complet"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_date_arrivee" />
+
+        <TextView
+            android:id="@+id/label_prix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/prix_kg_complet"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_poids" />
+
+        <EditText
+            android:id="@+id/zone_poids_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="@string/poids_ici"
+            android:inputType="numberDecimal"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toEndOf="@+id/label_poids"
+            app:layout_constraintTop_toBottomOf="@+id/label_date_arrivee"
+            android:importantForAutofill="no" />
+
+        <EditText
+            android:id="@+id/zone_prix_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="@string/prix_ici"
+            android:inputType="numberDecimal"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toEndOf="@+id/label_prix"
+            app:layout_constraintTop_toBottomOf="@+id/label_poids"
+            android:importantForAutofill="no" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

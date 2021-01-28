@@ -20,6 +20,7 @@ public class MenuActivity extends AuthenticateActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
         // On recupere les vues
         card_compte = findViewById(R.id.card_compte);
         card_chercher_offre= findViewById(R.id.card_chercher_offre);
@@ -35,7 +36,8 @@ public class MenuActivity extends AuthenticateActivity {
                 askLogin();
             }
             else{
-                // TODO : activité gerer offre
+                Intent intent = new Intent(MenuActivity.this,ManageOffersActivity.class);
+                startActivity(intent);
             }
         });
 
