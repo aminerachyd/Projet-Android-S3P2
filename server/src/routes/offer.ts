@@ -13,10 +13,6 @@ const router = express.Router();
  * RETURN: ID de l'offre enregistrée
  */
 router.post("/", auth, async (req, res) => {
-  // On récupère l'utilisateur
-  // FIXME Doit vérifier si l'utilisateur existe déjà dans la base de données ou pas
-  const user = req.user;
-
   // On récupère les données de l'offre
   const {
     lieuDepart,
@@ -32,31 +28,43 @@ router.post("/", auth, async (req, res) => {
       error: "Dates invalides",
     });
   } else {
-    const newOffer = new OfferModel({
-      user: user!.id,
-      lieuDepart,
-      lieuArrivee,
-      dateDepart: new Date(dateDepart),
-      dateArrivee: new Date(dateArrivee),
-      prixKg,
-      poidsDispo,
-    });
+    // On récupère l'utilisateur
+    // FIXME Doit vérifier si l'utilisateur existe déjà dans la base de données ou pas
+    const user = req.user;
+    let thisUser = await UserModel.findById(user?.id);
+    if (!user || !thisUser) {
+      res.status(400).send({
+        error: "Utilisateur invalide",
+      });
+    } else {
+      const newOffer = new OfferModel({
+        user: user.id,
+        lieuDepart,
+        lieuArrivee,
+        dateDepart: new Date(dateDepart),
+        dateArrivee: new Date(dateArrivee),
+        prixKg,
+        poidsDispo,
+      });
 
-    try {
-      const result = await newOffer.save();
-      res.send({ message: "Nouvelle offre ajoutée", payload: result._id });
-    } catch (error) {
-      // Si un champ est manquant, on renvoit une erreur
-      if ((<string>error._message).includes("offer validation failed")) {
-        res.status(400).send({
-          error: "Un ou plusieurs champs sont manquants",
-        });
-      } else {
-        console.log(error._message);
+      try {
+        const result = await newOffer.save();
+        thisUser.offres.push(result._id);
+        await thisUser.save();
+        res.send({ message: "Nouvelle offre ajoutée", payload: result._id });
+      } catch (error) {
+        // Si un champ est manquant, on renvoit une erreur
+        if ((<string>error._message).includes("offer validation failed")) {
+          res.status(400).send({
+            error: "Un ou plusieurs champs sont manquants",
+          });
+        } else {
+          console.log(error._message);
 
-        res.status(500).send({
-          error: "Erreur du serveur",
-        });
+          res.status(500).send({
+            error: "Erreur du serveur",
+          });
+        }
       }
     }
   }
