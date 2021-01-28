@@ -167,4 +167,8 @@ public class AuthManager {
     }
 
 
+    public void updateUser(User userUpdated) {
+        userData.setValue(userUpdated);
+        saveUserLogged();
+    }
 }

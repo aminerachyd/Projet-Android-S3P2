@@ -44,7 +44,8 @@ public class MenuActivity extends AuthenticateActivity {
                 askLogin();
             }
             else{
-                // TODO : activité gerer compte
+                Intent intent = new Intent(MenuActivity.this,ManageAccountActivity.class);
+                startActivity(intent);
             }
         });
     }

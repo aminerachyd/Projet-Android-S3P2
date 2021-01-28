@@ -2,6 +2,8 @@ package com.inpt.jibmaak.services;
 
 import com.inpt.jibmaak.model.User;
 
+import java.util.HashMap;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -15,7 +17,8 @@ public interface RetrofitUserService {
     Call<ServerResponse<User>> getUser(@Path("id") String id);
 
     @PUT("/user/{id}")
-    Call<ServerResponse<String>> updateUser(@Path("id") String id, @Body User user);
+    Call<ServerResponse<String>> updateUser(@Path("id") String id,
+                                            @Body HashMap<String,String> userToUpdate);
 
     @DELETE("/user/{id}")
     Call<ServerResponse<String>> deleteUser(@Path("id") String id);

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="@string/nom"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/zone_nom_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="personFamilyName"
+            android:hint="@string/nom_ici"
+            android:inputType="textPersonName"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/prenom"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/zone_prenom_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="personGivenName"
+            android:ems="10"
+            android:hint="@string/prenom_ici"
+            android:inputType="textPersonName"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/telephone"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/zone_phone_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="phoneNational"
+            android:ems="10"
+            android:hint="@string/telephone_ici"
+            android:inputType="phone"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="5dp"
+            android:text="@string/email"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/zone_mail_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="emailAddress"
+            android:hint="@string/email_ici"
+            android:inputType="textEmailAddress"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_mdp_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/changer_mot_de_passe" />
+
+        <EditText
+            android:id="@+id/zone_mdp_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="newPassword"
+            android:hint="@string/mot_de_passe_ici"
+            android:inputType="textPassword"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/bouton_maj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="20dp"
+            android:text="@string/mettre_jour_infos"
+            android:textColor="#FFFFFF" />
+
+
+    </LinearLayout>
+
+</ScrollView>

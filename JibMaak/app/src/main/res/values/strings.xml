@@ -70,4 +70,15 @@
     <string name="heure_depart">Heure de départ : </string>
     <string name="tel_livreur">Telephone du livreur : </string>
     <string name="modifier">Modifier</string>
+    <string name="mettre_jour_infos">Mettre à jour mes informations</string>
+    <string name="changer_mot_de_passe">Changer votre mot de passe</string>
+    <string name="supprimer_mon_compte">Supprimer mon compte</string>
+    <string name="gerer_mon_compte">Gerer mon compte</string>
+    <string name="error_unauthorized">Erreur : vous ne pouvez pas réaliser cette action</string>
+    <string name="delete_ok">Votre compte a bien été supprimé</string>
+    <string name="update_ok">Vos informations ont bien été mise à jour</string>
+    <string name="delete_compte_confirm">Attention cette operation est irréversible\nEtes vous sûr ?</string>
+    <string name="yes">Oui</string>
+    <string name="se_deconnecter">Se deconnecter</string>
+    <string name="deconnexion_volontaire">Vous vous êtes déconnectés</string>
 </resources>

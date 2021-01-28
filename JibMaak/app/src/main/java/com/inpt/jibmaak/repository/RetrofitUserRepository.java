@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.inpt.jibmaak.model.User;
 import com.inpt.jibmaak.services.RetrofitUserService;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 
 /** Implementation de UserRepository qui utilise un back-end distant comme
@@ -28,9 +30,9 @@ public class RetrofitUserRepository implements UserRepository {
     }
 
     @Override
-    public void updateUser(User userToUpdate) {
-        userService.updateUser(userToUpdate.getId(),userToUpdate)
-                .enqueue(new CrudCallback<>(Resource.Operation.READ,operationData));
+    public void updateUser(String id,HashMap<String,String> userToUpdate) {
+        userService.updateUser(id,userToUpdate)
+                .enqueue(new CrudCallback<>(Resource.Operation.UPDATE,operationData));
     }
 
     @Override

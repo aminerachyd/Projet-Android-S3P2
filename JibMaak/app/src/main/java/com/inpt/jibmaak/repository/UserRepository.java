@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.inpt.jibmaak.model.User;
 
+import java.util.HashMap;
+
 /**
  * Repository en charge de la gestion utilisateur
  */
@@ -19,8 +21,9 @@ public interface UserRepository {
     /**
      * Met à jour un utilisateur. L'identifiant n'est pas mis à jour.
      * @param userToUpdate L'utilisateur à mettre à jour
+     * @param id L'identifiant de l'utilisateur
      */
-    void updateUser(User userToUpdate);
+    void updateUser(String id,HashMap<String,String> userToUpdate);
 
     /**
      * Supprime l'utilisateur connecté
