@@ -1,8 +1,11 @@
 import mongoose from "mongoose";
 
-const db = process.env.MONGO_URI;
-
-// console.log(db);
+const db =
+  process.env.NODE_ENV === "dev"
+    ? process.env.MONGO_URI_DEV
+    : process.env.NODE_ENV === "test"
+    ? process.env.MONGO_URI_TEST
+    : process.env.MONGO_URI;
 
 const connectDB = async () => {
   try {
