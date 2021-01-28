@@ -1,8 +1,6 @@
 import express from "express";
-import jwt from "jsonwebtoken";
-import { hash, userInfos } from "../utils/helpers";
-import UserModel from "../models/User";
 import auth from "../middleware/auth";
+import authenticateUser from "../utils/authenticateUser";
 
 const router = express.Router();
 
@@ -13,6 +11,7 @@ const router = express.Router();
  * RETURN: Test de l'authentification
  */
 router.get("/", auth, async (req, res) => {
+  // Si le token est valide, le middleware auth devrait marcher et on aura le req.user
   res.send({
     message: "Utilisateur authentifié",
     payload: req.user,
@@ -26,48 +25,23 @@ router.get("/", auth, async (req, res) => {
  * RETURN: Un token si l'utilisateur est bien connecté
  */
 router.post("/", async (req, res) => {
+  // Données récupérées depuis la requete
   const { email, password } = req.body;
 
-  let user = await UserModel.findOne({ email });
+  const { isAuth, message, data, statusCode } = await authenticateUser(
+    email,
+    password
+  );
 
-  if (!user || !password) {
-    // Utilisateur non trouvé
-    res.status(400).send({
-      error: "Email ou mot de passe incorrect",
+  if (!isAuth) {
+    res.status(statusCode!).send({
+      error: message,
     });
   } else {
-    // Boolean pour vérifier si le mot de passe est valide ou pas
-    let passwordIsValid = hash(password) === user.password;
-
-    if (!passwordIsValid) {
-      // Mot de passe incorrect
-      res.status(400).send({
-        error: "Email ou mot de passe incorrect",
-      });
-    } else {
-      // On met l'ID de l'utilisateur dans le JWT
-      const userData = {
-        user: {
-          id: user._id,
-          jwtVersion: process.env.JWT_VERSION,
-        },
-      };
-
-      jwt.sign(userData, process.env.JWT_SECRET!, (err, token) => {
-        // Une erreur existe
-        if (err) {
-          console.log(err);
-          res.status(500).send({
-            error: "Erreur du serveur",
-          });
-        } else {
-          res.send({
-            message: "Utilisateur authentifié",
-            payload: { token, ...userInfos(user!) },
-          });
-        }
-      });
-    }
+    res.send({
+      message: message,
+      payload: data,
+    });
   }
 });
 

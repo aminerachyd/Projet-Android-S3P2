@@ -24,6 +24,15 @@ export const userInfos = (user: UserType) => {
   return { id, email, nom, prenom, telephone };
 };
 
+/**
+ * Fonction pour récupérer un utilisateur depuis la base de données
+ */
+export const isUserValid = async (id: string) => {
+  const user = await UserModel.findById(id);
+
+  return { isValid: !!user, user };
+};
+
 /** Fonction pour filtrer les offres */
 export const filterOffers = async (
   filters: FiltersType,
