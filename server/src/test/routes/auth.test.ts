@@ -2,6 +2,7 @@ import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 import createServer from "../../app";
 
+let should = chai.should();
 chai.use(chaiHttp);
 const app = createServer();
 

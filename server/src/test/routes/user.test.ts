@@ -1,6 +1,7 @@
 import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 
+let should = chai.should();
 chai.use(chaiHttp);
 
 import createServer from "../../app";
@@ -9,12 +10,13 @@ const app = createServer();
 let tempId: string;
 
 describe("Route /user", () => {
-  it("POST : Doit enregistrer un utilisateur", (done) => {
+  it("POST : Doit enregistrer un utilisateur", function (done) {
+    this.timeout(20000);
     chai
       .request(app)
       .post("/user")
       .send({
-        email: "temp@temp.com",
+        email: "temptemp@temp.com",
         nom: "temp",
         prenom: "temp",
         telephone: "temp",
@@ -61,7 +63,7 @@ describe("Route /user", () => {
       .request(app)
       .post("/auth")
       .send({
-        email: "temp@temp.com",
+        email: "temptemp@temp.com",
         password: "temp",
       })
       .set({ Accept: "application/json" })
@@ -93,7 +95,7 @@ describe("Route /user", () => {
       .request(app)
       .post("/auth")
       .send({
-        email: "temp@temp.com",
+        email: "temptemp@temp.com",
         password: "temp",
       })
       .set({ Accept: "application/json" })

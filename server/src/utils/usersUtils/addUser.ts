@@ -11,12 +11,24 @@ const addUser = async ({
   prenom,
   telephone,
   password,
-}): Promise<{
-  isAdded: boolean;
-  message: string;
-  data?: {};
-  statusCode?: number;
-}> => {
+}): Promise<
+  | {
+      isAdded: boolean;
+      message: string;
+      data?: {};
+      statusCode?: number;
+    }
+  | any
+> => {
+  // Si un champ est manquant, on renvoit une erreur
+  if (!email || !nom || !prenom || !telephone || !password) {
+    return {
+      isAdded: false,
+      message: "Un ou plusieurs champs sont manquants",
+      statusCode: 400,
+    };
+  }
+
   const newUser = new UserModel({
     email,
     nom,
@@ -34,31 +46,21 @@ const addUser = async ({
       message: "Utilisateur ajouté",
       data: result._id,
     };
-    // res.send({ message: "Utilisateur ajouté", payload: result._id });
   } catch (error) {
-    // Si un champ est manquant, on renvoit une erreur
-    if ((<string>error._message).includes("user validation failed")) {
+    // Email déjà utilisé par un autre utilisateur
+    if (error.code === 11000) {
       return {
         isAdded: false,
-        message: "Un ou plusieurs champs sont manquants",
-        statusCode: 400,
+        message: "Email déjà utilisé",
+        statusCode: 409,
       };
     } else {
       console.log(error);
-      // Email déjà utilisé par un autre utilisateur
-      if (error.code === 11000) {
-        return {
-          isAdded: false,
-          message: "Email déjà utilisé",
-          statusCode: 409,
-        };
-      } else {
-        return {
-          isAdded: false,
-          message: "Erreur du serveur",
-          statusCode: 500,
-        };
-      }
+      return {
+        isAdded: false,
+        message: "Erreur du serveur",
+        statusCode: 500,
+      };
     }
   }
 };
