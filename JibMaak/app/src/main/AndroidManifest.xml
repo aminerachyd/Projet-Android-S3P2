@@ -14,11 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JibMaak"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activities.UpdateOfferActivity" />
         <activity android:name=".activities.ManageOffersActivity" />
         <activity android:name=".activities.ManageAccountActivity" />
         <activity android:name=".activities.SubmitOfferActivity" />
         <activity android:name=".activities.SearchOfferResultActivity" />
         <activity android:name=".activities.SearchOfferActivity" />
+        <activity android:name=".activities.MenuActivity" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.FirstActivity">
@@ -28,7 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MenuActivity" />
     </application>
 
 </manifest>

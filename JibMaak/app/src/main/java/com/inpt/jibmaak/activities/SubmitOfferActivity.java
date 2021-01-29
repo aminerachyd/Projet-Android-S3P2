@@ -163,11 +163,6 @@ public class SubmitOfferActivity extends AuthenticateActivity implements Activit
     }
 
     @Override
-    public String getConsommateurName() {
-        return "SubmitOfferActivity";
-    }
-
-    @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         viewModel.setOffer(offer);

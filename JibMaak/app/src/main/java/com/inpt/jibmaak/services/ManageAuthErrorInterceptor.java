@@ -28,7 +28,7 @@ public class ManageAuthErrorInterceptor implements Interceptor {
                     String error = response.peekBody(1024).string();
                     // Token invalide : on est deconnectés
                     if (error.contains("Token invalide, veuillez vous reconnecter"))
-                        authManager.logout();
+                        authManager.logout(true);
                 }
             } catch (Throwable ignored) {}
         }

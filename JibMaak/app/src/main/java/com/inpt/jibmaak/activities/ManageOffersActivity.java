@@ -49,8 +49,8 @@ public class ManageOffersActivity extends AuthenticateActivity {
     }
 
     @Override
-    public String getConsommateurName() {
-        return "ManageOffersActivity";
+    public void onLogout(boolean isUnexpected) {
+        super.onLogout(isUnexpected);
     }
 
     @Override

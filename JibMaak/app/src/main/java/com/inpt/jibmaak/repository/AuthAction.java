@@ -2,9 +2,6 @@ package com.inpt.jibmaak.repository;
 
 import com.inpt.jibmaak.model.User;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /** Classe enveloppe qui contient un code action pour connaitre le résultat d'une opération
  * liée à l'authentification. Elle possede également un attribut user pour stocker l'utilisateur
  * connecté
@@ -16,6 +13,7 @@ public class AuthAction {
         LOGIN_INCORRECT,
         LOGOUT,
         LOGOUT_ERROR,
+        LOGOUT_UNEXPECTED,
         UNAUTHORIZED,
         REGISTER,
         REGISTER_ERROR
@@ -23,7 +21,7 @@ public class AuthAction {
 
     protected Action action;
     protected User user;
-    protected List<String> consommateurs = new ArrayList<>();
+    protected boolean consumed = false;
 
     public AuthAction(){ }
 
@@ -33,22 +31,21 @@ public class AuthAction {
     }
 
     /**
-     *
+     * Renvoie l'action sans la consommer
      * @return l'action qui vient d'être réalisée
      */
-    public Action getAction() {
+    public Action peekAction() {
         return action;
     }
 
     /**
      * Permet à un consommateur de consommer une seule fois une action
-     * @param consommateur Celui qui veut consommer l'action
      * @return L'action si le consommateur ne l'a pas encore consommée, null dans le cas contraire
      */
-    public Action getAction(String consommateur){
-        if (consommateurs.contains(consommateur))
+    public Action getAction(){
+        if (consumed)
             return null;
-        consommateurs.add(consommateur);
+        consumed = true;
         return action;
     }
 
@@ -62,6 +59,14 @@ public class AuthAction {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isConsumed() {
+        return consumed;
+    }
+
+    public void setConsumed(boolean consumed) {
+        this.consumed = consumed;
     }
 }
 

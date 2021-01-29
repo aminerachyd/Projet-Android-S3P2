@@ -28,7 +28,8 @@
     <string name="pas_compte_inscrire">Pas de compte ? S\'inscrire</string>
     <string name="continuer">Continuer</string>
     <string name="salutations">"Bonjour %1$s ! "</string>
-    <string name="deconnexion_surprise">Erreur : vous êtes deconnecté</string>
+    <string name="deconnexion_surprise">Erreur : vous avez été deconnecté de façon inattendue
+        \nVeuillez vous reconnecter et recommencer</string>
     <string name="bonjour">Bonjour !</string>
     <string name="annuler">Annuler</string>
     <string name="demande_connexion">Cette action demande que vous soyez connecté</string>
@@ -99,4 +100,5 @@
     <string name="error_validation">Erreur : formulaire incorrect</string>
     <string name="error_dates_vides">Erreur : vous devez choisir une date de départ et d\'arrivée !</string>
     <string name="heure_arrivee">Heure d\'arrivée :</string>
+    <string name="ok">OK</string>
 </resources>

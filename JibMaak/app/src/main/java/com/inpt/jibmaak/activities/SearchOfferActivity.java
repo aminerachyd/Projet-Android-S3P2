@@ -246,11 +246,6 @@ public class SearchOfferActivity extends BaseActivity implements  ActivityManage
     }
 
     @Override
-    public String getConsommateurName() {
-        return "SearchOfferActivity";
-    }
-
-    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("CRITERIA",criteria);

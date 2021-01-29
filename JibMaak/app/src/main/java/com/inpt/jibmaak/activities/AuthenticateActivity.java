@@ -17,20 +17,13 @@ public abstract class AuthenticateActivity extends BaseActivity {
      * L'utilisateur s'est correctement connecté
      */
     public static final int RESULT_LOGIN = 1;
-    /**
-     * L'utilisateur ne s'est pas connecté (abandon ou erreur)
-     */
-    public static final int RESULT_NO_LOGIN = 2;
 
     /**
      * Code pour la demande d'authentification
      */
     public static final int REQUEST_CODE_LOGIN = 1;
 
-    /**
-     * Code pour la demande d'inscription
-     */
-    public static final int MENU_LOGIN_LOGOUT_GROUP = 0;
+    /** ITEM_ID de l'item login/logout du menu */
     public static final int MENU_LOGIN_LOGOUT_ITEM = 0;
 
     protected AlertDialog loginDialog;
@@ -66,7 +59,7 @@ public abstract class AuthenticateActivity extends BaseActivity {
         menu.clear();
         String titre_item = user == null ? getString(R.string.se_connecter)
                 : getString(R.string.se_deconnecter);
-        menu.add(MENU_LOGIN_LOGOUT_GROUP,MENU_LOGIN_LOGOUT_ITEM, Menu.NONE,titre_item);
+        menu.add(Menu.NONE,MENU_LOGIN_LOGOUT_ITEM, Menu.NONE,titre_item);
         return true;
     }
 

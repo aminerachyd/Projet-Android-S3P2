@@ -74,15 +74,26 @@ public class AuthManager {
     }
 
     public void logout(){
+        logout(false);
+    }
+
+    public void logout(boolean isUnexpected){
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.remove(ACCESS_TOKEN);
         edit.remove(USER);
         edit.apply();
         AuthAction authAction = new AuthAction();
-        authAction.setAction(Action.LOGOUT);
+        authAction.setAction(isUnexpected ? Action.LOGOUT_UNEXPECTED : Action.LOGOUT);
         authAction.setUser(null);
-        authActionData.setValue(authAction);
-        userData.setValue(null);
+        if (isUnexpected){
+            // On est dans un thread secondaire : on utilise postValue
+            authActionData.postValue(authAction);
+            userData.postValue(null);
+        }
+        else{
+            authActionData.setValue(authAction);
+            userData.setValue(null);
+        }
     }
 
     public void login(String username,String password){

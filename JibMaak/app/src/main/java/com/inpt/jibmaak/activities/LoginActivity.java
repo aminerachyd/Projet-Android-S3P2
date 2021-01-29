@@ -53,7 +53,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    public void onLogin() {
+    public void updateUiWithUser() {
+        super.updateUiWithUser();
         Toast.makeText(this,getString(R.string.salutations,user.getPrenom()),Toast.LENGTH_SHORT).show();
         setResult(AuthenticateActivity.RESULT_LOGIN);
         finish();
@@ -70,10 +71,5 @@ public class LoginActivity extends BaseActivity {
                 Toast.makeText(this,R.string.error,Toast.LENGTH_SHORT).show();
                 break;
         }
-    }
-
-    @Override
-    public String getConsommateurName() {
-        return "LoginActivity";
     }
 }

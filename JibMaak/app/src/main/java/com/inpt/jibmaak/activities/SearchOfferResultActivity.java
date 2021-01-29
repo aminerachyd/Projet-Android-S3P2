@@ -180,16 +180,15 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
     }
 
     @Override
-    public void onLogin() {
-        super.onLogin();
+    public void updateUiWithUser() {
+        super.updateUiWithUser();
         if (offerDetails != null)
             offerDetails.dismiss();
         adapter.setUserId(user.getId());
     }
 
     @Override
-    public void onLogout(boolean isUnexpected) {
-        super.onLogout(isUnexpected);
+    public void updateUiNoUser() {
         if (offerDetails != null)
             offerDetails.dismiss();
         adapter.setUserId(null);
@@ -212,10 +211,5 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
     public void onAskLoginFailed() {
         super.onAskLoginFailed();
         finish();
-    }
-
-    @Override
-    public String getConsommateurName() {
-        return "SearchOfferResultActivity";
     }
 }

@@ -62,12 +62,7 @@ public class ManageAccountActivity extends AuthenticateActivity {
                     .create();
             deleteDialog.show();
         });
-        bouton_deconnecter.setOnClickListener(v -> {
-            authManager.logout();
-            Toast.makeText(ManageAccountActivity.this,R.string.deconnexion_volontaire,
-                    Toast.LENGTH_LONG).show();
-            finish();
-        });
+        bouton_deconnecter.setOnClickListener(v -> authManager.logout());
 
         viewModel.getOperationData().observe(this, stringResource -> {
             removeWaitingScreen();
@@ -151,14 +146,13 @@ public class ManageAccountActivity extends AuthenticateActivity {
     }
 
     @Override
-    public void onLogout(boolean isUnexpected) {
-        super.onLogout(isUnexpected);
+    public void updateUiNoUser() {
         dismissDialogs();
     }
 
     @Override
-    public void onLogin() {
-        super.onLogin();
+    public void updateUiWithUser() {
+        super.updateUiWithUser();
         dismissDialogs();
     }
 
@@ -169,8 +163,10 @@ public class ManageAccountActivity extends AuthenticateActivity {
     }
 
     @Override
-    public String getConsommateurName() {
-        return "AuthenticateActivity";
+    public void onLogout(boolean isUnexpected) {
+        super.onLogout(isUnexpected);
+        if (!isUnexpected)
+            finish();
     }
 
     protected void dismissDialogs(){

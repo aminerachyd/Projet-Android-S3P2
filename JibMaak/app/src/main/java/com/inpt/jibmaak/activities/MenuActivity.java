@@ -64,21 +64,16 @@ public class MenuActivity extends AuthenticateActivity {
     }
 
     @Override
-    public void onLogin() {
+    public void updateUiWithUser() {
         // On affiche les cartes gerer compte et gerer offres
         card_compte.setVisibility(View.VISIBLE);
         card_gerer_offre.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onLogout(boolean isUnexpected) {
+    public void updateUiNoUser() {
         // On masque les cartes gerer compte et gerer offres
         card_compte.setVisibility(View.GONE);
         card_gerer_offre.setVisibility(View.GONE);
-    }
-
-    @Override
-    public String getConsommateurName() {
-        return "MenuActivity";
     }
 }

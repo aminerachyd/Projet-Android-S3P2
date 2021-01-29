@@ -29,15 +29,10 @@ public class FirstActivity extends AuthenticateActivity{
     }
 
     @Override
-    public void onLogin() {
+    public void updateUiWithUser() {
         // On passe directement au menu
         Intent intent = new Intent(getBaseContext(), MenuActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    @Override
-    public String getConsommateurName() {
-        return "FirstActivity";
     }
 }

@@ -68,7 +68,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     @Override
-    public void onLogin() {
+    public void updateUiWithUser() {
         // On ferme l'activité
         finish();
     }
@@ -85,10 +85,5 @@ public class RegisterActivity extends BaseActivity {
             Toast.makeText(RegisterActivity.this,
                     R.string.register_error,Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    public String getConsommateurName() {
-        return "RegisterActivity";
     }
 }
