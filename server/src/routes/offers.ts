@@ -3,6 +3,9 @@ import UserModel from "../models/User";
 import OfferModel from "../models/Offer";
 import { userInfos, filterOffers, findUserOffers } from "../utils/helpers";
 import auth from "../middleware/auth";
+import fetchAllOffers from "../utils/offersUtils/fetchAllOffers";
+import fetchAllOffersWithFilters from "../utils/offersUtils/fetchAllOffersWithFilters";
+import fetchUserOffers from "../utils/offersUtils/fetchUserOffers";
 
 // Limite par défaut d'offres à récupérer par requete
 const MAX_LIMIT = 15;
@@ -19,81 +22,18 @@ router.get("/", async (req, res) => {
   // On récupère la page et le limit depuis la requete
   const { page, limit } = req.query;
 
-  /*
-   * On évalue la limite et la page
-   * La limite ne doit pas dépasser la limite par défaut
-   * La page est calculée en fonction de la limite évaluée
-   */
-  let limitNumber = parseInt(<string>limit)
-    ? Math.min(parseInt(<string>limit), MAX_LIMIT)
-    : MAX_LIMIT;
+  const { isFetched, data, message, statusCode } = await fetchAllOffers(
+    page,
+    limit,
+    MAX_LIMIT
+  );
 
-  let realPageNumber = page ? parseInt(<string>page) : 1;
-
-  let pageNumber =
-    parseInt(<string>page) > 1 ? limitNumber * (parseInt(<string>page) - 1) : 0;
-
-  try {
-    /**
-     * On récupère une offre de plus
-     * Si cette dernière offre existe, c'est qu'il y'a plus de documents à récupérer, soit une prochaine page existe.
-     * Si elle n'existe pas, c'est la dernière page.
-     */
-    const result = await OfferModel.find()
-      .limit(limitNumber + 1)
-      .skip(pageNumber)
-      .sort({ updatedAt: "desc" });
-
-    let offers: any = [];
-
-    let hasMore = result.length === limitNumber + 1;
-
-    for (let i = 0; i < limitNumber; i++) {
-      let offer = result[i];
-      // On s'arrete au dernier index si l'offre de plus est null
-      if (!offer) {
-        break;
-      }
-
-      let {
-        id,
-        user,
-        lieuDepart,
-        lieuArrivee,
-        dateDepart,
-        dateArrivee,
-        prixKg,
-        poidsDispo,
-      } = offer;
-
-      let userData = await UserModel.findById(user._id);
-      // Si l'utilisateur n'existe pas pour cette offre, on la saute
-      if (!userData) {
-        continue;
-      }
-
-      offers.push({
-        id,
-        user: userInfos(userData),
-        lieuDepart,
-        lieuArrivee,
-        dateDepart,
-        dateArrivee,
-        prixKg,
-        poidsDispo,
-      });
-    }
-
-    res.send({
-      message: "Offres récupérées",
-      payload: { hasMore, offers, page: realPageNumber, limit: limitNumber },
+  if (!isFetched) {
+    res.status(statusCode!).send({
+      error: message,
     });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).send({
-      error: "Erreur du serveur",
-    });
+  } else {
+    res.send({ message, payload: data });
   }
 });
 
@@ -107,73 +47,19 @@ router.post("/", async (req, res) => {
   // On récupère la page et le limit depuis la requete
   const { page, limit } = req.query;
 
-  /*
-   * On évalue la limite et la page
-   * La limite ne doit pas dépasser la limite par défaut
-   * La page est calculée en fonction de la limite évaluée
-   */
-  let limitNumber = parseInt(<string>limit)
-    ? Math.min(parseInt(<string>limit), MAX_LIMIT)
-    : MAX_LIMIT;
+  const {
+    isFetched,
+    data,
+    message,
+    statusCode,
+  } = await fetchAllOffersWithFilters(req.body, page, limit, MAX_LIMIT);
 
-  let realPageNumber = page ? parseInt(<string>page) : 1;
-
-  let pageNumber =
-    parseInt(<string>page) > 1 ? limitNumber * (parseInt(<string>page) - 1) : 0;
-
-  try {
-    const result = await filterOffers(req.body, limitNumber, pageNumber);
-
-    let offers: any = [];
-
-    let hasMore = result.length === limitNumber + 1;
-
-    for (let i = 0; i < limitNumber; i++) {
-      let offer = result[i];
-      // On s'arrete au dernier index si l'offre de plus est null
-      if (!offer) {
-        break;
-      }
-
-      let {
-        id,
-        user,
-        lieuDepart,
-        lieuArrivee,
-        dateDepart,
-        dateArrivee,
-        prixKg,
-        poidsDispo,
-      } = offer;
-
-      let userData = await UserModel.findById(user._id);
-      // Si l'utilisateur n'existe pas pour cette offre, on la saute
-      if (!userData) {
-        continue;
-      }
-
-      offers.push({
-        id,
-        user: userInfos(userData),
-        lieuDepart,
-        lieuArrivee,
-        dateDepart,
-        dateArrivee,
-        prixKg,
-        poidsDispo,
-      });
-    }
-
-    res.send({
-      message: "Offres récupérées",
-      payload: { hasMore, offers, page: realPageNumber, limit: limitNumber },
+  if (!isFetched) {
+    res.status(statusCode!).send({
+      error: message,
     });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).send({
-      error: "Erreur du serveur",
-    });
+  } else {
+    res.send({ message, payload: data });
   }
 });
 
@@ -186,96 +72,24 @@ router.post("/", async (req, res) => {
 router.get("/user/:id", auth, async (req, res) => {
   // On récupère la page et le limit depuis la requete
   const { page, limit } = req.query;
-
-  /*
-   * On évalue la limite et la page
-   * La limite ne doit pas dépasser la limite par défaut
-   * La page est calculée en fonction de la limite évaluée
-   */
-  let limitNumber = parseInt(<string>limit)
-    ? Math.min(parseInt(<string>limit), MAX_LIMIT)
-    : MAX_LIMIT;
-
-  let realPageNumber = page ? parseInt(<string>page) : 1;
-
-  let pageNumber =
-    parseInt(<string>page) > 1 ? limitNumber * (parseInt(<string>page) - 1) : 0;
-
-  const user = req.user;
   const { id } = req.params;
-  if (id !== user!.id) {
-    // L'utilisateur ne correspond à celui authentifié
-    res.status(401).send({
-      error: "Non autorisé",
+  const userId = req.user?.id;
+
+  // FIXME régler la pagination ici
+  const { isFetched, data, message, statusCode } = await fetchUserOffers(
+    id,
+    userId,
+    page,
+    limit,
+    MAX_LIMIT
+  );
+
+  if (!isFetched) {
+    res.status(statusCode!).send({
+      error: message,
     });
   } else {
-    try {
-      const result = await findUserOffers(id, limitNumber, pageNumber);
-
-      if (!result) {
-        console.log("no result");
-      } else {
-        let hasMore = result.length === limitNumber + 1;
-        res.send({
-          message: "Offres récupérées",
-          payload: {
-            hasMore,
-            offers: result,
-            page: realPageNumber,
-            limit: limitNumber,
-          },
-        });
-      }
-
-      // let hasMore = result.length === limitNumber + 1;
-
-      // for (let i = 0; i < limitNumber; i++) {
-      //   let offer = result[i];
-      //   // On s'arrete au dernier index si l'offre de plus est null
-      //   if (!offer) {
-      //     break;
-      //   }
-
-      //   let {
-      //     id,
-      //     user,
-      //     lieuDepart,
-      //     lieuArrivee,
-      //     dateDepart,
-      //     dateArrivee,
-      //     prixKg,
-      //     poidsDispo,
-      //   } = offer;
-
-      //   let userData = await UserModel.findById(user._id);
-      //   // Si l'utilisateur n'existe pas pour cette offre, on la saute
-      //   if (!userData) {
-      //     continue;
-      //   }
-
-      //   offers.push({
-      //     id,
-      //     user: userInfos(userData),
-      //     lieuDepart,
-      //     lieuArrivee,
-      //     dateDepart,
-      //     dateArrivee,
-      //     prixKg,
-      //     poidsDispo,
-      //   });
-      // }
-
-      // res.send({
-      //   message: "Offres récupérées",
-      //   payload: { hasMore, offers, page: realPageNumber, limit: limitNumber },
-      // });
-    } catch (error) {
-      console.log(error);
-
-      res.status(500).send({
-        error: "Erreur du serveur",
-      });
-    }
+    res.send({ message, payload: data });
   }
 });
 
