@@ -1,7 +1,6 @@
 import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 
-let should = chai.should();
 chai.use(chaiHttp);
 
 import createServer from "../../app";
@@ -13,7 +12,7 @@ describe("Route /users", () => {
     chai
       .request(app)
       .get("/users")
-      .end((err, res) => {
+      .end((_, res) => {
         res.should.have.status(200);
 
         expect(res.body).to.be.an.instanceof(Object);

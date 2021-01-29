@@ -2,8 +2,6 @@ import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 import createServer from "../../app";
 
-let should = chai.should();
-
 chai.use(chaiHttp);
 const app = createServer();
 
@@ -20,7 +18,7 @@ describe("Route /auth", () => {
         password: "test",
       })
       .set({ Accept: "application/json" })
-      .end((req, res) => {
+      .end((_, res) => {
         res.status.should.equal(200);
         expect(res.body).to.be.an.instanceof(Object);
         expect(res.body).to.have.property("message");
@@ -36,7 +34,7 @@ describe("Route /auth", () => {
       .request(app)
       .get("/auth")
       .set({ "x-auth-token": TEST_TOKEN })
-      .end((req, res) => {
+      .end((_, res) => {
         res.status.should.equal(200);
         expect(res.body).to.be.an.instanceof(Object);
         expect(res.body).to.have.property("message");

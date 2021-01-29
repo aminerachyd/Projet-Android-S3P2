@@ -1,6 +1,5 @@
 import express from "express";
-import UserModel from "../models/User";
-import { userInfos } from "../utils/helpers";
+import fetchAllUsers from "../utils/usersUtils/fetchAllUsers";
 
 const router = express.Router();
 
@@ -11,19 +10,16 @@ const router = express.Router();
  * RETURN: La liste des utilisateurs
  */
 router.get("/", async (_, res) => {
-  try {
-    const result = await UserModel.find();
-    const modifiedResult = result.map((user) => userInfos(user));
+  const { isFetched, data, message, statusCode } = await fetchAllUsers();
 
-    res.send({
-      message: "Liste d'utilisateurs récupérée",
-      payload: modifiedResult,
+  if (!isFetched) {
+    res.status(statusCode!).send({
+      message,
     });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).send({
-      error: "Erreur du serveur",
+  } else {
+    res.send({
+      message,
+      payload: data,
     });
   }
 });
