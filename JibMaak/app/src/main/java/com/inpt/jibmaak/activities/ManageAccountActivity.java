@@ -103,7 +103,7 @@ public class ManageAccountActivity extends AuthenticateActivity {
         EditText zone_mail = updateDialog.findViewById(R.id.zone_mail_update);
         SwitchCompat switch_mdp_maj = updateDialog.findViewById(R.id.switch_mdp_update);
         EditText zone_mdp = updateDialog.findViewById(R.id.zone_mdp_update);
-        Button bouton_maj = updateDialog.findViewById(R.id.bouton_maj);
+        Button bouton_maj = updateDialog.findViewById(R.id.bouton_maj_user);
 
         zone_nom.setText(user.getNom());
         zone_prenom.setText(user.getPrenom());

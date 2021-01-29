@@ -149,6 +149,14 @@ public class SubmitOfferActivity extends AuthenticateActivity implements Activit
             hasErrors = true;
             Toast.makeText(this,R.string.error_dates_vides,Toast.LENGTH_SHORT).show();
         }
+        else if (new Date().after(offer.getDateDepart())){
+            hasErrors = true;
+            Toast.makeText(this,R.string.error_dates_deja_passee,Toast.LENGTH_SHORT).show();
+        }
+        else if (offer.getDateDepart().after(offer.getDateArrivee())){
+            hasErrors = true;
+            Toast.makeText(this,R.string.error_dates_invalides,Toast.LENGTH_SHORT).show();
+        }
         if (!hasErrors && prepareAction()){
             int valeur_poids = Integer.parseInt(zone_poids.getText().toString());
             int valeur_prix  = Integer.parseInt(zone_prix.getText().toString());
@@ -168,11 +176,6 @@ public class SubmitOfferActivity extends AuthenticateActivity implements Activit
         viewModel.setOffer(offer);
         viewModel.setDate_arrivee_texte(date_arrivee.getText().toString());
         viewModel.setDate_depart_texte(date_depart.getText().toString());
-    }
-
-    @Override
-    public void onAskLoginFailed() {
-        super.onAskLoginFailed();
     }
 
     @Override

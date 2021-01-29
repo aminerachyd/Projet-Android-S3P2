@@ -32,8 +32,8 @@ public class ManageOffersActivity extends AuthenticateActivity {
 
             Intent intent = new Intent(ManageOffersActivity.this,
                     SearchOfferResultActivity.class);
-            intent.putExtra(SearchOfferActivity.EXTRA_CRITERIA, criteria);
-            intent.putExtra(SearchOfferActivity.EXTRA_PAGINATION, page);
+            intent.putExtra(SearchOfferResultActivity.EXTRA_CRITERIA, criteria);
+            intent.putExtra(SearchOfferResultActivity.EXTRA_PAGINATION, page);
             startActivity(intent);
         });
 

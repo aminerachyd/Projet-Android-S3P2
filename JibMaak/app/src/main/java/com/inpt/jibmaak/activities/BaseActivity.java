@@ -117,7 +117,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public void onAuthAction(AuthAction.Action action){ }
 
-
     /** Vérifie que la connexion est disponible et dans le cas écheant affiche l'ecran d'attente
      * @return true si la connexion est disponible
      */

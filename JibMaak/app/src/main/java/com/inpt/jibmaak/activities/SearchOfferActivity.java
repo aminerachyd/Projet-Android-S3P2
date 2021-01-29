@@ -21,11 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class SearchOfferActivity extends BaseActivity implements  ActivityManageDateDialog{
 
-    // Activité de recherche d'offre
-    // L'utilisateur saisi les infos pour trouver l'offre qui le convient
-    public static final String EXTRA_CRITERIA = "com.inpt.jibmaak.EXTRA_CRITERIA";
-    public static final String EXTRA_PAGINATION = "com.inpt.jibmaak.EXTRA_PAGINATION";
-    
     protected OfferSearchCriteria criteria;
     protected Pagination page;
 
@@ -238,8 +233,8 @@ public class SearchOfferActivity extends BaseActivity implements  ActivityManage
         bouton_recherche.setOnClickListener(v -> {
             Intent intent = new Intent(SearchOfferActivity.this,
                     SearchOfferResultActivity.class);
-            intent.putExtra(EXTRA_CRITERIA, criteria);
-            intent.putExtra(EXTRA_PAGINATION, page);
+            intent.putExtra(SearchOfferResultActivity.EXTRA_CRITERIA, criteria);
+            intent.putExtra(SearchOfferResultActivity.EXTRA_PAGINATION, page);
             startActivity(intent);
         });
         

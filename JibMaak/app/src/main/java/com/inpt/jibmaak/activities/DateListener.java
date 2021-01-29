@@ -68,7 +68,6 @@ public abstract class DateListener implements View.OnClickListener {
             setCurrentDate(selected_date.getTime());
         },current_hour,current_minute,true);
         timeDialog.setOnCancelListener(dialog -> setCurrentDate(null));
-
         selected_date = Calendar.getInstance();
         dateDialog.setOnDateSetListener((view, year, month, dayOfMonth) -> {
             selected_date.set(year,month,dayOfMonth);

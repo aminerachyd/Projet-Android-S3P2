@@ -30,6 +30,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class SearchOfferResultActivity extends AuthenticateActivity {
+    // Activité de recherche d'offre
+    // L'utilisateur saisi les infos pour trouver l'offre qui le convient
+    public static final String EXTRA_CRITERIA = "com.inpt.jibmaak.EXTRA_CRITERIA";
+    public static final String EXTRA_PAGINATION = "com.inpt.jibmaak.EXTRA_PAGINATION";
 
     // Activité de résultat de la recherche
     // Est affiché le résutlat de la recherche effectuée par l'utilisateur
@@ -39,7 +43,7 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
     protected OfferAdapter adapter;
     protected SearchOfferResultViewModel viewModel;
     protected SwipeRefreshLayout refreshLayout;
-    protected AlertDialog offerDetails;
+    protected AlertDialog detailsOfferDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +60,9 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
         if (savedInstanceState == null){
             Intent starterIntent = getIntent();
             OfferSearchCriteria criteria = starterIntent.getParcelableExtra(
-                    SearchOfferActivity.EXTRA_CRITERIA);
+                    EXTRA_CRITERIA);
             Pagination page = starterIntent.getParcelableExtra(
-                    SearchOfferActivity.EXTRA_PAGINATION);
+                    EXTRA_PAGINATION);
             if (criteria == null || page == null){
                 // On arrete l'activité : c'est une erreur
                 finish();
@@ -138,22 +142,22 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
     }
 
     public void showDetails(Offer offer){
-        offerDetails = new AlertDialog.Builder(SearchOfferResultActivity.this)
+        detailsOfferDialog = new AlertDialog.Builder(SearchOfferResultActivity.this)
                 .setView(R.layout.dialog_selected_offer).create();
-        offerDetails.show();
+        detailsOfferDialog.show();
 
         User livreur = offer.getUser();
 
-        TextView label_nom = offerDetails.findViewById(R.id.label_detail_nom_livreur);
-        TextView label_lieu_depart = offerDetails.findViewById(R.id.label_detail_lieu_depart);
-        TextView label_date_depart = offerDetails.findViewById(R.id.label_detail_date_depart);
-        TextView label_heure_depart = offerDetails.findViewById(R.id.label_detail_heure_depart);
-        TextView label_lieu_arrivee = offerDetails.findViewById(R.id.label_detail_lieu_arrivee);
-        TextView label_date_arrivee = offerDetails.findViewById(R.id.label_detail_date_arrivee);
-        TextView label_heure_arrivee = offerDetails.findViewById(R.id.label_detail_heure_arrivee);
-        TextView label_poids_disponible = offerDetails.findViewById(R.id.label_detail_poids_disponible);
-        TextView label_prix_kg = offerDetails.findViewById(R.id.label_detail_prix_kg);
-        TextView label_tel_livreur = offerDetails.findViewById(R.id.label_tel_livreur);
+        TextView label_nom = detailsOfferDialog.findViewById(R.id.label_detail_nom_livreur);
+        TextView label_lieu_depart = detailsOfferDialog.findViewById(R.id.label_detail_lieu_depart);
+        TextView label_date_depart = detailsOfferDialog.findViewById(R.id.label_detail_date_depart);
+        TextView label_heure_depart = detailsOfferDialog.findViewById(R.id.label_detail_heure_depart);
+        TextView label_lieu_arrivee = detailsOfferDialog.findViewById(R.id.label_detail_lieu_arrivee);
+        TextView label_date_arrivee = detailsOfferDialog.findViewById(R.id.label_detail_date_arrivee);
+        TextView label_heure_arrivee = detailsOfferDialog.findViewById(R.id.label_detail_heure_arrivee);
+        TextView label_poids_disponible = detailsOfferDialog.findViewById(R.id.label_detail_poids_disponible);
+        TextView label_prix_kg = detailsOfferDialog.findViewById(R.id.label_detail_prix_kg);
+        TextView label_tel_livreur = detailsOfferDialog.findViewById(R.id.label_tel_livreur);
 
         DateFormat dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.FULL);
         DateFormat heureFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT);
@@ -171,10 +175,18 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
         label_tel_livreur.append(livreur.getTelephone());
 
         if (user != null && user.getId().equals(livreur.getId())){
-            Button bouton_modifier = offerDetails.findViewById(R.id.bouton_modifier_offre);
+            Button bouton_modifier = detailsOfferDialog.findViewById(R.id.bouton_modifier_offre);
             bouton_modifier.setVisibility(View.VISIBLE);
             bouton_modifier.setOnClickListener(v -> {
-                // TODO : modifier offer activity
+                if (user == null) {
+                    askLogin();
+                    return;
+                }
+                Intent intent = new Intent(SearchOfferResultActivity.this,
+                        UpdateOfferActivity.class);
+                intent.putExtra(UpdateOfferActivity.EXTRA_OFFER,offer);
+                startActivity(intent);
+                detailsOfferDialog.dismiss();
             });
         }
     }
@@ -182,15 +194,15 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
     @Override
     public void updateUiWithUser() {
         super.updateUiWithUser();
-        if (offerDetails != null)
-            offerDetails.dismiss();
+        if (detailsOfferDialog != null)
+            detailsOfferDialog.dismiss();
         adapter.setUserId(user.getId());
     }
 
     @Override
     public void updateUiNoUser() {
-        if (offerDetails != null)
-            offerDetails.dismiss();
+        if (detailsOfferDialog != null)
+            detailsOfferDialog.dismiss();
         adapter.setUserId(null);
     }
 
@@ -203,8 +215,8 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (offerDetails != null)
-            offerDetails.dismiss();
+        if (detailsOfferDialog != null)
+            detailsOfferDialog.dismiss();
     }
 
     @Override

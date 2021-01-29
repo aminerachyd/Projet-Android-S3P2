@@ -83,6 +83,7 @@
     <string name="se_deconnecter">Se deconnecter</string>
     <string name="deconnexion_volontaire">Vous vous êtes déconnectés</string>
     <string name="breadcrumbs_gerer_offres">Gérer mes offres</string>
+    <string name="breadcrumbs_update_offres"><![CDATA[Gerer mes offres > Modifier l\'offre]]></string>
     <string name="voir_mes_offres">Voir mes offres</string>
     <string name="ajouter_une_offre">Ajouter une offre</string>
     <string name="date_arrivee">Date d\'arrivée :</string>
@@ -101,4 +102,10 @@
     <string name="error_dates_vides">Erreur : vous devez choisir une date de départ et d\'arrivée !</string>
     <string name="heure_arrivee">Heure d\'arrivée :</string>
     <string name="ok">OK</string>
+    <string name="supprimer_offre">Supprimer l\'offre</string>
+    <string name="mettre_jour_offre">Mettre à jour l\'offre</string>
+    <string name="update_offer_succes">Votre offre a été mise à jour</string>
+    <string name="delete_offer_success">Votre offre a bien été supprimée</string>
+    <string name="error_dates_invalides">Erreur : la date de départ doit être avant la date d\'arrivée</string>
+    <string name="error_dates_deja_passee">Erreur : la date départ est déjà passée</string>
 </resources>

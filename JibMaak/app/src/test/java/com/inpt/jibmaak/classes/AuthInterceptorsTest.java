@@ -118,6 +118,6 @@ public class AuthInterceptorsTest {
 
         call = authService.checkLogin();
         call.execute();
-        verify(authManager,times(1)).logout();
+        verify(authManager,times(1)).logout(true);
     }
 }
