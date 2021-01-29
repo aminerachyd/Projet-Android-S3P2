@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.model.Offer;
 import com.inpt.jibmaak.repository.Resource;
+import com.inpt.jibmaak.validators.OfferValidation;
 import com.inpt.jibmaak.viewmodels.SubmitOfferViewModel;
 
 import java.util.Date;
@@ -141,36 +142,24 @@ public class SubmitOfferActivity extends AuthenticateActivity implements Activit
             askLogin();
             return;
         }
-        int valeur_poids;
-        int valeur_prix;
-        try {
-            valeur_poids = Integer.parseInt(zone_poids.getText().toString());
-        } catch (NumberFormatException e){
-            Toast.makeText(this,R.string.error_poids_incorrect,Toast.LENGTH_SHORT).show();
-            return;
+        boolean hasErrors = OfferValidation.validate(this,zone_lieu_depart,zone_lieu_arrivee,zone_poids,zone_prix);
+        if (hasErrors)
+            Toast.makeText(this,R.string.error_validation,Toast.LENGTH_SHORT).show();
+        else if (offer.getDateDepart() == null || offer.getDateArrivee() == null){
+            hasErrors = true;
+            Toast.makeText(this,R.string.error_dates_vides,Toast.LENGTH_SHORT).show();
         }
-        try {
-            valeur_prix = Integer.parseInt(zone_prix.getText().toString());
-        } catch (NumberFormatException e){
-            Toast.makeText(this,R.string.error_prix_incorrect,Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String valeur_lieu_depart = zone_lieu_depart.getText().toString();
-        String valeur_lieu_arrivee = zone_lieu_arrivee.getText().toString();
-        if (valeur_lieu_depart.length() < 2){
-            Toast.makeText(this,R.string.error_lieu_depart_court,Toast.LENGTH_SHORT).show();
-        }
-        else if (valeur_lieu_arrivee.length() < 2){
-            Toast.makeText(this,R.string.error_lieu_arrivee_court,Toast.LENGTH_SHORT).show();
-        }
-        else if (prepareAction()){
+        if (!hasErrors && prepareAction()){
+            int valeur_poids = Integer.parseInt(zone_poids.getText().toString());
+            int valeur_prix  = Integer.parseInt(zone_prix.getText().toString());
+            String valeur_lieu_depart = zone_lieu_depart.getText().toString();
+            String valeur_lieu_arrivee = zone_lieu_arrivee.getText().toString();
             offer.setPoidsDispo(valeur_poids);
             offer.setPrixKg(valeur_prix);
             offer.setLieuArrivee(valeur_lieu_arrivee);
             offer.setLieuDepart(valeur_lieu_depart);
             viewModel.createOffer(offer);
         }
-
     }
 
     @Override

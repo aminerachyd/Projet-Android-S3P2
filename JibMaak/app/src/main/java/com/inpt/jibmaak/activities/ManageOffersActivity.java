@@ -20,6 +20,10 @@ public class ManageOffersActivity extends AuthenticateActivity {
         bouton_voir_offres = findViewById(R.id.bouton_voir_offres);
 
         bouton_voir_offres.setOnClickListener(v -> {
+            if (user == null){
+                askLogin();
+                return;
+            }
             if (!prepareAction())
                 return;
             // TODO : filtre utilisateur
@@ -34,6 +38,10 @@ public class ManageOffersActivity extends AuthenticateActivity {
         });
 
         bouton_ajouter_offres.setOnClickListener(v -> {
+            if (user == null){
+                askLogin();
+                return;
+            }
             Intent intent = new Intent(ManageOffersActivity.this,
                     SubmitOfferActivity.class);
             startActivity(intent);

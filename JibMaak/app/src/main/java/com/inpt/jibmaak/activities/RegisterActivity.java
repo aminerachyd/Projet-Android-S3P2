@@ -1,13 +1,13 @@
 package com.inpt.jibmaak.activities;
 
 import android.os.Bundle;
-import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.repository.AuthAction;
+import com.inpt.jibmaak.validators.UserValidation;
 
 import java.util.HashMap;
 
@@ -45,41 +45,21 @@ public class RegisterActivity extends BaseActivity {
     }
 
     public void register(){
-        String nom = zone_nom.getText().toString();
-        if (nom.length() < 1){
-            Toast.makeText(this,R.string.error_register_nom,Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String prenom = zone_prenom.getText().toString();
-        if (prenom.length() < 1){
-            Toast.makeText(this,R.string.error_register_prenom,Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String telephone = zone_telephone.getText().toString();
-        if (!telephone.matches("^0[0-9]{9}$")){
-            Toast.makeText(this,R.string.error_register_telephone,Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String email = zone_mail.getText().toString();
-        if (email.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            Toast.makeText(this,R.string.error_register_email,Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String mdp = zone_mdp.getText().toString();
-        String mdp_conf = zone_mdp_conf.getText().toString();
-
-        if (mdp.length() < 6){
-            Toast.makeText(this,R.string.error_register_mdp,Toast.LENGTH_SHORT).show();
-        }
-        else if (!mdp.equals(mdp_conf)){
-            Toast.makeText(this,R.string.error_register_mdp_conf,Toast.LENGTH_SHORT).show();
-        }
+        boolean hasErrors = UserValidation.validate(this,zone_nom,zone_prenom,
+                zone_telephone,zone_mail,zone_mdp,zone_mdp_conf);
+        if (hasErrors)
+            Toast.makeText(this,R.string.error_validation,Toast.LENGTH_SHORT).show();
         else if (prepareAction()){
+            String nom = zone_nom.getText().toString();
+            String prenom = zone_prenom.getText().toString();
+            String telephone = zone_telephone.getText().toString();
+            String mail = zone_mail.getText().toString();
+            String mdp = zone_mdp.getText().toString();
             // Les champs sont corrects : on peut lancer la requete
             HashMap<String,String> body = new HashMap<>();
             body.put("nom",nom);
             body.put("prenom",prenom);
-            body.put("email",email);
+            body.put("email",mail);
             body.put("telephone",telephone);
             body.put("password",mdp);
             makeWaitingScreen();

@@ -145,24 +145,27 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
         User livreur = offer.getUser();
 
         TextView label_nom = offerDetails.findViewById(R.id.label_detail_nom_livreur);
+        TextView label_lieu_depart = offerDetails.findViewById(R.id.label_detail_lieu_depart);
         TextView label_date_depart = offerDetails.findViewById(R.id.label_detail_date_depart);
         TextView label_heure_depart = offerDetails.findViewById(R.id.label_detail_heure_depart);
         TextView label_lieu_arrivee = offerDetails.findViewById(R.id.label_detail_lieu_arrivee);
-        TextView label_lieu_depart = offerDetails.findViewById(R.id.label_detail_lieu_depart);
+        TextView label_date_arrivee = offerDetails.findViewById(R.id.label_detail_date_arrivee);
+        TextView label_heure_arrivee = offerDetails.findViewById(R.id.label_detail_heure_arrivee);
         TextView label_poids_disponible = offerDetails.findViewById(R.id.label_detail_poids_disponible);
         TextView label_prix_kg = offerDetails.findViewById(R.id.label_detail_prix_kg);
         TextView label_tel_livreur = offerDetails.findViewById(R.id.label_tel_livreur);
 
         DateFormat dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.FULL);
         DateFormat heureFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT);
-        // TODO : ajouter la date/heure arrivee
         label_nom.append(livreur.getNom());
         label_nom.append(" ");
         label_nom.append(livreur.getPrenom());
+        label_lieu_depart.append(offer.getLieuDepart());
         label_date_depart.append(dateFormat.format(offer.getDateDepart()));
         label_heure_depart.append(heureFormat.format(offer.getDateDepart()));
         label_lieu_arrivee.append(offer.getLieuArrivee());
-        label_lieu_depart.append(offer.getLieuDepart());
+        label_date_arrivee.append(dateFormat.format(offer.getDateArrivee()));
+        label_heure_arrivee.append(heureFormat.format(offer.getDateArrivee()));
         label_poids_disponible.append(String.valueOf(offer.getPoidsDispo()));
         label_prix_kg.append(String.valueOf(offer.getPrixKg()));
         label_tel_livreur.append(livreur.getTelephone());

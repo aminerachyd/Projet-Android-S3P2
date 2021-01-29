@@ -5,12 +5,11 @@ import android.app.TimePickerDialog;
 import android.view.View;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 /** Classe abstraite pour définir un callback en cas de changement de date */
 public abstract class DateListener implements View.OnClickListener {
-    protected DateFormat format = SimpleDateFormat.getDateInstance(DateFormat.FULL);
+    protected DateFormat format = DateFormat.getDateTimeInstance(DateFormat.FULL,DateFormat.SHORT);
     protected ActivityManageDateDialog manager;
     protected TimePickerDialog timeDialog;
     protected DatePickerDialog dateDialog;
@@ -65,6 +64,7 @@ public abstract class DateListener implements View.OnClickListener {
         timeDialog = new TimePickerDialog(v.getContext(),(view1, hourOfDay, minute) -> {
             selected_date.set(Calendar.HOUR_OF_DAY,hourOfDay);
             selected_date.set(Calendar.MINUTE,minute);
+            selected_date.set(Calendar.SECOND,0);
             setCurrentDate(selected_date.getTime());
         },current_hour,current_minute,true);
         timeDialog.setOnCancelListener(dialog -> setCurrentDate(null));

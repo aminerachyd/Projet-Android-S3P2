@@ -2,7 +2,6 @@ package com.inpt.jibmaak.activities;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.model.User;
 import com.inpt.jibmaak.repository.Resource;
+import com.inpt.jibmaak.validators.UserValidation;
 import com.inpt.jibmaak.viewmodels.ManageAccountViewModel;
 
 import java.util.HashMap;
@@ -118,41 +118,22 @@ public class ManageAccountActivity extends AuthenticateActivity {
                 zone_mdp.setVisibility(isChecked ? View.VISIBLE : View.GONE));
 
         bouton_maj.setOnClickListener(v -> {
-            String nom = zone_nom.getText().toString();
-            if (nom.length() < 1){
-                Toast.makeText(v.getContext(),R.string.error_register_nom,Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String prenom = zone_prenom.getText().toString();
-            if (prenom.length() < 1){
-                Toast.makeText(v.getContext(),R.string.error_register_prenom,Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String telephone = zone_telephone.getText().toString();
-            if (!telephone.matches("^0[0-9]{9}$")){
-                Toast.makeText(v.getContext(),R.string.error_register_telephone,Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String email = zone_mail.getText().toString();
-            if (email.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                Toast.makeText(v.getContext(),R.string.error_register_email,Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String mdp = null;
-            if (switch_mdp_maj.isChecked()){
-                mdp = zone_mdp.getText().toString();
-                if (mdp.length() < 6){
-                    Toast.makeText(v.getContext(),R.string.error_register_mdp,Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-            if (prepareAction()){
+            boolean hasErrors = UserValidation.validate(this,zone_nom,zone_prenom,
+                    zone_telephone,zone_mail,switch_mdp_maj.isChecked() ? zone_mdp : null,null);
+            if (hasErrors)
+                Toast.makeText(this,R.string.error_validation,Toast.LENGTH_SHORT).show();
+            else if (prepareAction()){
                 // Les champs sont corrects : on peut lancer la requete
+                String nom = zone_nom.getText().toString();
+                String prenom = zone_prenom.getText().toString();
+                String telephone = zone_telephone.getText().toString();
+                String mail = zone_mail.getText().toString();
+                String mdp = switch_mdp_maj.isChecked() ? zone_mdp.getText().toString() : null;
                 HashMap<String,String> body = new HashMap<>();
-                User userToUpdate = new User(user.getId(),email,nom,prenom,telephone);
+                User userToUpdate = new User(user.getId(),mail,nom,prenom,telephone);
                 body.put("nom",nom);
                 body.put("prenom",prenom);
-                body.put("email",email);
+                body.put("email",mail);
                 body.put("telephone",telephone);
                 if (mdp != null)
                     body.put("password",mdp);

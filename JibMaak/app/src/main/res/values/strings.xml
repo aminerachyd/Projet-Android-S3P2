@@ -42,12 +42,12 @@
     <string name="prenom_ici">Votre prenom ici</string>
     <string name="telephone">Telephone :</string>
     <string name="telephone_ici">Votre téléphone ici</string>
-    <string name="error_register_nom">Erreur : nom vide</string>
-    <string name="error_register_prenom">Erreur : prenom vide</string>
-    <string name="error_register_telephone">Erreur : telephone incorrect</string>
-    <string name="error_register_email">Erreur : email incorrect</string>
-    <string name="error_register_mdp">Erreur : le mot de passe doit contenir au moins 6 caracteres</string>
-    <string name="error_register_mdp_conf">Erreur : les mots de passe ne sont pas identiques</string>
+    <string name="error_user_validate_nom">Le nom ne peut pas être vide</string>
+    <string name="error_user_validate_prenom">Le prenom ne peut pas être vide</string>
+    <string name="error_user_validate_telephone">Numéro incorrect</string>
+    <string name="error_user_validate_email">Email incorrect</string>
+    <string name="error_user_validate_mdp">Le mot de passe doit contenir au moins 6 caracteres</string>
+    <string name="error_user_validate_mdp_conf">Les mots de passe ne sont pas identiques</string>
     <string name="register_error">Une erreur s\'est produite</string>
     <string name="register_success">Votre compte a bien été crée</string>
     <string name="menu">Menu</string>
@@ -96,4 +96,7 @@
     <string name="error_prix_incorrect">Erreur : prix incorrect</string>
     <string name="error_lieu_depart_court">Erreur : lieu de départ trop court</string>
     <string name="error_lieu_arrivee_court">Erreur : lieu d\'arrivee trop court</string>
+    <string name="error_validation">Erreur : formulaire incorrect</string>
+    <string name="error_dates_vides">Erreur : vous devez choisir une date de départ et d\'arrivée !</string>
+    <string name="heure_arrivee">Heure d\'arrivée :</string>
 </resources>

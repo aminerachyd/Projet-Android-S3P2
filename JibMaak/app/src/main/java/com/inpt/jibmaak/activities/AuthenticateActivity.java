@@ -2,7 +2,11 @@ package com.inpt.jibmaak.activities;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.inpt.jibmaak.R;
@@ -26,7 +30,8 @@ public abstract class AuthenticateActivity extends BaseActivity {
     /**
      * Code pour la demande d'inscription
      */
-    public static final int REQUEST_CODE_REGISTER = 2;
+    public static final int MENU_LOGIN_LOGOUT_GROUP = 0;
+    public static final int MENU_LOGIN_LOGOUT_ITEM = 0;
 
     protected AlertDialog loginDialog;
 
@@ -53,6 +58,32 @@ public abstract class AuthenticateActivity extends BaseActivity {
                 onAskLoginFailed();
             }
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.clear();
+        String titre_item = user == null ? getString(R.string.se_connecter)
+                : getString(R.string.se_deconnecter);
+        menu.add(MENU_LOGIN_LOGOUT_GROUP,MENU_LOGIN_LOGOUT_ITEM, Menu.NONE,titre_item);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if (item.getItemId() == MENU_LOGIN_LOGOUT_ITEM){
+            if (user != null){
+                authManager.logout();
+                Toast.makeText(this,R.string.deconnexion_volontaire,Toast.LENGTH_LONG).show();
+            }
+            else{
+                Intent intent = new Intent(AuthenticateActivity.this,LoginActivity.class);
+                startActivity(intent);
+            }
+        }
+        return true;
     }
 
     /**
