@@ -26,6 +26,14 @@ public class UpdateOfferViewModel extends ViewModel {
         this.offerRepository.setResultData(this.operationData);
     }
 
+    public void updateOffer(Offer offerToUpdate){
+        offerRepository.updateOffer(offerToUpdate);
+    }
+
+    public void deleteOffer(String offerId){
+        offerRepository.deleteOffer(offerId);
+    }
+
     public OfferRepository getOfferRepository() {
         return offerRepository;
     }
@@ -64,13 +72,5 @@ public class UpdateOfferViewModel extends ViewModel {
 
     public void setDate_arrivee_texte(String date_arrivee_texte) {
         this.date_arrivee_texte = date_arrivee_texte;
-    }
-
-    public void updateOffer(Offer offerToUpdate){
-        offerRepository.updateOffer(offerToUpdate);
-    }
-
-    public void deleteOffer(String offerId){
-        offerRepository.deleteOffer(offerId);
     }
 }

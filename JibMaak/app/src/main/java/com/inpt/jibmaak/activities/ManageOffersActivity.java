@@ -24,8 +24,6 @@ public class ManageOffersActivity extends AuthenticateActivity {
                 askLogin();
                 return;
             }
-            if (!prepareAction())
-                return;
             // TODO : filtre utilisateur
             OfferSearchCriteria criteria = new OfferSearchCriteria();
             Pagination page = new Pagination(0,3);
@@ -51,6 +49,8 @@ public class ManageOffersActivity extends AuthenticateActivity {
     @Override
     public void onLogout(boolean isUnexpected) {
         super.onLogout(isUnexpected);
+        if (!isUnexpected)
+            finish();
     }
 
     @Override

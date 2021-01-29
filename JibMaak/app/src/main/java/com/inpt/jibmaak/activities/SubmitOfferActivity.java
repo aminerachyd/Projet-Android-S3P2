@@ -134,7 +134,6 @@ public class SubmitOfferActivity extends AuthenticateActivity implements Activit
 
             }
         });
-
     }
 
     public void creerOffre() {

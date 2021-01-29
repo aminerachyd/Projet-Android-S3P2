@@ -9,6 +9,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 
+/** Service qui utilise Retrofit pour effectuer des opérations d'authentification */
 public interface RetrofitAuthService {
     @POST("/auth")
     Call<ServerResponse<JsonObject>> login(@Body HashMap<String,String> body);

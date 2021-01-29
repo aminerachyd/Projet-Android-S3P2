@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -28,9 +29,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected boolean hasWaitingScreen;
     protected boolean hasConnection;
     protected ConnectivityManager.NetworkCallback networkCallback;
+    protected AlertDialog logoutDialog;
+    protected AlertDialog waitingDialog;
     @Inject
     protected AuthManager authManager;
-    protected AlertDialog logoutDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +91,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         connectivityManager.unregisterNetworkCallback(networkCallback);
         if (logoutDialog != null)
             logoutDialog.dismiss();
+        if (waitingDialog != null)
+            waitingDialog.dismiss();
     }
 
     /** Crée un ecran d'attente
@@ -96,7 +100,11 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public void makeWaitingScreen(){
         if (!hasWaitingScreen){
-            // TODO : code
+            ProgressBar bar = new ProgressBar(this);
+            bar.setIndeterminate(true);
+            waitingDialog = new AlertDialog.Builder(this).setView(bar)
+                    .setCancelable(false).create();
+            waitingDialog.show();
             hasWaitingScreen = true;
         }
     }
@@ -106,7 +114,8 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public void removeWaitingScreen(){
         if (hasWaitingScreen){
-            //TODO : code
+            waitingDialog.setCancelable(true);
+            waitingDialog.dismiss();
             hasWaitingScreen = false;
         }
     }

@@ -62,7 +62,6 @@ public class RegisterActivity extends BaseActivity {
             body.put("email",mail);
             body.put("telephone",telephone);
             body.put("password",mdp);
-            makeWaitingScreen();
             authManager.register(body);
         }
     }

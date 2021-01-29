@@ -72,7 +72,7 @@ public abstract class AuthenticateActivity extends BaseActivity {
                 Toast.makeText(this,R.string.deconnexion_volontaire,Toast.LENGTH_LONG).show();
             }
             else{
-                Intent intent = new Intent(AuthenticateActivity.this,LoginActivity.class);
+                Intent intent = new Intent(this,LoginActivity.class);
                 startActivity(intent);
             }
         }

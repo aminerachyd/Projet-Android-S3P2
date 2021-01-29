@@ -15,7 +15,7 @@ import static com.inpt.jibmaak.repository.Resource.Status.REQUEST_ERROR;
 import static com.inpt.jibmaak.repository.Resource.Status.SERVER_ERROR;
 import static com.inpt.jibmaak.repository.Resource.Status.UNAUTHORIZED;
 
-/** Callback appelé lorsque le serveur répond à une opération de crud */
+/** Callback appelé lorsqu'on recoit une réponse du serveur à une opération de crud */
 public class CrudCallback<T> implements Callback<ServerResponse<T>> {
     protected Operation operation;
     protected MutableLiveData<Resource<T>> resultLiveData;

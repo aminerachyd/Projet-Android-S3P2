@@ -23,7 +23,7 @@ public class ManageAccountViewModel extends ViewModel {
                                   userRepository){
         this.userRepository = userRepository;
         this.operationData = new MutableLiveData<>();
-        this.userRepository.setOperationData(this.operationData);
+        this.userRepository.setResultData(this.operationData);
     }
 
     public void updateUser(String id, HashMap<String, String> userToUpdate){

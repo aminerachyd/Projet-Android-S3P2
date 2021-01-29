@@ -87,7 +87,6 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
                     && prepareAction()){
                 viewModel.continueSearch();
             }
-
         });
 
         viewModel.getOffersData().observe(this, offers -> {
@@ -96,7 +95,6 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
             if (!offers.isConsumed()){
                 Resource.Status status = offers.getStatus();
                 offers.setConsumed(true);
-                // TODO: revoir chaque cas
                 switch (status){
                     case OK:
                         // On affiche les données
@@ -107,9 +105,6 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
                         if (!offerArrayList.isEmpty())
                             label_resultats.setText(R.string.yes_resuts_search);
                         adapter.addOffers(offerArrayList);
-                        break;
-                    case UNAUTHORIZED:
-                        askLogin();
                         break;
                     case SERVER_ERROR:
                         viewModel.setSearchFinished(true);

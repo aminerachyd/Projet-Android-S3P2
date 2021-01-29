@@ -16,7 +16,7 @@ import javax.inject.Inject;
  */
 public class RetrofitUserRepository implements UserRepository {
     protected MutableLiveData<Resource<User>> userData;
-    protected MutableLiveData<Resource<String>> operationData;
+    protected MutableLiveData<Resource<String>> resultData;
     protected RetrofitUserService userService;
 
     @Inject
@@ -32,13 +32,13 @@ public class RetrofitUserRepository implements UserRepository {
     @Override
     public void updateUser(String id,HashMap<String,String> userToUpdate) {
         userService.updateUser(id,userToUpdate)
-                .enqueue(new CrudCallback<>(Resource.Operation.UPDATE,operationData));
+                .enqueue(new CrudCallback<>(Resource.Operation.UPDATE, resultData));
     }
 
     @Override
     public void deleteUser(String userId) {
         userService.deleteUser(userId)
-                .enqueue(new CrudCallback<>(Resource.Operation.DELETE,operationData));
+                .enqueue(new CrudCallback<>(Resource.Operation.DELETE, resultData));
     }
 
     @Override
@@ -52,13 +52,13 @@ public class RetrofitUserRepository implements UserRepository {
     }
 
     @Override
-    public void setOperationData(MutableLiveData<Resource<String>> operationData) {
-        this.operationData = operationData;
+    public void setResultData(MutableLiveData<Resource<String>> resultData) {
+        this.resultData = resultData;
     }
 
     @Override
-    public LiveData<Resource<String>> getOperationData() {
-        return operationData;
+    public LiveData<Resource<String>> getResultData() {
+        return resultData;
     }
 
     public RetrofitUserService getUserService() {

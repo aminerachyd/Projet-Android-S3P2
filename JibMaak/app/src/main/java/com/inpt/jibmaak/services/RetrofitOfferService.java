@@ -12,6 +12,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+/** Service qui utilise Retrofit pour effectuer des opérations de crud sur les offres */
 public interface RetrofitOfferService {
     @POST("/offers")
     Call<ServerResponse<SearchResponse>> searchOffers(@Query("page") int page

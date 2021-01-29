@@ -12,7 +12,6 @@ public class AuthAction {
         LOGIN_ERROR,
         LOGIN_INCORRECT,
         LOGOUT,
-        LOGOUT_ERROR,
         LOGOUT_UNEXPECTED,
         UNAUTHORIZED,
         REGISTER,

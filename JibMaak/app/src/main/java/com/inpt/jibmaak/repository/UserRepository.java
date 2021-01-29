@@ -7,8 +7,10 @@ import com.inpt.jibmaak.model.User;
 
 import java.util.HashMap;
 
-/**
- * Repository en charge de la gestion utilisateur
+/** Repository en charge de la gestion des utilisateurs
+ * Pour récuperer les resultats des actions, il faut observer les variables {@link LiveData} renvoyées
+ * par les methodes {@link #getResultData()} et {@link #getUserData()}
+ *
  */
 public interface UserRepository {
 
@@ -35,7 +37,7 @@ public interface UserRepository {
 
     LiveData<Resource<User>> getUserData();
 
-    void setOperationData(MutableLiveData<Resource<String>> operationData);
+    void setResultData(MutableLiveData<Resource<String>> resultData);
 
-    LiveData<Resource<String>> getOperationData();
+    LiveData<Resource<String>> getResultData();
 }

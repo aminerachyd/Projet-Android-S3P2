@@ -27,7 +27,7 @@ public class SearchOfferResultViewModel extends ViewModel {
                                       OfferRepository offerRepository){
         this.offersData = new MutableLiveData<>();
         this.offerRepository = offerRepository;
-        offerRepository.setSearchData(offersData);
+        this.offerRepository.setSearchData(this.offersData);
         this.searchFinished = false;
     }
 
@@ -36,6 +36,12 @@ public class SearchOfferResultViewModel extends ViewModel {
             page.setPage(page.getPage()+1);
             offerRepository.searchOffer(criteria,page);
         }
+    }
+
+    public void refresh() {
+        page.setPage(0);
+        searchFinished = false;
+        continueSearch();
     }
 
     public MutableLiveData<Resource<ArrayList<Offer>>> getOffersData() {
@@ -72,11 +78,5 @@ public class SearchOfferResultViewModel extends ViewModel {
 
     public void setSearchFinished(boolean searchFinished) {
         this.searchFinished = searchFinished;
-    }
-
-    public void refresh() {
-        page.setPage(0);
-        searchFinished = false;
-        continueSearch();
     }
 }

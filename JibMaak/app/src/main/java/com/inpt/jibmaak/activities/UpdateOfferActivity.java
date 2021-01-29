@@ -67,15 +67,17 @@ public class UpdateOfferActivity extends AuthenticateActivity implements Activit
             // Si l'offre est null on arrete
             if (offer == null)
                 finish();
-            // On recupere les champs
-            zone_lieu_depart.setText(offer.getLieuDepart());
-            zone_lieu_arrivee.setText(offer.getLieuArrivee());
-            zone_poids.setText(String.valueOf(offer.getPoidsDispo()));
-            zone_prix.setText(String.valueOf(offer.getPrixKg()));
-            DateFormat format = DateFormat.getDateTimeInstance(DateFormat.FULL,DateFormat.SHORT);
-            date_depart.setText(format.format(offer.getDateDepart()));
-            date_arrivee.setText(format.format(offer.getDateArrivee()));
-            viewModel.setOffer(offer);
+            else{
+                // On recupere les champs
+                zone_lieu_depart.setText(offer.getLieuDepart());
+                zone_lieu_arrivee.setText(offer.getLieuArrivee());
+                zone_poids.setText(String.valueOf(offer.getPoidsDispo()));
+                zone_prix.setText(String.valueOf(offer.getPrixKg()));
+                DateFormat format = DateFormat.getDateTimeInstance(DateFormat.FULL,DateFormat.SHORT);
+                date_depart.setText(format.format(offer.getDateDepart()));
+                date_arrivee.setText(format.format(offer.getDateArrivee()));
+                viewModel.setOffer(offer);
+            }
         }
         offer = viewModel.getOffer();
 
@@ -176,7 +178,6 @@ public class UpdateOfferActivity extends AuthenticateActivity implements Activit
                         Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     public void majOffre() {

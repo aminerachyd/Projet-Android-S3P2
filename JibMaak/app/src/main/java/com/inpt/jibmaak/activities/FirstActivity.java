@@ -22,7 +22,7 @@ public class FirstActivity extends AuthenticateActivity{
         });
         continuer.setOnClickListener(v -> {
             // On passe au menu
-            Intent intent = new Intent(getBaseContext(), MenuActivity.class);
+            Intent intent = new Intent(FirstActivity.this, MenuActivity.class);
             startActivity(intent);
             finish();
         });

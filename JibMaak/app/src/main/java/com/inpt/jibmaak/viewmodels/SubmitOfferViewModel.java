@@ -25,6 +25,10 @@ public class SubmitOfferViewModel extends ViewModel {
         this.offerRepository.setResultData(this.operationData);
     }
 
+    public void createOffer(Offer offerToCreate){
+        offerRepository.createOffer(offerToCreate);
+    }
+
     public OfferRepository getOfferRepository() {
         return offerRepository;
     }
@@ -65,7 +69,5 @@ public class SubmitOfferViewModel extends ViewModel {
         this.date_arrivee_texte = date_arrivee_texte;
     }
 
-    public void createOffer(Offer offerToCreate){
-        offerRepository.createOffer(offerToCreate);
-    }
+
 }

@@ -10,7 +10,11 @@ import com.inpt.jibmaak.model.Pagination;
 
 import java.util.ArrayList;
 
-/** Repository en charge de la gestion des offres */
+/** Repository en charge de la gestion des offres
+ * Pour récuperer les resultats des actions, il faut observer les variables {@link LiveData} renvoyées
+ * par les methodes {@link #getResultData()} et {@link #getSearchData()}
+ *
+ */
 public interface OfferRepository {
     /**
      * Recupere l'offre correspondant à l'id
