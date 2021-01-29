@@ -13,7 +13,7 @@ import offersRoute from "./routes/offers";
 const createServer = () => {
   const app = express();
 
-  app.get("/", (req, res) => {
+  app.get("/", (_, res) => {
     res.send("Server running");
   });
 

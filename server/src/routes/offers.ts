@@ -1,7 +1,4 @@
 import express from "express";
-import UserModel from "../models/User";
-import OfferModel from "../models/Offer";
-import { userInfos, filterOffers, findUserOffers } from "../utils/helpers";
 import auth from "../middleware/auth";
 import fetchAllOffers from "../utils/offersUtils/fetchAllOffers";
 import fetchAllOffersWithFilters from "../utils/offersUtils/fetchAllOffersWithFilters";

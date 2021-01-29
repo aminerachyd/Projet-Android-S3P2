@@ -1,6 +1,10 @@
 import UserModel from "../../models/User";
 import { userInfos } from "../helpers";
 
+/**
+ * Fonction pour récupérer un utilisateur donné
+ * @param id L'ID de l'utilisateur à récupérer
+ */
 const fetchUser = async (
   id
 ): Promise<{

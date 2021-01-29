@@ -1,6 +1,13 @@
 import { filterOffers, userInfos } from "../helpers";
 import UserModel from "../../models/User";
 
+/**
+ * Fonction pour lire toutes les offres depuis la base de données en appliquant un filtre
+ * @param filters Un objet contenant plusieurs critères de recherche
+ * @param page La page demandée
+ * @param limit La limite d'offre par page
+ * @param MAX_LIMIT La limite maximale à appliquer dans la pagination
+ */
 const fetchAllOffersWithFilters = async (
   filters,
   page,

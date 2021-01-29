@@ -1,6 +1,12 @@
 import UserModel from "../../models/User";
 import { hash } from "../helpers";
 
+/**
+ * Fonction pour mettre à jour un utilisateur
+ * @param maj Objet contenant les champs à mettre à jour
+ * @param id L'ID de l'utilisateur à mettre à jour
+ * @param userId L'ID de l'utilisateur authentifié
+ */
 const updateUser = async (
   { email, nom, prenom, telephone, password },
   id,

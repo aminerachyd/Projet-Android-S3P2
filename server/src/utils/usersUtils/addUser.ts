@@ -1,6 +1,10 @@
 import UserModel from "../../models/User";
 import { hash } from "../helpers";
 
+/**
+ * Fonction pour ajouter un utilisateur dans la base de données
+ * @param infos Objet contenant les informations de l'utilisateur à ajouter
+ */
 const addUser = async ({
   email,
   nom,

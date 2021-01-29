@@ -1,5 +1,10 @@
 import UserModel from "../../models/User";
 
+/**
+ * Fonction pour supprimer un utilisateur de la base données
+ * @param id L'ID de l'utilisateur à supprimer
+ * @param userId L'ID de l'utilisateur authentifié
+ */
 const deleteUser = async (
   id,
   userId

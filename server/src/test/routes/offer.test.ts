@@ -1,7 +1,6 @@
 import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 
-let should = chai.should();
 chai.use(chaiHttp);
 
 import createServer from "../../app";
@@ -27,7 +26,7 @@ describe("Route /offer", () => {
         poidsDispo: 20,
       })
       .set({ Accept: "application/json", "x-auth-token": TEST_TOKEN })
-      .end((err, res) => {
+      .end((_, res) => {
         res.should.have.status(200);
 
         expect(res.body).to.be.an.instanceof(Object);
@@ -43,7 +42,7 @@ describe("Route /offer", () => {
     chai
       .request(app)
       .get(`/offer/${tempId}`)
-      .end((err, res) => {
+      .end((_, res) => {
         res.should.have.status(200);
 
         expect(res.body).to.be.an.instanceof(Object);
@@ -74,7 +73,7 @@ describe("Route /offer", () => {
         lieuDepart: "ChangeTest",
         poidsDispo: 30,
       })
-      .end((err, res) => {
+      .end((_, res) => {
         res.should.have.status(200);
 
         expect(res.body).to.be.an.instanceof(Object);
@@ -90,7 +89,7 @@ describe("Route /offer", () => {
       .request(app)
       .delete(`/offer/${tempId}`)
       .set({ "x-auth-token": TEST_TOKEN })
-      .end((err, res) => {
+      .end((_, res) => {
         res.should.have.status(200);
 
         expect(res.body).to.be.an.instanceof(Object);

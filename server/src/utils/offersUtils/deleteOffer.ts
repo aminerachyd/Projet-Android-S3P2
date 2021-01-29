@@ -1,6 +1,11 @@
 import OfferModel from "../../models/Offer";
 import { isUserValid } from "../helpers";
 
+/**
+ * Fonction pour supprimer une offre de la base de données
+ * @param offerId L'ID de l'offre à supprimer
+ * @param userId L'ID de l'utilisateur authentifié
+ */
 const deleteOffer = async (
   offerId,
   userId
@@ -12,7 +17,7 @@ const deleteOffer = async (
 }> => {
   try {
     let offer = await OfferModel.findById(offerId);
-    let { isValid, user } = await isUserValid(userId);
+    let { isValid } = await isUserValid(userId);
     if (!offer || !isValid) {
       // Offre non trouvée
       return {

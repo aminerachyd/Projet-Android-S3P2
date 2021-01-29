@@ -1,7 +1,6 @@
 import chai from "chai";
 import chaiHttp from "chai-http";
 
-let should = chai.should();
 chai.use(chaiHttp);
 
 import createServer from "../app";
@@ -12,7 +11,7 @@ describe("Route /", () => {
     chai
       .request(app)
       .get("/")
-      .end((err, res) => {
+      .end((_, res) => {
         res.should.have.status(200);
         res.body.should.be.a("object");
         done();

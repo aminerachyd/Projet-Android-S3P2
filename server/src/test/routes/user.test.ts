@@ -1,13 +1,11 @@
 import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 
-let should = chai.should();
 chai.use(chaiHttp);
 
 import createServer from "../../app";
 const app = createServer();
 
-const TEST_TOKEN = process.env.TEST_TOKEN;
 let tempId: string;
 
 describe("Route /user", () => {
@@ -23,7 +21,7 @@ describe("Route /user", () => {
         password: "temp",
       })
       .set({ Accept: "application/json" })
-      .end((err, res) => {
+      .end((_, res) => {
         res.should.have.status(200);
 
         expect(res.body).to.be.an.instanceof(Object);
@@ -40,7 +38,7 @@ describe("Route /user", () => {
     chai
       .request(app)
       .get(`/user/${tempId}`)
-      .end((err, res) => {
+      .end((_, res) => {
         res.should.have.status(200);
 
         expect(res.body).to.be.an.instanceof(Object);
@@ -67,7 +65,7 @@ describe("Route /user", () => {
         password: "temp",
       })
       .set({ Accept: "application/json" })
-      .end((req, res) => {
+      .end((_, res) => {
         let tempToken = res.body.payload.token;
 
         chai
@@ -78,7 +76,7 @@ describe("Route /user", () => {
             nom: "temptest",
             prenom: "temptest",
           })
-          .end((err, res) => {
+          .end((_, res) => {
             res.should.have.status(200);
 
             expect(res.body).to.be.an.instanceof(Object);
@@ -99,14 +97,14 @@ describe("Route /user", () => {
         password: "temp",
       })
       .set({ Accept: "application/json" })
-      .end((req, res) => {
+      .end((_, res) => {
         let tempToken = res.body.payload.token;
 
         chai
           .request(app)
           .delete(`/user/${tempId}`)
           .set({ "x-auth-token": tempToken })
-          .end((err, res) => {
+          .end((_, res) => {
             res.should.have.status(200);
 
             expect(res.body).to.be.an.instanceof(Object);

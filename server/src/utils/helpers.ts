@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import OfferModel from "../models/Offer";
 import UserModel from "../models/User";
-import { FiltersType, OfferType, UserType } from "../types";
+import { FiltersType, UserType } from "../types";
 const HASH_SECRET = process.env.HASH_SECRET;
 
 /** Fonction pour hasher un mot de passe */
@@ -77,8 +77,8 @@ export const filterOffers = async (
  */
 export const findUserOffers = async (
   id: UserType["_id"],
-  limitNumber: number,
-  pageNumber: number
+  _: number,
+  __: number
 ) => {
   try {
     const user = await UserModel.findById(id);
@@ -101,7 +101,6 @@ export const findUserOffers = async (
       const offer = await OfferModel.findById(id);
 
       let {
-        id: _id,
         lieuDepart,
         lieuArrivee,
         dateDepart,

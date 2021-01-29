@@ -1,7 +1,6 @@
 import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 
-let should = chai.should();
 chai.use(chaiHttp);
 
 import createServer from "../../app";
@@ -13,7 +12,7 @@ describe("Route /offers", () => {
     chai
       .request(app)
       .get("/offers")
-      .end((err, res) => {
+      .end((_, res) => {
         res.should.have.status(200);
 
         expect(res.body).to.be.an.instanceof(Object);
@@ -41,7 +40,7 @@ describe("Route /offers", () => {
     chai
       .request(app)
       .get(`/offers?limit=${limit}&page=${page}`)
-      .end((err, res) => {
+      .end((_, res) => {
         res.should.have.status(200);
 
         expect(res.body).to.be.an.instanceof(Object);
@@ -75,7 +74,7 @@ describe("Route /offers", () => {
         dateDepart: "2020-01-26 10:00:00",
         poidsDispo: 20,
       })
-      .end((err, res) => {
+      .end((_, res) => {
         res.should.have.status(200);
 
         expect(res.body).to.be.an.instanceof(Object);

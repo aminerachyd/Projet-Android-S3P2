@@ -1,5 +1,13 @@
 import { findUserOffers } from "../helpers";
 
+/**
+ * Fonction pour lire les offres d'un utilisateur donné
+ * @param id L'ID de l'utilisateur dont on souhaite lire les offres
+ * @param userId L'ID de l'utilisateur authentifié, doit être identitique à l'ID précédent
+ * @param page La page demandée
+ * @param limit La limite d'offre par page
+ * @param MAX_LIMIT La limite maximale à appliquer dans la pagination
+ */
 const fetchUserOffers = async (
   id,
   userId,

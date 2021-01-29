@@ -2,6 +2,12 @@ import OfferModel from "../../models/Offer";
 import UserModel from "../../models/User";
 import { userInfos } from "../helpers";
 
+/**
+ * Fonction pour lire toutes les offres depuis la base de données
+ * @param page La page demandée
+ * @param limit La limite d'offre par page
+ * @param MAX_LIMIT La limite maximale à appliquer dans la pagination
+ */
 const fetchAllOffers = async (
   page,
   limit,

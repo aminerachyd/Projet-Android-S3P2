@@ -1,6 +1,12 @@
 import OfferModel from "../../models/Offer";
 import { isUserValid, validerDates } from "../helpers";
 
+/**
+ * Fonction pour mettre à jour une offre
+ * @param maj Objet contenant les champs à mettre à jour
+ * @param offerId L'ID de l'offre à mettre à jour
+ * @param userId L'ID de l'utilisateur authentifié, doit être propriétaire de l'offre
+ */
 const updateOffer = async (
   { lieuDepart, lieuArrivee, dateDepart, dateArrivee, prixKg, poidsDispo },
   offerId,
@@ -13,7 +19,7 @@ const updateOffer = async (
 }> => {
   try {
     let offer = await OfferModel.findById(offerId);
-    const { isValid, user } = await isUserValid(userId);
+    const { isValid } = await isUserValid(userId);
     if (!offer || !isValid) {
       // Offre non trouvée
       return {

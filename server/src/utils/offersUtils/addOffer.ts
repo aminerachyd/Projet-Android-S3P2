@@ -12,7 +12,7 @@ interface offerDetails {
 
 /**
  * Fonction pour ajouter une offre dans la base de données
- * @param args Les détails de l'offre
+ * @param details Objet contenant les détails de l'offre
  * @param user L'ID de l'utilisateur qui enregistre l'offre
  */
 const addOffer = async (

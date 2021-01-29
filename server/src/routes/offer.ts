@@ -1,8 +1,5 @@
 import express from "express";
 import auth from "../middleware/auth";
-import OfferModel from "../models/Offer";
-import UserModel from "../models/User";
-import { userInfos, validerDates } from "../utils/helpers";
 import addOffer from "../utils/offersUtils/addOffer";
 import fetchOffer from "../utils/offersUtils/fetchOffer";
 import updateOffer from "../utils/offersUtils/updateOffer";

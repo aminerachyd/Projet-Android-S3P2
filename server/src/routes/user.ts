@@ -1,6 +1,4 @@
 import express from "express";
-import UserModel from "../models/User";
-import { hash, userInfos } from "../utils/helpers";
 import auth from "../middleware/auth";
 import addUser from "../utils/usersUtils/addUser";
 import fetchUser from "../utils/usersUtils/fetchUser";
