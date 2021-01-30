@@ -54,8 +54,8 @@ export const filterOffers = async (
 
   let query = OfferModel.find()
     .limit(limitNumber + 1)
-    .skip(pageNumber);
-
+    .skip(pageNumber)
+    .sort({ updatedAt: "desc" });
   // Si un paramètre existe, on filtre avec
   depart && query.where("lieuDepart").equals(depart);
   destination && query.where("lieuArrivee").equals(destination);
