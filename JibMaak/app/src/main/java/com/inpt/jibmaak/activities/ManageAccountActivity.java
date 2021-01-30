@@ -119,8 +119,8 @@ public class ManageAccountActivity extends AuthenticateActivity {
                 Toast.makeText(this,R.string.error_validation,Toast.LENGTH_SHORT).show();
             else if (prepareAction()){
                 // Les champs sont corrects : on peut lancer la requete
-                String nom = zone_nom.getText().toString();
-                String prenom = zone_prenom.getText().toString();
+                String nom = zone_nom.getText().toString().trim();
+                String prenom = zone_prenom.getText().toString().trim();
                 String telephone = zone_telephone.getText().toString();
                 String mail = zone_mail.getText().toString();
                 String mdp = switch_mdp_maj.isChecked() ? zone_mdp.getText().toString() : null;

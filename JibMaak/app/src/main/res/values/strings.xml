@@ -108,4 +108,7 @@
     <string name="delete_offer_success">Votre offre a bien été supprimée</string>
     <string name="error_dates_invalides">Erreur : la date de départ doit être avant la date d\'arrivée</string>
     <string name="error_dates_deja_passee">Erreur : la date départ est déjà passée</string>
+    <string name="error_lieu_depart_inconnu">Erreur : lieu de départ inconnu</string>
+    <string name="error_lieu_arrivee_inconnu">Erreur : lieu d\'arrivee inconnu</string>
+    <string name="error_ville_inconnu">Erreur : ville inconnue</string>
 </resources>

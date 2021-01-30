@@ -50,8 +50,8 @@ public class RegisterActivity extends BaseActivity {
         if (hasErrors)
             Toast.makeText(this,R.string.error_validation,Toast.LENGTH_SHORT).show();
         else if (prepareAction()){
-            String nom = zone_nom.getText().toString();
-            String prenom = zone_prenom.getText().toString();
+            String nom = zone_nom.getText().toString().trim();
+            String prenom = zone_prenom.getText().toString().trim();
             String telephone = zone_telephone.getText().toString();
             String mail = zone_mail.getText().toString();
             String mdp = zone_mdp.getText().toString();

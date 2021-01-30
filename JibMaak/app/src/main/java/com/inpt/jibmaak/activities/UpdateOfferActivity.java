@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.model.Offer;
 import com.inpt.jibmaak.repository.Resource;
 import com.inpt.jibmaak.validators.OfferValidation;
+import com.inpt.jibmaak.validators.VilleValidator;
 import com.inpt.jibmaak.viewmodels.UpdateOfferViewModel;
 
 import java.text.DateFormat;
@@ -31,8 +34,8 @@ import static com.inpt.jibmaak.repository.Resource.Status.UNAUTHORIZED;
 @AndroidEntryPoint
 public class UpdateOfferActivity extends AuthenticateActivity implements ActivityManageDateDialog{
     protected UpdateOfferViewModel viewModel;
-    protected EditText zone_lieu_depart;
-    protected EditText zone_lieu_arrivee;
+    protected AutoCompleteTextView zone_lieu_depart;
+    protected AutoCompleteTextView zone_lieu_arrivee;
     protected TextView date_depart;
     protected TextView date_arrivee;
     protected EditText zone_poids;
@@ -137,6 +140,16 @@ public class UpdateOfferActivity extends AuthenticateActivity implements Activit
             }
         });
 
+        String[] villes = getResources().getStringArray(R.array.villes);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, villes);
+        VilleValidator validator1 = new VilleValidator(villes,zone_lieu_depart);
+        VilleValidator validator2 = new VilleValidator(villes,zone_lieu_arrivee);
+        zone_lieu_depart.setAdapter(adapter);
+        zone_lieu_arrivee.setAdapter(adapter);
+        zone_lieu_depart.setValidator(validator1);
+        zone_lieu_arrivee.setValidator(validator2);
+
         bouton_maj.setOnClickListener(v -> majOffre());
         bouton_delete.setOnClickListener(v -> {
             if (user == null) {
@@ -167,7 +180,9 @@ public class UpdateOfferActivity extends AuthenticateActivity implements Activit
                 else if (operation.equals(DELETE))
                     Toast.makeText(UpdateOfferActivity.this,R.string.delete_offer_success,
                             Toast.LENGTH_LONG).show();
+                setResult(SearchOfferResultActivity.RESULT_MODIFY_OFFER);
                 finish();
+
             }
             else if (status.equals(UNAUTHORIZED)){
                 Toast.makeText(UpdateOfferActivity.this,R.string.error_unauthorized,
@@ -203,8 +218,8 @@ public class UpdateOfferActivity extends AuthenticateActivity implements Activit
         if (!hasErrors && prepareAction()){
             int valeur_poids = Integer.parseInt(zone_poids.getText().toString());
             int valeur_prix  = Integer.parseInt(zone_prix.getText().toString());
-            String valeur_lieu_depart = zone_lieu_depart.getText().toString();
-            String valeur_lieu_arrivee = zone_lieu_arrivee.getText().toString();
+            String valeur_lieu_depart = zone_lieu_depart.getText().toString().trim();
+            String valeur_lieu_arrivee = zone_lieu_arrivee.getText().toString().trim();
             offer.setPoidsDispo(valeur_poids);
             offer.setPrixKg(valeur_prix);
             offer.setLieuArrivee(valeur_lieu_arrivee);

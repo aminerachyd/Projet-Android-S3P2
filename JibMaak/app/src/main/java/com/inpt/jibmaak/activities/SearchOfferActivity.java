@@ -4,16 +4,21 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.model.OfferSearchCriteria;
 import com.inpt.jibmaak.model.Pagination;
+import com.inpt.jibmaak.validators.VilleValidator;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -34,6 +39,8 @@ public class SearchOfferActivity extends BaseActivity implements  ActivityManage
     protected TextView date_depart_apres;
     protected TextView date_arrivee_avant;
     protected TextView date_arrivee_apres;
+    protected AutoCompleteTextView zone_depart;
+    protected AutoCompleteTextView zone_arrivee;
     protected Button bouton_recherche;
     protected DatePickerDialog dateDialog;
     protected TimePickerDialog timeDialog;
@@ -54,6 +61,8 @@ public class SearchOfferActivity extends BaseActivity implements  ActivityManage
         date_depart_apres = findViewById(R.id.date_depart_apres);
         date_arrivee_avant = findViewById(R.id.date_arrive_avant);
         date_arrivee_apres = findViewById(R.id.date_arrive_apres);
+        zone_arrivee = findViewById(R.id.saisie_lieu_arrive);
+        zone_depart = findViewById(R.id.saisie_lieu_depart);
         bouton_recherche = findViewById(R.id.card_chercher_offre);
 
         if (savedInstanceState == null){
@@ -110,7 +119,7 @@ public class SearchOfferActivity extends BaseActivity implements  ActivityManage
 
             }
         });
-        slider_prix_min.setProgress(2);
+        slider_prix_min.setProgress(0);
 
         slider_prix_max.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -133,7 +142,7 @@ public class SearchOfferActivity extends BaseActivity implements  ActivityManage
 
             }
         });
-        slider_prix_max.setProgress(10);
+        slider_prix_max.setProgress(50);
 
         // On met en place ceux pour le choix des dates
         date_depart_avant.setOnClickListener(new DateListener(this) {
@@ -230,7 +239,38 @@ public class SearchOfferActivity extends BaseActivity implements  ActivityManage
             }
         });
 
+        String[] villes = getResources().getStringArray(R.array.villes);
+        String[] villesPropositions = Arrays.copyOf(villes,villes.length+1);
+        villesPropositions[villes.length] = "";
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, villes);
+        VilleValidator validator1 = new VilleValidator(villesPropositions,zone_depart);
+        VilleValidator validator2 = new VilleValidator(villesPropositions,zone_arrivee);
+        zone_depart.setAdapter(adapter);
+        zone_arrivee.setAdapter(adapter);
+        zone_depart.setValidator(validator1);
+        zone_arrivee.setValidator(validator2);
+
         bouton_recherche.setOnClickListener(v -> {
+            String depart = zone_depart.getText().toString();
+            String arrivee = zone_depart.getText().toString();
+            if (Arrays.stream(villesPropositions).noneMatch(depart::equals)){
+                Toast.makeText(SearchOfferActivity.this,R.string.error_validation,
+                        Toast.LENGTH_LONG).show();
+                zone_depart.setError(getString(R.string.error_ville_inconnu));
+
+                return;
+            }
+            if (Arrays.stream(villesPropositions).noneMatch(arrivee::equals)){
+                Toast.makeText(SearchOfferActivity.this,R.string.error_validation,
+                        Toast.LENGTH_LONG).show();
+                zone_depart.setError(getString(R.string.error_ville_inconnu));
+                return;
+            }
+            if (depart.length() > 0)
+                criteria.setDepart(depart);
+            if (arrivee.length() > 0)
+                criteria.setDestination(arrivee);
             Intent intent = new Intent(SearchOfferActivity.this,
                     SearchOfferResultActivity.class);
             intent.putExtra(SearchOfferResultActivity.EXTRA_CRITERIA, criteria);

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -35,6 +36,15 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
     public static final String EXTRA_CRITERIA = "com.inpt.jibmaak.EXTRA_CRITERIA";
     public static final String EXTRA_PAGINATION = "com.inpt.jibmaak.EXTRA_PAGINATION";
 
+    /**
+     * L'utilisateur a modifié l'offre
+     */
+    public static final int RESULT_MODIFY_OFFER = 2;
+
+    /**
+     * Code pour la demande de modification d'offre
+     */
+    public static final int REQUEST_MODIFY_OFFER = 2;
     // Activité de résultat de la recherche
     // Est affiché le résutlat de la recherche effectuée par l'utilisateur
 
@@ -180,7 +190,7 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
                 Intent intent = new Intent(SearchOfferResultActivity.this,
                         UpdateOfferActivity.class);
                 intent.putExtra(UpdateOfferActivity.EXTRA_OFFER,offer);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_MODIFY_OFFER);
                 detailsOfferDialog.dismiss();
             });
         }
@@ -199,6 +209,12 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
         if (detailsOfferDialog != null)
             detailsOfferDialog.dismiss();
         adapter.setUserId(null);
+        OfferSearchCriteria criteria = viewModel.getCriteria();
+        if (criteria.getUser() != null){
+            criteria.setUser(null);
+            viewModel.setCriteria(criteria);
+            refresh();
+        }
     }
 
     @Override
@@ -218,5 +234,12 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
     public void onAskLoginFailed() {
         super.onAskLoginFailed();
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_MODIFY_OFFER && resultCode == RESULT_MODIFY_OFFER)
+            refresh();
     }
 }

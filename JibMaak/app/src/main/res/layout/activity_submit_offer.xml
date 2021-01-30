@@ -49,7 +49,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/breadcrumb" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/zone_lieu_depart_create"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -75,9 +75,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/zone_lieu_depart_create" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/zone_lieu_arrivee_create"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="15dp"

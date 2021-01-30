@@ -5,6 +5,8 @@ import android.widget.EditText;
 
 import com.inpt.jibmaak.R;
 
+import java.util.Arrays;
+
 public class OfferValidation {
     public static boolean validate(Context context, EditText zone_lieu_depart,EditText zone_lieu_arrivee,
                                    EditText zone_poids, EditText zone_prix) {
@@ -21,14 +23,16 @@ public class OfferValidation {
             zone_prix.setError(context.getString(R.string.error_prix_incorrect));
             hasErrors = true;
         }
+        String[] villes = context.getResources().getStringArray(R.array.villes);
         String valeur_lieu_depart = zone_lieu_depart.getText().toString();
         String valeur_lieu_arrivee = zone_lieu_arrivee.getText().toString();
-        if (valeur_lieu_depart.length() < 2){
-            zone_lieu_depart.setError(context.getString(R.string.error_lieu_depart_court));
+
+        if (Arrays.stream(villes).noneMatch(valeur_lieu_depart::equals)){
+            zone_lieu_depart.setError(context.getString(R.string.error_ville_inconnu));
             hasErrors = true;
         }
-        if (valeur_lieu_arrivee.length() < 2){
-            zone_lieu_arrivee.setError(context.getString(R.string.error_lieu_arrivee_court));
+        if (Arrays.stream(villes).noneMatch(valeur_lieu_arrivee::equals)){
+            zone_lieu_arrivee.setError(context.getString(R.string.error_ville_inconnu));
             hasErrors = true;
         }
         return hasErrors;

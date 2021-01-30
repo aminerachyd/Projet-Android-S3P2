@@ -49,21 +49,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/breadcrumb" />
 
-        <EditText
-            android:id="@+id/saisie_lieu_depart"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="30dp"
-            android:autofillHints="addressLocality"
-            android:hint="@string/entrez_lieu_depart"
-            android:inputType="text"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_lieu_depart" />
-
         <TextView
             android:id="@+id/label_lieu_arrivee"
             android:layout_width="wrap_content"
@@ -74,21 +59,6 @@
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/saisie_lieu_depart" />
-
-        <EditText
-            android:id="@+id/saisie_lieu_arrive"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="30dp"
-            android:autofillHints="addressLocality"
-            android:hint="@string/entrez_lieu_arrive"
-            android:inputType="text"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_lieu_arrivee" />
 
         <TextView
             android:id="@+id/label_date_depart"
@@ -277,6 +247,34 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/label_prix_max"
             app:layout_constraintTop_toBottomOf="@+id/label_prix_min" />
+
+        <AutoCompleteTextView
+            android:id="@+id/saisie_lieu_depart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
+            android:hint="@string/entrez_lieu_depart"
+            android:inputType="text"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_lieu_depart" />
+
+        <AutoCompleteTextView
+            android:id="@+id/saisie_lieu_arrive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
+            android:hint="@string/entrez_lieu_arrive"
+            android:inputType="text"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_lieu_arrivee" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,8 @@ package com.inpt.jibmaak.activities;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.model.Offer;
 import com.inpt.jibmaak.repository.Resource;
 import com.inpt.jibmaak.validators.OfferValidation;
+import com.inpt.jibmaak.validators.VilleValidator;
 import com.inpt.jibmaak.viewmodels.SubmitOfferViewModel;
 
 import java.util.Date;
@@ -27,8 +30,8 @@ public class SubmitOfferActivity extends AuthenticateActivity implements Activit
     // Activité pour proposer une offre
     // L'utilisateur (livreur) peut saisir les informations pour sa proposition d'offre
     protected SubmitOfferViewModel viewModel;
-    protected EditText zone_lieu_depart;
-    protected EditText zone_lieu_arrivee;
+    protected AutoCompleteTextView zone_lieu_depart;
+    protected AutoCompleteTextView zone_lieu_arrivee;
     protected TextView date_depart;
     protected TextView date_arrivee;
     protected EditText zone_poids;
@@ -110,6 +113,16 @@ public class SubmitOfferActivity extends AuthenticateActivity implements Activit
         });
         bouton_recherche.setOnClickListener(v -> creerOffre());
 
+        String[] villes = getResources().getStringArray(R.array.villes);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, villes);
+        VilleValidator validator1 = new VilleValidator(villes,zone_lieu_depart);
+        VilleValidator validator2 = new VilleValidator(villes,zone_lieu_arrivee);
+        zone_lieu_depart.setAdapter(adapter);
+        zone_lieu_arrivee.setAdapter(adapter);
+        zone_lieu_depart.setValidator(validator1);
+        zone_lieu_arrivee.setValidator(validator2);
+
         viewModel.getOperationData().observe(this, stringResource -> {
             if (stringResource.isConsumed())
                 return;
@@ -159,8 +172,8 @@ public class SubmitOfferActivity extends AuthenticateActivity implements Activit
         if (!hasErrors && prepareAction()){
             int valeur_poids = Integer.parseInt(zone_poids.getText().toString());
             int valeur_prix  = Integer.parseInt(zone_prix.getText().toString());
-            String valeur_lieu_depart = zone_lieu_depart.getText().toString();
-            String valeur_lieu_arrivee = zone_lieu_arrivee.getText().toString();
+            String valeur_lieu_depart = zone_lieu_depart.getText().toString().trim();
+            String valeur_lieu_arrivee = zone_lieu_arrivee.getText().toString().trim();
             offer.setPoidsDispo(valeur_poids);
             offer.setPrixKg(valeur_prix);
             offer.setLieuArrivee(valeur_lieu_arrivee);

@@ -9,8 +9,8 @@ import com.inpt.jibmaak.R;
 public class UserValidation {
     public static boolean validate(Context context, EditText zone_nom, EditText zone_prenom, EditText zone_telephone,
                                    EditText zone_mail, EditText zone_mdp, EditText zone_mdp_conf) {
-        String nom = zone_nom == null ? null :  zone_nom.getText().toString();
-        String prenom = zone_prenom == null ? null : zone_prenom.getText().toString();
+        String nom = zone_nom == null ? null :  zone_nom.getText().toString().trim();
+        String prenom = zone_prenom == null ? null : zone_prenom.getText().toString().trim();
         String telephone = zone_telephone == null ? null : zone_telephone.getText().toString();
         String mail = zone_telephone == null ? null : zone_mail.getText().toString();
         String mdp = zone_mdp == null ? null : zone_mdp.getText().toString();
