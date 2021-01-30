@@ -2,7 +2,6 @@ import OfferModel from "../../models/Offer";
 import UserModel from "../../models/User";
 import { userInfos } from "../helpers";
 
-// TODO Sort by updatedAt
 /**
  * Fonction pour lire toutes les offres depuis la base de données
  * @param page La page demandée
