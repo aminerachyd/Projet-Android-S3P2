@@ -1,5 +1,5 @@
 #### Build environment ####
-FROM node:14-alpine as build
+FROM node:15-alpine as build
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ COPY . .
 RUN npm run build
 
 #### Production environment ####
-FROM node:14-alpine 
+FROM node:15-alpine 
 
 WORKDIR /usr/src/server
 
