@@ -14,6 +14,7 @@ import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.activities.SearchOfferActivity;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
