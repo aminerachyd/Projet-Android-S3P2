@@ -25,4 +25,6 @@ jobs:
         chmod +x gradlew
 
     - name: Test avec Gradle
-      run: ./gradlew --stop && ./gradlew clean test
+      run: |
+        cd JibMaak
+        ./gradlew --stop && ./gradlew clean test
