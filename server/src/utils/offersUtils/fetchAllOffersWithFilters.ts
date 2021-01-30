@@ -1,6 +1,7 @@
 import { filterOffers, userInfos } from "../helpers";
 import UserModel from "../../models/User";
 
+// TODO Sort by updatedAt
 /**
  * Fonction pour lire toutes les offres depuis la base de données en appliquant un filtre
  * @param filters Un objet contenant plusieurs critères de recherche
