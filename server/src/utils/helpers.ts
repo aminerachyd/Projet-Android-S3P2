@@ -56,6 +56,7 @@ export const filterOffers = async (
     .limit(limitNumber + 1)
     .skip(pageNumber);
 
+  // Si un paramètre existe, on filtre avec
   depart && query.where("lieuDepart").equals(depart);
   destination && query.where("lieuArrivee").equals(destination);
   departAvant && query.where("dateDepart").lte(departAvant);
@@ -73,26 +74,33 @@ export const filterOffers = async (
 };
 
 /**
- * Fonction pour retourner les offres d'un utilisateur donné celon son id
+ * Fonction pour retourner les offres d'un utilisateur donné celon son id avec un boolean qui indique si il y'a davantage de données à récupérer
  */
 export const findUserOffers = async (
   id: UserType["_id"],
-  _: number,
-  __: number
+  limitNumber: number,
+  pageNumber: number
 ) => {
   try {
     const user = await UserModel.findById(id);
 
-    const offersIds = user?.offres;
+    // Le tableau des offres
+    let offersIds = user?.offres;
 
     if (!offersIds) {
       return false;
     }
 
+    // On divise la liste selon notre pagination
+    let slicedOffersIds = offersIds.slice(pageNumber, pageNumber + limitNumber);
+
+    // Boolean qui indique si il y'a plus de données à récupérer ou pas (existance d'une page suivante)
+    const hasMore = offersIds?.length - 1 === pageNumber + limitNumber;
+
     let offers: any[] = [];
 
-    for (let i = 0; i < offersIds.length; i++) {
-      let id = offersIds[i];
+    for (let i = 0; i < slicedOffersIds.length; i++) {
+      let id = slicedOffersIds![i];
 
       if (!id) {
         break;
@@ -120,8 +128,9 @@ export const findUserOffers = async (
       });
     }
 
-    return offers;
+    return { offers, hasMore };
   } catch (error) {
+    console.log(error);
     return false;
   }
 };

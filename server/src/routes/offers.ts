@@ -72,7 +72,6 @@ router.get("/user/:id", auth, async (req, res) => {
   const { id } = req.params;
   const userId = req.user?.id;
 
-  // FIXME régler la pagination ici
   const { isFetched, data, message, statusCode } = await fetchUserOffers(
     id,
     userId,

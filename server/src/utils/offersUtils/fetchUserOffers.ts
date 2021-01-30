@@ -43,9 +43,15 @@ const fetchUserOffers = async (
     };
   } else {
     try {
-      const result = await findUserOffers(id, limitNumber, pageNumber);
+      const query = await findUserOffers(id, limitNumber, pageNumber);
 
-      let hasMore = (<any[]>result).length === limitNumber + 1;
+      if (!query) {
+        throw new Error();
+      }
+
+      const { offers: result, hasMore } = query;
+
+      // const hasMore = (<any[]>result).length !== limitNumber + 1;
       return {
         isFetched: true,
         message: "Offres récupérées",
