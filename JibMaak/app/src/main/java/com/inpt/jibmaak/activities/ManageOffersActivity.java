@@ -24,10 +24,9 @@ public class ManageOffersActivity extends AuthenticateActivity {
                 askLogin();
                 return;
             }
-            // TODO : filtre utilisateur
             OfferSearchCriteria criteria = new OfferSearchCriteria();
             Pagination page = new Pagination(0,3);
-
+            criteria.setUser(user);
             Intent intent = new Intent(ManageOffersActivity.this,
                     SearchOfferResultActivity.class);
             intent.putExtra(SearchOfferResultActivity.EXTRA_CRITERIA, criteria);

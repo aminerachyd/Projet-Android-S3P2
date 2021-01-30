@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.inpt.jibmaak.model.Offer;
 import com.inpt.jibmaak.model.OfferSearchCriteria;
 import com.inpt.jibmaak.model.Pagination;
+import com.inpt.jibmaak.model.User;
 import com.inpt.jibmaak.services.RetrofitOfferService;
 import com.inpt.jibmaak.services.SearchResponse;
 import com.inpt.jibmaak.services.ServerResponse;
@@ -103,6 +104,11 @@ public class RetrofitOfferRepository implements OfferRepository{
 
     @Override
     public void searchOffer(OfferSearchCriteria criteria, Pagination page) {
+        User user = criteria.getUser();
+        if (user != null){
+            getOfferOf(user,page);
+            return;
+        }
         offerService.searchOffers(page.getPage(),page.getLimit(),criteria).enqueue(new Callback<ServerResponse<SearchResponse>>() {
             @Override
             public void onResponse(Call<ServerResponse<SearchResponse>> call, Response<ServerResponse<SearchResponse>> response) {
@@ -113,6 +119,34 @@ public class RetrofitOfferRepository implements OfferRepository{
                 else{
                     result.setStatus(OK);
                     result.setResource(response.body().getPayload().getOffers());
+                }
+                searchData.setValue(result);
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse<SearchResponse>> call, Throwable t) {
+                Resource<ArrayList<Offer>> result = new Resource<>();
+                result.setStatus(ERROR);
+                result.setOperation(READ);
+                searchData.setValue(result);
+            }
+        });
+    }
+
+    protected void getOfferOf(User user,Pagination page) {
+        offerService.getOffersOf(user.getId(),page.getPage(),page.getLimit()).enqueue(new Callback<ServerResponse<SearchResponse>>() {
+            @Override
+            public void onResponse(Call<ServerResponse<SearchResponse>> call, Response<ServerResponse<SearchResponse>> response) {
+                Resource<ArrayList<Offer>> result = new Resource<>();
+                result.setOperation(READ);
+                if (!response.isSuccessful())
+                    result.setStatus(SERVER_ERROR);
+                else{
+                    result.setStatus(OK);
+                    ArrayList<Offer> offers = response.body().getPayload().getOffers();
+                    for (Offer offer : offers)
+                        offer.setUser(user);
+                    result.setResource(offers);
                 }
                 searchData.setValue(result);
             }

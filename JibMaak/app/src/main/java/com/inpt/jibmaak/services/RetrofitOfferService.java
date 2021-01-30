@@ -18,6 +18,10 @@ public interface RetrofitOfferService {
     Call<ServerResponse<SearchResponse>> searchOffers(@Query("page") int page
             , @Query("limit") int limit, @Body OfferSearchCriteria filtres);
 
+    @GET("/offers/user/{id}")
+    Call<ServerResponse<SearchResponse>> getOffersOf(@Path("id") String id,@Query("page") int page
+            , @Query("limit") int limit);
+
     @POST("/offer")
     Call<ServerResponse<String>> createOffer(@Body Offer offer);
 
@@ -29,4 +33,6 @@ public interface RetrofitOfferService {
 
     @DELETE("/offer/{id}")
     Call<ServerResponse<String>> deleteOffer(@Path("id") String id);
+
+
 }

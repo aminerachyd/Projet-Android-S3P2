@@ -1,0 +1,81 @@
+<resources>
+    <string-array name="villes">
+        <item>AGADIR</item>
+        <item>AL HOCEIMA</item>
+        <item>AOUSSERD</item>
+        <item>ASSA</item>
+        <item>AZILAL</item>
+        <item>BENI MELLAL</item>
+        <item>BENSLIMANE</item>
+        <item>BERKANE</item>
+        <item>BERRECHID</item>
+        <item>BOUARFA FIGUIG</item>
+        <item>BOUJDOUR</item>
+        <item>BOULEMANE</item>
+        <item>CASABLANCA</item>
+        <item>CHEFCHAOUEN</item>
+        <item>CHICHAOUA</item>
+        <item>CHTOUKA AIT BAHA</item>
+        <item>DAR DRIOUCH</item>
+        <item>DRIOUCH</item>
+        <item>EL HAJEB</item>
+        <item>EL JADIDA</item>
+        <item>EL KELAA DES SRAGHNA</item>
+        <item>ERRACHIDIA</item>
+        <item>ES SEMARA</item>
+        <item>ESSAOUIRA</item>
+        <item>FAHS ANJRA</item>
+        <item>FES</item>
+        <item>FIGUIG</item>
+        <item>FQUIH BEN SALAH</item>
+        <item>GUELMIM</item>
+        <item>GUERCIF</item>
+        <item>IFRANE</item>
+        <item>INEZGANE AIT MELLOUL</item>
+        <item>JERADA</item>
+        <item>KENITRA</item>
+        <item>KHEMISSET</item>
+        <item>KHENIFRA</item>
+        <item>KHOURIBGA</item>
+        <item>LAAYOUNE</item>
+        <item>LARACHE</item>
+        <item>M\'DIQ FNIDEQ</item>
+        <item>MARRAKECH</item>
+        <item>MEDIOUNA</item>
+        <item>MEKNES</item>
+        <item>MIDELT</item>
+        <item>MOHAMMEDIA</item>
+        <item>MOULAY YACOUB</item>
+        <item>NADOR</item>
+        <item>NOUACEUR</item>
+        <item>OUARZAZATE</item>
+        <item>OUED ED DAHAB</item>
+        <item>OUEZZANE</item>
+        <item>OUJDA ANGAD</item>
+        <item>RABAT</item>
+        <item>RHAMNA</item>
+        <item>SAFI</item>
+        <item>SALE</item>
+        <item>SEFROU</item>
+        <item>SETTAT</item>
+        <item>SIDI BENNOUR</item>
+        <item>SIDI IFNI</item>
+        <item>SIDI KACEM</item>
+        <item>SIDI SLIMANE</item>
+        <item>SKHIRATE</item>
+        <item>TAN TAN</item>
+        <item>TANGER</item>
+        <item>TAOUNATE</item>
+        <item>TAOURIRT </item>
+        <item>TARFAYA</item>
+        <item>TAROUDANT</item>
+        <item>TATA</item>
+        <item>TAZA</item>
+        <item>TETOUAN</item>
+        <item>TEMARA</item>
+        <item>TINGHIR</item>
+        <item>TIZNIT</item>
+        <item>YOUSSOUFIA</item>
+        <item>ZAGORA</item>
+    </string-array>
+</resources>

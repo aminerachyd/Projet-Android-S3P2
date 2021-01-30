@@ -12,6 +12,9 @@ public class OfferSearchCriteria implements Parcelable {
     protected Date arriveAvant,arriveApres;
     protected Integer minPrixKg,maxPrixKg;
     protected Integer minPoidsDisponible;
+    protected User user;
+
+    public OfferSearchCriteria(){}
 
     protected OfferSearchCriteria(Parcel in) {
         depart = in.readString();
@@ -31,9 +34,38 @@ public class OfferSearchCriteria implements Parcelable {
         } else {
             minPoidsDisponible = in.readInt();
         }
+        user = in.readParcelable(User.class.getClassLoader());
     }
 
-    public OfferSearchCriteria(){}
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(depart);
+        dest.writeString(destination);
+        if (minPrixKg == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(minPrixKg);
+        }
+        if (maxPrixKg == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(maxPrixKg);
+        }
+        if (minPoidsDisponible == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(minPoidsDisponible);
+        }
+        dest.writeParcelable(user, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
     public static final Creator<OfferSearchCriteria> CREATOR = new Creator<OfferSearchCriteria>() {
         @Override
@@ -119,32 +151,11 @@ public class OfferSearchCriteria implements Parcelable {
         this.minPoidsDisponible = minPoidsDisponible;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public User getUser() {
+        return user;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(depart);
-        dest.writeString(destination);
-        if (minPrixKg == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(minPrixKg);
-        }
-        if (maxPrixKg == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(maxPrixKg);
-        }
-        if (minPoidsDisponible == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(minPoidsDisponible);
-        }
+    public void setUser(User user) {
+        this.user = user;
     }
 }
