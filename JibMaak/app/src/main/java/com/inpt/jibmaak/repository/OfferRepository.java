@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.inpt.jibmaak.model.Offer;
-import com.inpt.jibmaak.model.OfferSearchCriteria;
 import com.inpt.jibmaak.model.Pagination;
+import com.inpt.jibmaak.model.SearchOfferCriteria;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public interface OfferRepository {
      * @param criteria Un objet contenant les criteres de la recherche
      * @param paginate Un objet qui définit la page à recuperer
      */
-    void searchOffer(OfferSearchCriteria criteria, Pagination paginate);
+    void searchOffer(SearchOfferCriteria criteria, Pagination paginate);
 
     /**
      * Met à jour une offre à jour. Son identifiant n'est pas mis à jour

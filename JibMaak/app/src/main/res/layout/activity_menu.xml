@@ -13,7 +13,7 @@
         android:background="@color/accent"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
-        android:text="@string/menu"
+        android:text="@string/breadcrumb_menu"
         android:textColor="#FFFFFF"
         android:textSize="14sp" />
 

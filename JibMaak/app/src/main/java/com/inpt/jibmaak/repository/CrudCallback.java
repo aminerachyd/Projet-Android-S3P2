@@ -30,6 +30,7 @@ public class CrudCallback<T> implements Callback<ServerResponse<T>> {
         if (!response.isSuccessful()){
             switch (response.code()){
                 case 400:
+                case 409:
                     result.setStatus(REQUEST_ERROR);
                     break;
                 case 401:

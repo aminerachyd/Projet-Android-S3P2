@@ -32,7 +32,7 @@ import static com.inpt.jibmaak.repository.Resource.Status.OK;
 import static com.inpt.jibmaak.repository.Resource.Status.UNAUTHORIZED;
 
 @AndroidEntryPoint
-public class UpdateOfferActivity extends AuthenticateActivity implements ActivityManageDateDialog{
+public class UpdateOfferActivity extends AuthenticateActivity implements ManageDateDialogActivity {
     protected UpdateOfferViewModel viewModel;
     protected AutoCompleteTextView zone_lieu_depart;
     protected AutoCompleteTextView zone_lieu_arrivee;
@@ -175,21 +175,21 @@ public class UpdateOfferActivity extends AuthenticateActivity implements Activit
             stringResource.setConsumed(true);
             if (status.equals(OK)){
                 if (operation.equals(UPDATE))
-                    Toast.makeText(UpdateOfferActivity.this,R.string.update_offer_succes,
+                    Toast.makeText(UpdateOfferActivity.this,R.string.succes_offre_maj,
                             Toast.LENGTH_LONG).show();
                 else if (operation.equals(DELETE))
-                    Toast.makeText(UpdateOfferActivity.this,R.string.delete_offer_success,
+                    Toast.makeText(UpdateOfferActivity.this,R.string.succes_offre_supprimer,
                             Toast.LENGTH_LONG).show();
                 setResult(SearchOfferResultActivity.RESULT_MODIFY_OFFER);
                 finish();
 
             }
             else if (status.equals(UNAUTHORIZED)){
-                Toast.makeText(UpdateOfferActivity.this,R.string.error_unauthorized,
+                Toast.makeText(UpdateOfferActivity.this,R.string.erreur_non_autorise,
                         Toast.LENGTH_LONG).show();
             }
             else{
-                Toast.makeText(UpdateOfferActivity.this,R.string.error,
+                Toast.makeText(UpdateOfferActivity.this,R.string.erreur,
                         Toast.LENGTH_LONG).show();
             }
         });
@@ -202,18 +202,18 @@ public class UpdateOfferActivity extends AuthenticateActivity implements Activit
         }
         boolean hasErrors = OfferValidation.validate(this,zone_lieu_depart,zone_lieu_arrivee,zone_poids,zone_prix);
         if (hasErrors)
-            Toast.makeText(this,R.string.error_validation,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.erreur_validation,Toast.LENGTH_SHORT).show();
         else if (offer.getDateDepart() == null || offer.getDateArrivee() == null){
             hasErrors = true;
-            Toast.makeText(this,R.string.error_dates_vides,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.erreur_offre_dates_vides,Toast.LENGTH_SHORT).show();
         }
         else if (new Date().after(offer.getDateDepart())) {
             hasErrors = true;
-            Toast.makeText(this, R.string.error_dates_deja_passee, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.erreur_offre_dates_deja_passee, Toast.LENGTH_SHORT).show();
         }
         else if (offer.getDateDepart().after(offer.getDateArrivee())){
             hasErrors = true;
-            Toast.makeText(this,R.string.error_dates_invalides,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.erreur_offre_dates_invalides,Toast.LENGTH_SHORT).show();
         }
         if (!hasErrors && prepareAction()){
             int valeur_poids = Integer.parseInt(zone_poids.getText().toString());

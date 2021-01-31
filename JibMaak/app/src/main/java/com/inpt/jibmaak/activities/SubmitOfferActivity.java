@@ -25,7 +25,7 @@ import java.util.Date;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class SubmitOfferActivity extends AuthenticateActivity implements ActivityManageDateDialog{
+public class SubmitOfferActivity extends AuthenticateActivity implements ManageDateDialogActivity {
 
     // Activité pour proposer une offre
     // L'utilisateur (livreur) peut saisir les informations pour sa proposition d'offre
@@ -130,19 +130,17 @@ public class SubmitOfferActivity extends AuthenticateActivity implements Activit
             stringResource.setConsumed(true);
             switch (status){
                 case UNAUTHORIZED:
+                    Toast.makeText(SubmitOfferActivity.this,R.string.erreur_non_autorise,
+                            Toast.LENGTH_LONG).show();
                     break;
                 case OK:
-                    Toast.makeText(SubmitOfferActivity.this,R.string.creer_offre_succes,
+                    Toast.makeText(SubmitOfferActivity.this,R.string.succes_offre_creer,
                             Toast.LENGTH_LONG).show();
                     finish();
                     break;
-                case SERVER_ERROR:
-                    Toast.makeText(SubmitOfferActivity.this,
-                            R.string.error_server, Toast.LENGTH_SHORT).show();
-                    break;
                 default:
                     Toast.makeText(SubmitOfferActivity.this,
-                            R.string.error,Toast.LENGTH_SHORT).show();
+                            R.string.erreur,Toast.LENGTH_SHORT).show();
                     break;
 
             }
@@ -156,18 +154,18 @@ public class SubmitOfferActivity extends AuthenticateActivity implements Activit
         }
         boolean hasErrors = OfferValidation.validate(this,zone_lieu_depart,zone_lieu_arrivee,zone_poids,zone_prix);
         if (hasErrors)
-            Toast.makeText(this,R.string.error_validation,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.erreur_validation,Toast.LENGTH_SHORT).show();
         else if (offer.getDateDepart() == null || offer.getDateArrivee() == null){
             hasErrors = true;
-            Toast.makeText(this,R.string.error_dates_vides,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.erreur_offre_dates_vides,Toast.LENGTH_SHORT).show();
         }
         else if (new Date().after(offer.getDateDepart())){
             hasErrors = true;
-            Toast.makeText(this,R.string.error_dates_deja_passee,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.erreur_offre_dates_deja_passee,Toast.LENGTH_SHORT).show();
         }
         else if (offer.getDateDepart().after(offer.getDateArrivee())){
             hasErrors = true;
-            Toast.makeText(this,R.string.error_dates_invalides,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.erreur_offre_dates_invalides,Toast.LENGTH_SHORT).show();
         }
         if (!hasErrors && prepareAction()){
             int valeur_poids = Integer.parseInt(zone_poids.getText().toString());

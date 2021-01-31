@@ -131,7 +131,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public boolean prepareAction(){
         if (!hasConnection)
-            Toast.makeText(this, R.string.no_connection,
+            Toast.makeText(this, R.string.erreur_pas_connexion,
                     Toast.LENGTH_SHORT).show();
         else
             makeWaitingScreen();

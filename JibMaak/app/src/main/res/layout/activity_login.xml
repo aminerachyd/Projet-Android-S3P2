@@ -13,7 +13,7 @@
         android:background="@color/accent"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
-        android:text="@string/se_connecter"
+        android:text="@string/breadcrumb_connecter"
         android:textColor="#FFFFFF"
         android:textSize="14sp" />
 

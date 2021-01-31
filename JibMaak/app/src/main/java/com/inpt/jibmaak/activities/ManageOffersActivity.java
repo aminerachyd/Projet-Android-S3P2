@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.inpt.jibmaak.R;
-import com.inpt.jibmaak.model.OfferSearchCriteria;
 import com.inpt.jibmaak.model.Pagination;
+import com.inpt.jibmaak.model.SearchOfferCriteria;
 
 public class ManageOffersActivity extends AuthenticateActivity {
     protected Button bouton_voir_offres;
@@ -24,7 +24,7 @@ public class ManageOffersActivity extends AuthenticateActivity {
                 askLogin();
                 return;
             }
-            OfferSearchCriteria criteria = new OfferSearchCriteria();
+            SearchOfferCriteria criteria = new SearchOfferCriteria();
             Pagination page = new Pagination(0,3);
             criteria.setUser(user);
             Intent intent = new Intent(ManageOffersActivity.this,

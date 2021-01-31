@@ -24,7 +24,7 @@ public class VilleValidator implements AutoCompleteTextView.Validator {
         String saisie = invalidText.toString().trim().toUpperCase();
         boolean isUpperCorrect = Arrays.asList(villes).contains(saisie);
         if (!isUpperCorrect)
-            view.setError(view.getContext().getString(R.string.error_ville_inconnu));
+            view.setError(view.getContext().getString(R.string.erreur_offre_ville_inconnu));
         return isUpperCorrect ? saisie : invalidText;
     }
 }

@@ -8,14 +8,14 @@ import com.inpt.jibmaak.model.User;
  */
 public class AuthAction {
     public enum Action {
+        ERROR,
         LOGIN,
-        LOGIN_ERROR,
         LOGIN_INCORRECT,
         LOGOUT,
         LOGOUT_UNEXPECTED,
-        UNAUTHORIZED,
         REGISTER,
-        REGISTER_ERROR
+        REGISTER_INCORRECT,
+        UNAUTHORIZED
     }
 
     protected Action action;

@@ -107,7 +107,7 @@ public class AuthManager {
                     AuthAction authAction = new AuthAction();
                     authAction.setUser(null);
                     authAction.setAction(response.code() == 400 ? Action.LOGIN_INCORRECT
-                            : Action.LOGIN_ERROR);
+                            : Action.ERROR);
                     authActionData.setValue(authAction);
                 }
                 else{
@@ -127,7 +127,7 @@ public class AuthManager {
             }
             @Override
             public void onFailure(Call<ServerResponse<JsonObject>> call, Throwable t) {
-                authActionData.setValue(new AuthAction(Action.LOGIN_ERROR,null));
+                authActionData.setValue(new AuthAction(Action.ERROR,null));
             }
         });
     }
@@ -138,13 +138,16 @@ public class AuthManager {
             public void onResponse(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response) {
                 AuthAction authAction = new AuthAction();
                 authAction.setUser(null);
-                authAction.setAction(response.isSuccessful() ? Action.REGISTER : Action.REGISTER_ERROR);
+                if (!response.isSuccessful())
+                    authAction.setAction(response.code() == 409 ? Action.REGISTER_INCORRECT : Action.ERROR);
+                else
+                    authAction.setAction(Action.REGISTER);
                 authActionData.setValue(authAction);
             }
 
             @Override
             public void onFailure(Call<ServerResponse<String>> call, Throwable t) {
-                authActionData.setValue(new AuthAction(Action.REGISTER_ERROR,null));
+                authActionData.setValue(new AuthAction(Action.ERROR,null));
             }
         });
     }

@@ -17,8 +17,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.inpt.jibmaak.R;
 import com.inpt.jibmaak.adapters.OfferAdapter;
 import com.inpt.jibmaak.model.Offer;
-import com.inpt.jibmaak.model.OfferSearchCriteria;
 import com.inpt.jibmaak.model.Pagination;
+import com.inpt.jibmaak.model.SearchOfferCriteria;
 import com.inpt.jibmaak.model.User;
 import com.inpt.jibmaak.repository.Resource;
 import com.inpt.jibmaak.viewmodels.SearchOfferResultViewModel;
@@ -69,7 +69,7 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
         // l'activité
         if (savedInstanceState == null){
             Intent starterIntent = getIntent();
-            OfferSearchCriteria criteria = starterIntent.getParcelableExtra(
+            SearchOfferCriteria criteria = starterIntent.getParcelableExtra(
                     EXTRA_CRITERIA);
             Pagination page = starterIntent.getParcelableExtra(
                     EXTRA_PAGINATION);
@@ -116,15 +116,19 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
                             label_resultats.setText(R.string.yes_resuts_search);
                         adapter.addOffers(offerArrayList);
                         break;
+                    case UNAUTHORIZED:
+                        viewModel.setSearchFinished(true);
+                        Toast.makeText(SearchOfferResultActivity.this,
+                                R.string.erreur_non_autorise,Toast.LENGTH_SHORT).show();
                     case SERVER_ERROR:
                         viewModel.setSearchFinished(true);
                         Toast.makeText(SearchOfferResultActivity.this,
-                                R.string.error_server,Toast.LENGTH_SHORT).show();
+                                R.string.erreur_serveur,Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         viewModel.setSearchFinished(true);
                         Toast.makeText(SearchOfferResultActivity.this,
-                                R.string.error,Toast.LENGTH_SHORT).show();
+                                R.string.erreur,Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -209,7 +213,7 @@ public class SearchOfferResultActivity extends AuthenticateActivity {
         if (detailsOfferDialog != null)
             detailsOfferDialog.dismiss();
         adapter.setUserId(null);
-        OfferSearchCriteria criteria = viewModel.getCriteria();
+        SearchOfferCriteria criteria = viewModel.getCriteria();
         if (criteria.getUser() != null){
             criteria.setUser(null);
             viewModel.setCriteria(criteria);

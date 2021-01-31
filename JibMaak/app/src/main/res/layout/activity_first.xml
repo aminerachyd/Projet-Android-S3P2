@@ -12,7 +12,7 @@
         android:background="@color/accent"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
-        android:text="@string/accueil"
+        android:text="@string/breadcrumb_accueil"
         android:textColor="#FFFFFF"
         android:textSize="14sp" />
 
@@ -24,7 +24,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

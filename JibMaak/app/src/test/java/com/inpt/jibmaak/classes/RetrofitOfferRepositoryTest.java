@@ -5,8 +5,8 @@ import androidx.test.filters.SmallTest;
 
 import com.google.gson.Gson;
 import com.inpt.jibmaak.model.Offer;
-import com.inpt.jibmaak.model.OfferSearchCriteria;
 import com.inpt.jibmaak.model.Pagination;
+import com.inpt.jibmaak.model.SearchOfferCriteria;
 import com.inpt.jibmaak.model.User;
 import com.inpt.jibmaak.repository.Resource;
 import com.inpt.jibmaak.repository.RetrofitOfferRepository;
@@ -147,7 +147,7 @@ public class RetrofitOfferRepositoryTest {
         repository.setSearchData(offerData);
 
         // On lance le test
-        repository.searchOffer(new OfferSearchCriteria(),new Pagination(1,20));
+        repository.searchOffer(new SearchOfferCriteria(),new Pagination(1,20));
 
         // On attend un peu pour que le callback soit executé
         Thread.sleep(300);
@@ -182,7 +182,7 @@ public class RetrofitOfferRepositoryTest {
         repository.setSearchData(offerData);
 
         // On lance le test
-        repository.searchOffer(new OfferSearchCriteria(),new Pagination(1,20));
+        repository.searchOffer(new SearchOfferCriteria(),new Pagination(1,20));
 
         // On attend un peu pour que le callback soit executé
         Thread.sleep(300);

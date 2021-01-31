@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.Date;
 
 /** Classe qui décrit les criteres d'une recherche sur les offres */
-public class OfferSearchCriteria implements Parcelable {
+public class SearchOfferCriteria implements Parcelable {
     protected String depart,destination;
     protected Date departAvant,departApres;
     protected Date arriveAvant,arriveApres;
@@ -14,9 +14,9 @@ public class OfferSearchCriteria implements Parcelable {
     protected Integer minPoidsDisponible;
     protected User user;
 
-    public OfferSearchCriteria(){}
+    public SearchOfferCriteria(){}
 
-    protected OfferSearchCriteria(Parcel in) {
+    protected SearchOfferCriteria(Parcel in) {
         depart = in.readString();
         destination = in.readString();
         if (in.readByte() == 0) {
@@ -67,15 +67,15 @@ public class OfferSearchCriteria implements Parcelable {
         return 0;
     }
 
-    public static final Creator<OfferSearchCriteria> CREATOR = new Creator<OfferSearchCriteria>() {
+    public static final Creator<SearchOfferCriteria> CREATOR = new Creator<SearchOfferCriteria>() {
         @Override
-        public OfferSearchCriteria createFromParcel(Parcel in) {
-            return new OfferSearchCriteria(in);
+        public SearchOfferCriteria createFromParcel(Parcel in) {
+            return new SearchOfferCriteria(in);
         }
 
         @Override
-        public OfferSearchCriteria[] newArray(int size) {
-            return new OfferSearchCriteria[size];
+        public SearchOfferCriteria[] newArray(int size) {
+            return new SearchOfferCriteria[size];
         }
     };
 

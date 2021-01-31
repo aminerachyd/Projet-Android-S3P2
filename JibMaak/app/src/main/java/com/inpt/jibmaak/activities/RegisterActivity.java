@@ -11,8 +11,9 @@ import com.inpt.jibmaak.validators.UserValidation;
 
 import java.util.HashMap;
 
+import static com.inpt.jibmaak.repository.AuthAction.Action.ERROR;
 import static com.inpt.jibmaak.repository.AuthAction.Action.REGISTER;
-import static com.inpt.jibmaak.repository.AuthAction.Action.REGISTER_ERROR;
+import static com.inpt.jibmaak.repository.AuthAction.Action.REGISTER_INCORRECT;
 
 public class RegisterActivity extends BaseActivity {
 
@@ -48,7 +49,7 @@ public class RegisterActivity extends BaseActivity {
         boolean hasErrors = UserValidation.validate(this,zone_nom,zone_prenom,
                 zone_telephone,zone_mail,zone_mdp,zone_mdp_conf);
         if (hasErrors)
-            Toast.makeText(this,R.string.error_validation,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.erreur_validation,Toast.LENGTH_SHORT).show();
         else if (prepareAction()){
             String nom = zone_nom.getText().toString().trim();
             String prenom = zone_prenom.getText().toString().trim();
@@ -77,12 +78,16 @@ public class RegisterActivity extends BaseActivity {
         super.onAuthAction(action);
         if (action == REGISTER){
             Toast.makeText(RegisterActivity.this,
-                    R.string.register_success,Toast.LENGTH_LONG).show();
+                    R.string.succes_inscription,Toast.LENGTH_LONG).show();
             finish();
         }
-        else if (action == REGISTER_ERROR){
+        else if (action == REGISTER_INCORRECT){
             Toast.makeText(RegisterActivity.this,
-                    R.string.register_error,Toast.LENGTH_LONG).show();
+                    R.string.erreur_mail_deja_utilise,Toast.LENGTH_LONG).show();
+        }
+        else if (action == ERROR){
+            Toast.makeText(RegisterActivity.this,
+                    R.string.erreur,Toast.LENGTH_LONG).show();
         }
     }
 }

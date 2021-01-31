@@ -7,8 +7,8 @@ import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
 
 import com.inpt.jibmaak.model.Offer;
-import com.inpt.jibmaak.model.OfferSearchCriteria;
 import com.inpt.jibmaak.model.Pagination;
+import com.inpt.jibmaak.model.SearchOfferCriteria;
 import com.inpt.jibmaak.repository.OfferRepository;
 import com.inpt.jibmaak.repository.Resource;
 
@@ -18,7 +18,7 @@ public class SearchOfferResultViewModel extends ViewModel {
     protected MutableLiveData<Resource<ArrayList<Offer>>> offersData;
     protected OfferRepository offerRepository;
     protected ArrayList<Offer> savedOffers;
-    protected OfferSearchCriteria criteria;
+    protected SearchOfferCriteria criteria;
     protected Pagination page;
     protected boolean searchFinished;
 
@@ -48,11 +48,11 @@ public class SearchOfferResultViewModel extends ViewModel {
         return offersData;
     }
 
-    public OfferSearchCriteria getCriteria() {
+    public SearchOfferCriteria getCriteria() {
         return criteria;
     }
 
-    public void setCriteria(OfferSearchCriteria criteria) {
+    public void setCriteria(SearchOfferCriteria criteria) {
         this.criteria = criteria;
     }
 

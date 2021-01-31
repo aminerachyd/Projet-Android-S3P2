@@ -30,6 +30,7 @@ import dagger.hilt.android.testing.HiltTestApplication;
 @RunWith(RobolectricTestRunner.class)
 @LargeTest
 @HiltAndroidTest
+@Ignore("Incomplet pour l'instant")
 public class SearchOfferActivityTest {
     // Note : pour lancer ce test ne pas utiliser le bouton à coté de la classe ou des méthodes
     // dans Android studio mais utiliser le menu Gradle à droite

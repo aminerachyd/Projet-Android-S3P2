@@ -2,14 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_light"
     tools:context=".activities.MenuActivity">
 
     <FrameLayout
-        android:id="@+id/frameLayout"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginBottom="20dp"
@@ -26,7 +24,7 @@
         android:background="@color/accent"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
-        android:text="@string/menu_chercher_offre"
+        android:text="@string/breadcrumb_resultat_recherche_offre"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"

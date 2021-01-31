@@ -165,7 +165,7 @@ public class AuthManagerTest {
         Thread.sleep(300);
 
         assertEquals(1,server.getRequestCount());
-        assertEquals(AuthAction.Action.REGISTER_ERROR,authManager.getAuthActionData().getValue().getAction());
+        assertEquals(AuthAction.Action.ERROR,authManager.getAuthActionData().getValue().getAction());
     }
 
     public static Retrofit setupRetrofit(HttpUrl url){

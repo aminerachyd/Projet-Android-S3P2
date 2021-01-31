@@ -85,10 +85,13 @@ public class ManageAccountActivity extends AuthenticateActivity {
                     }
                     break;
                 case UNAUTHORIZED:
-                    Toast.makeText(ManageAccountActivity.this,R.string.error_unauthorized,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ManageAccountActivity.this,R.string.erreur_non_autorise,Toast.LENGTH_SHORT).show();
+                    break;
+                case REQUEST_ERROR:
+                    Toast.makeText(ManageAccountActivity.this,R.string.erreur_mail_deja_utilise,Toast.LENGTH_SHORT).show();
                     break;
                 default:
-                    Toast.makeText(ManageAccountActivity.this,R.string.error,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ManageAccountActivity.this,R.string.erreur,Toast.LENGTH_SHORT).show();
                     break;
             }
         });
@@ -116,7 +119,7 @@ public class ManageAccountActivity extends AuthenticateActivity {
             boolean hasErrors = UserValidation.validate(this,zone_nom,zone_prenom,
                     zone_telephone,zone_mail,switch_mdp_maj.isChecked() ? zone_mdp : null,null);
             if (hasErrors)
-                Toast.makeText(this,R.string.error_validation,Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,R.string.erreur_validation,Toast.LENGTH_SHORT).show();
             else if (prepareAction()){
                 // Les champs sont corrects : on peut lancer la requete
                 String nom = zone_nom.getText().toString().trim();

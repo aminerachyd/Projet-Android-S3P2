@@ -14,8 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.inpt.jibmaak.R;
-import com.inpt.jibmaak.model.OfferSearchCriteria;
 import com.inpt.jibmaak.model.Pagination;
+import com.inpt.jibmaak.model.SearchOfferCriteria;
 import com.inpt.jibmaak.validators.VilleValidator;
 
 import java.util.Arrays;
@@ -24,9 +24,9 @@ import java.util.Date;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class SearchOfferActivity extends BaseActivity implements  ActivityManageDateDialog{
+public class SearchOfferActivity extends BaseActivity implements ManageDateDialogActivity {
 
-    protected OfferSearchCriteria criteria;
+    protected SearchOfferCriteria criteria;
     protected Pagination page;
 
     protected SeekBar slider_poids;
@@ -66,7 +66,7 @@ public class SearchOfferActivity extends BaseActivity implements  ActivityManage
         bouton_recherche = findViewById(R.id.card_chercher_offre);
 
         if (savedInstanceState == null){
-            criteria = new OfferSearchCriteria();
+            criteria = new SearchOfferCriteria();
             page = new Pagination(0,10);
         }
         else{
@@ -255,16 +255,15 @@ public class SearchOfferActivity extends BaseActivity implements  ActivityManage
             String depart = zone_depart.getText().toString();
             String arrivee = zone_depart.getText().toString();
             if (Arrays.stream(villesPropositions).noneMatch(depart::equals)){
-                Toast.makeText(SearchOfferActivity.this,R.string.error_validation,
+                Toast.makeText(SearchOfferActivity.this,R.string.erreur_validation,
                         Toast.LENGTH_LONG).show();
-                zone_depart.setError(getString(R.string.error_ville_inconnu));
-
+                zone_depart.setError(getString(R.string.erreur_offre_ville_inconnu));
                 return;
             }
             if (Arrays.stream(villesPropositions).noneMatch(arrivee::equals)){
-                Toast.makeText(SearchOfferActivity.this,R.string.error_validation,
+                Toast.makeText(SearchOfferActivity.this,R.string.erreur_validation,
                         Toast.LENGTH_LONG).show();
-                zone_depart.setError(getString(R.string.error_ville_inconnu));
+                zone_depart.setError(getString(R.string.erreur_offre_ville_inconnu));
                 return;
             }
             if (depart.length() > 0)

@@ -41,10 +41,10 @@ public class LoginActivity extends BaseActivity {
             String saisie_mail = mail.getText().toString();
             String saisie_mdp = mdp.getText().toString();
             if (saisie_mail.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(saisie_mail).matches())
-                Toast.makeText(LoginActivity.this,R.string.email_incorrect,
+                Toast.makeText(LoginActivity.this,R.string.erreur_connexion_email,
                         Toast.LENGTH_SHORT).show();
             else if (saisie_mdp.length() == 0)
-                Toast.makeText(LoginActivity.this,R.string.mdp_vide,
+                Toast.makeText(LoginActivity.this,R.string.erreur_connexion_mdp,
                         Toast.LENGTH_SHORT).show();
             else if (prepareAction()){
                 authManager.login(saisie_mail,saisie_mdp);
@@ -65,10 +65,10 @@ public class LoginActivity extends BaseActivity {
         super.onAuthAction(action);
         switch (action){
             case LOGIN_INCORRECT:
-                Toast.makeText(this,R.string.error_credentials,Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,R.string.erreur_connexion_identifiants_incorrect,Toast.LENGTH_SHORT).show();
                 break;
-            case LOGIN_ERROR:
-                Toast.makeText(this,R.string.error,Toast.LENGTH_SHORT).show();
+            case ERROR:
+                Toast.makeText(this,R.string.erreur,Toast.LENGTH_SHORT).show();
                 break;
         }
     }

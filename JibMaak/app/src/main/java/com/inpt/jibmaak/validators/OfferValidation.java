@@ -14,13 +14,13 @@ public class OfferValidation {
         try {
             Integer.parseInt(zone_poids.getText().toString());
         } catch (NumberFormatException e){
-            zone_poids.setError(context.getString(R.string.error_poids_incorrect));
+            zone_poids.setError(context.getString(R.string.erreur_offre_poids_incorrect));
             hasErrors = true;
         }
         try {
             Integer.parseInt(zone_prix.getText().toString());
         } catch (NumberFormatException e){
-            zone_prix.setError(context.getString(R.string.error_prix_incorrect));
+            zone_prix.setError(context.getString(R.string.erreur_offre_prix_incorrect));
             hasErrors = true;
         }
         String[] villes = context.getResources().getStringArray(R.array.villes);
@@ -28,11 +28,11 @@ public class OfferValidation {
         String valeur_lieu_arrivee = zone_lieu_arrivee.getText().toString();
 
         if (Arrays.stream(villes).noneMatch(valeur_lieu_depart::equals)){
-            zone_lieu_depart.setError(context.getString(R.string.error_ville_inconnu));
+            zone_lieu_depart.setError(context.getString(R.string.erreur_offre_ville_inconnu));
             hasErrors = true;
         }
         if (Arrays.stream(villes).noneMatch(valeur_lieu_arrivee::equals)){
-            zone_lieu_arrivee.setError(context.getString(R.string.error_ville_inconnu));
+            zone_lieu_arrivee.setError(context.getString(R.string.erreur_offre_ville_inconnu));
             hasErrors = true;
         }
         return hasErrors;

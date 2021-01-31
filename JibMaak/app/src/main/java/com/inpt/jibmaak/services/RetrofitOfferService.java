@@ -1,7 +1,7 @@
 package com.inpt.jibmaak.services;
 
 import com.inpt.jibmaak.model.Offer;
-import com.inpt.jibmaak.model.OfferSearchCriteria;
+import com.inpt.jibmaak.model.SearchOfferCriteria;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -16,7 +16,7 @@ import retrofit2.http.Query;
 public interface RetrofitOfferService {
     @POST("/offers")
     Call<ServerResponse<SearchResponse>> searchOffers(@Query("page") int page
-            , @Query("limit") int limit, @Body OfferSearchCriteria filtres);
+            , @Query("limit") int limit, @Body SearchOfferCriteria filtres);
 
     @GET("/offers/user/{id}")
     Call<ServerResponse<SearchResponse>> getOffersOf(@Path("id") String id,@Query("page") int page

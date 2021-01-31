@@ -10,11 +10,11 @@ import java.util.Date;
 /** Classe abstraite pour définir un callback en cas de changement de date */
 public abstract class DateListener implements View.OnClickListener {
     protected DateFormat format = DateFormat.getDateTimeInstance(DateFormat.FULL,DateFormat.SHORT);
-    protected ActivityManageDateDialog manager;
+    protected ManageDateDialogActivity manager;
     protected TimePickerDialog timeDialog;
     protected DatePickerDialog dateDialog;
     protected Calendar selected_date;
-    protected DateListener(ActivityManageDateDialog manager){
+    protected DateListener(ManageDateDialogActivity manager){
         this.manager = manager;
     }
     /**

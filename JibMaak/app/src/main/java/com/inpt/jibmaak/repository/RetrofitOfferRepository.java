@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.inpt.jibmaak.model.Offer;
-import com.inpt.jibmaak.model.OfferSearchCriteria;
 import com.inpt.jibmaak.model.Pagination;
+import com.inpt.jibmaak.model.SearchOfferCriteria;
 import com.inpt.jibmaak.model.User;
 import com.inpt.jibmaak.services.RetrofitOfferService;
 import com.inpt.jibmaak.services.SearchResponse;
@@ -103,7 +103,7 @@ public class RetrofitOfferRepository implements OfferRepository{
     }
 
     @Override
-    public void searchOffer(OfferSearchCriteria criteria, Pagination page) {
+    public void searchOffer(SearchOfferCriteria criteria, Pagination page) {
         User user = criteria.getUser();
         if (user != null){
             getOfferOf(user,page);
@@ -115,7 +115,7 @@ public class RetrofitOfferRepository implements OfferRepository{
                 Resource<ArrayList<Offer>> result = new Resource<>();
                 result.setOperation(READ);
                 if (!response.isSuccessful())
-                    result.setStatus(SERVER_ERROR);
+                    result.setStatus(response.code() == 400 ? REQUEST_ERROR : SERVER_ERROR);
                 else{
                     result.setStatus(OK);
                     result.setResource(response.body().getPayload().getOffers());
