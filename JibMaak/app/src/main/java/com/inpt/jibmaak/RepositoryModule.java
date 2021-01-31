@@ -26,8 +26,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 @Module
 @InstallIn(ActivityRetainedComponent.class)
 public abstract class RepositoryModule {
-    public static final String BASE_URL = "http://192.168.1.111:5000"; // TODO : changer url
-    //public static final String BASE_URL = "http://10.0.2.2:5000"; // TODO : changer url
+    public static final String BASE_URL = "http://10.0.2.2:5000"; // TODO : changer url
     // 10.0.2.2 pour une application dans l'émulateur permet d'acceder au localhost de
     // la machine
 
