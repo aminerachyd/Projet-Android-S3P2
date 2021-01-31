@@ -1,4 +1,5 @@
 import UserModel from "../../models/User";
+import OfferModel from "../../models/Offer";
 
 /**
  * Fonction pour supprimer un utilisateur de la base données
@@ -33,6 +34,11 @@ const deleteUser = async (
           statusCode: 401,
         };
       } else {
+        // On supprime les offres de cet utilisateur
+        for (let offreId in user.offres) {
+          await OfferModel.findOneAndDelete({ id: offreId });
+        }
+
         await user.deleteOne();
 
         return {

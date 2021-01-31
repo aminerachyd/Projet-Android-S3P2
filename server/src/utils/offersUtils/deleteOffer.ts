@@ -17,8 +17,8 @@ const deleteOffer = async (
 }> => {
   try {
     let offer = await OfferModel.findById(offerId);
-    let { isValid } = await isUserValid(userId);
-    if (!offer || !isValid) {
+    let { isValid, user: thisUser } = await isUserValid(userId);
+    if (!offer || !isValid || !thisUser) {
       // Offre non trouvée
       return {
         isDeleted: false,
@@ -35,6 +35,11 @@ const deleteOffer = async (
         };
       } else {
         await offer.deleteOne();
+
+        // On supprime également l'id de l'offre du tableau de l'utilisateur
+        (<any>thisUser.offres).remove(offerId);
+
+        await thisUser.save();
 
         return {
           isDeleted: true,
