@@ -54,13 +54,21 @@ const updateUser = async (
       }
     }
   } catch (error) {
-    console.log(error);
-
-    return {
-      isUpdated: false,
-      message: "Erreur du serveur",
-      statusCode: 500,
-    };
+    // Email déjà utilisé par un autre utilisateur
+    if (error.code === 11000) {
+      return {
+        isUpdated: false,
+        message: "Email déjà utilisé",
+        statusCode: 409,
+      };
+    } else {
+      console.log(error);
+      return {
+        isUpdated: false,
+        message: "Erreur du serveur",
+        statusCode: 500,
+      };
+    }
   }
 };
 
