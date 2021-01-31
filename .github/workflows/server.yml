@@ -47,15 +47,25 @@ jobs:
           push: true
           tags: aminerachyd/projetandroid-server
 
-  # image_deployment:
-  #   runs-on: ubuntu-20.04
+  image_deployment:
+    runs-on: ubuntu-20.04
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-  #     - name: Test du serveur
-  #       run: |
-  #         cd server
-  #         npm install
-  #         npm install -D mocha
-  #         npm run test
+      - name: Set up de variable d'environnement
+        run: |
+          echo "ACTIONS_ALLOW_UNSECURE_COMMANDS=true" >> $GITHUB_ENV
+
+      - name: Set up kubectl
+        uses: matootie/dokube@v1.3.3
+        with:
+          personalAccessToken: ${{ secrets.DO_TOKEN }}
+          clusterName: projetandroid-server
+
+      - name: Apply images
+        run: |
+          cd ./kubernetes
+          kubectl apply -f ./node-deployment.yaml
+          kubectl apply -f ./node-lb.yaml
