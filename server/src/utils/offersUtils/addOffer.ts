@@ -1,4 +1,4 @@
-import { validerDates, isUserValid } from "../helpers";
+import { validerDates, isUserValid, validerVille } from "../helpers";
 import OfferModel from "../../models/Offer";
 
 interface offerDetails {
@@ -36,6 +36,12 @@ const addOffer = async (
       isAdded: false,
       statusCode: 400,
       message: "Dates invalides",
+    };
+  } else if (!validerVille(lieuDepart) || !validerVille(lieuArrivee)) {
+    return {
+      isAdded: false,
+      statusCode: 400,
+      message: "Villes invalides",
     };
   } else {
     // On récupère l'utilisateur

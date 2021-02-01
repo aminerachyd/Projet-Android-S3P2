@@ -94,7 +94,7 @@ const fetchAllOffers = async (
     return {
       isFetched: false,
       message: "Erreur du serveur",
-      statusCode: 400,
+      statusCode: 500,
     };
   }
 };

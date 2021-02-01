@@ -3,6 +3,7 @@ import OfferModel from "../models/Offer";
 import UserModel from "../models/User";
 import { FiltersType, UserType } from "../types";
 const HASH_SECRET = process.env.HASH_SECRET;
+import { villes } from "../config/villes.json";
 
 /** Fonction pour hasher un mot de passe */
 export const hash = (str: string): string | false => {
@@ -31,6 +32,13 @@ export const isUserValid = async (id: string) => {
   const user = await UserModel.findById(id);
 
   return { isValid: !!user, user };
+};
+
+/**
+ * Fonction pour valider les villes saisies dans les requetes
+ */
+export const validerVille = (ville: string): Boolean => {
+  return !!(villes.indexOf(ville) > -1);
 };
 
 /** Fonction pour filtrer les offres */

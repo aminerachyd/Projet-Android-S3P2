@@ -1,5 +1,5 @@
 import OfferModel from "../../models/Offer";
-import { isUserValid, validerDates } from "../helpers";
+import { isUserValid, validerDates, validerVille } from "../helpers";
 
 /**
  * Fonction pour mettre à jour une offre
@@ -47,6 +47,15 @@ const updateOffer = async (
             isUpdated: false,
             message: "Dates invalides",
             statusCode: 400,
+          };
+        } else if (
+          (lieuDepart && !validerVille(lieuDepart)) ||
+          (lieuArrivee && !validerVille(lieuArrivee))
+        ) {
+          return {
+            isUpdated: false,
+            statusCode: 400,
+            message: "Villes invalides",
           };
         } else {
           // La mise à jour, on évalue les champs nuls
