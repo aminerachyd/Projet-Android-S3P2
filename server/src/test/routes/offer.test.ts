@@ -19,8 +19,8 @@ describe("Route /offer", () => {
       .request(app)
       .post("/offer")
       .send({
-        lieuDepart: "Test",
-        lieuArrivee: "Test",
+        lieuDepart: "TEMARA",
+        lieuArrivee: "RABAT",
         prixKg: 45,
         dateDepart,
         dateArrivee,
@@ -71,7 +71,7 @@ describe("Route /offer", () => {
       .set({ Accept: "application/json" })
       .set({ "x-auth-token": TEST_TOKEN })
       .send({
-        lieuDepart: "ChangeTest",
+        lieuDepart: "CASABLANCA",
         poidsDispo: 30,
       })
       .end((_, res) => {
@@ -85,7 +85,8 @@ describe("Route /offer", () => {
       });
   });
 
-  it("DELETE : Doit supprimer une offre", (done) => {
+  it("DELETE : Doit supprimer une offre", function (done) {
+    this.timeout(10000);
     chai
       .request(app)
       .delete(`/offer/${tempId}`)

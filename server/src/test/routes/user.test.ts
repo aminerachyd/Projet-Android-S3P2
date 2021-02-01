@@ -58,7 +58,8 @@ describe("Route /user", () => {
       });
   });
 
-  it("PUT : Doit modifier un utilisateur", (done) => {
+  it("PUT : Doit modifier un utilisateur", function (done) {
+    this.timeout(10000);
     chai
       .request(app)
       .post("/auth")
